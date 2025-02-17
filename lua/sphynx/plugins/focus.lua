@@ -19,7 +19,7 @@ M.configs = {
     ["focus"] = function()
         require("focus").setup {
             enable = true,
-            excluded_filetypes = {"toggleterm", "nerdtree", "NvimTree" },
+            excluded_filetypes = sphynx.config.excluded_filetypes,
             excluded_buftypes = {"help"},
             treewidth = 30,
             signcolumn = false,
