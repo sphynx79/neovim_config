@@ -1,0 +1,14 @@
+
+Mettere in telescope il path di master per il modulo che ricarica i moduli
+
+Settare la mia bufferline ui.lua
+
+Controllare se autopar funziona con treesitter
+
+Sistemare luasnip e dove va a prendere gli Snippet
+
+Vedere se installare il tema https://github.com/EdenEast/nightfox.nvim/tree/main che supporta la compilazione
+
+Vedere se prendere spunto da https://github.com/max397574/omega-nvim per la compilazione del tema che ha preso spunto dal plugin precedente
+
+Sistemare Master e il file C:\Users\en27553\ppData\Local\nvim\init.lua come settato in Developmnet
