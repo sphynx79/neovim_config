@@ -52,6 +52,8 @@ function config.load()
         'markdown',
         'snippets',
         'noice',
+        'quickfix',
+        'gitcommit',
     }
   }
 end

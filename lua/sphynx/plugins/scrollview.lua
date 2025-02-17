@@ -1,20 +1,41 @@
--- NOTE
--- DESCRIZIONE:
---  Nvim-scrollview - Plugin per Neovim che aggiunge barre di scorrimento verticali interattive
---  e trascinabili con il mouse. Fornisce un sistema di "segni" visivi che mostrano la posizione
---  di elementi importanti come errori, risultati di ricerca, conflitti git e sezioni ripiegate
---  del codice. È altamente configurabile e permette di navigare rapidamente tra i vari segni,
---  migliorando l'esperienza di navigazione nel codice.
+--[[
+===============================================================================================
+Plugin: nvim-scrollview
+===============================================================================================
+Description: Aggiunge barre di scorrimento verticali interattive e un sistema di segni visivi 
+             per diagnostica, ricerca, marcatori e posizione del cursore.
+Status: Active
+Author: dstein64
+Repository: https://github.com/dstein64/nvim-scrollview
 
+Notes:
+ - Mostra solo nella finestra corrente (current_only = true)
+ - Nasconde i segni quando intersecano il cursore
+ - Disabilitate le info e i suggerimenti della diagnostica
+ - Trasparenza impostata al 20%
+ - I segni non vengono mostrati nelle sezioni piegate del codice
+ - Alternativa: usare solo signcolumn con trouble.nvim per la diagnostica
 
+Keymaps:
+ - :ScrollViewDisable     → Disabilita plugin
+ - :ScrollViewEnable      → Abilita plugin 
+ - :ScrollViewToggle      → Attiva/disattiva plugin
+ - :ScrollViewRefresh     → Aggiorna scrollbars e segni
+ - :ScrollViewLegend      → Mostra legenda dei segni
 
+TODO:
+ - [ ] Valutare se spostare la diagnostica su trouble.nvim
+ - [ ] Testare performance con file grandi
+ - [ ] Verificare compatibilità con altri plugin che usano la signcolumn
+
+===============================================================================================
+--]]
 local M = {}
 
 M.plugins = {
     ["scrollview"] = {
         "dstein64/nvim-scrollview",
         lazy = true,
-        -- commit = "14ce355d357c4b10e7dbf4ecc9c6b3533fa69f9f",
     },
 }
 
@@ -43,32 +64,32 @@ M.configs = {
             signs_show_in_folds = false,                                -- Mostra segni nelle linee piegate
 
             -- Signs configuration
-            signs_on_startup = {                    -- Signs attivi all'avvio
-                'diagnostics',                      -- Errori/warning
-                'search',                           -- Risultati ricerca
-                'marks',                            -- Marks
-                'cursor',                           -- Posizione cursore
+            signs_on_startup = {                                        -- Signs attivi all'avvio
+                'diagnostics',                                          -- Errori/warning
+                'search',                                               -- Risultati ricerca
+                'marks',                                                -- Marks
+                'cursor',                                               -- Posizione cursore
             },
-            diagnostics_error_symbol = "",         -- Simbolo per errori
-            diagnostics_warn_symbol  = " ",        -- Simbolo per warning
-            diagnostics_info_symbol  = "",         -- Simbolo per info
-            diagnostics_hint_symbol  = " ",        -- Simbolo per hint
-            search_symbol = '=',                    -- Simbolo per risultati ricerca
-            cursor_symbol = '■',                    -- Simbolo per cursore
+            diagnostics_error_symbol = "",                             -- Simbolo per errori
+            diagnostics_warn_symbol  = " ",                            -- Simbolo per warning
+            diagnostics_info_symbol  = "",                             -- Simbolo per info
+            diagnostics_hint_symbol  = " ",                            -- Simbolo per hint
+            search_symbol = '=',                                        -- Simbolo per risultati ricerca
+            cursor_symbol = '■',                                        -- Simbolo per cursore
             diagnostics_severities = {
-                vim.diagnostic.severity.ERROR,       -- 1: Mostra errori
-                vim.diagnostic.severity.WARN,        -- 2: Mostra warning
-                --vim.diagnostic.severity.INFO,      -- 3: Mostra info
-                --vim.diagnostic.severity.HINT       -- 4: Mostra suggerimenti
+                vim.diagnostic.severity.ERROR,                           -- 1: Mostra errori
+                vim.diagnostic.severity.WARN,                            -- 2: Mostra warning
+                --vim.diagnostic.severity.INFO,                          -- 3: Mostra info
+                --vim.diagnostic.severity.HINT                           -- 4: Mostra suggerimenti
             },
 
             -- Highlight groups
             highlight_groups = {
-                ScrollView = 'Visual',              -- Colore scrollbar
-                ScrollViewSearch = 'Search',        -- Colore sign ricerca
-                ScrollViewCursor = 'Cursor',        -- Colore sign cursore
-                ScrollViewDiagnosticsError = 'DiagnosticError', -- Colore sign errori
-                ScrollViewDiagnosticsWarn = 'DiagnosticWarn',   -- Colore sign warning
+                ScrollView = 'Visual',                                  -- Colore scrollbar
+                ScrollViewSearch = 'Search',                            -- Colore sign ricerca
+                ScrollViewCursor = 'Cursor',                            -- Colore sign cursore
+                ScrollViewDiagnosticsError = 'DiagnosticError',         -- Colore sign errori
+                ScrollViewDiagnosticsWarn = 'DiagnosticWarn',           -- Colore sign warning
             }
         }
     end
