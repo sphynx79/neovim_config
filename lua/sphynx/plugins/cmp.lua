@@ -1,6 +1,5 @@
 local M = {}
 
-
 M.plugins = {
     ["nvim_cmp"] = {
         "hrsh7th/nvim-cmp",
@@ -17,6 +16,12 @@ M.plugins = {
 
         }
     },
+}
+
+M.setup = {
+    ["nvim_cmp"] = function()
+        M.keybindings()
+    end
 }
 
 M.configs = {
@@ -257,5 +262,19 @@ M.configs = {
         })
     end,
 }
+
+M.keybindings = function()
+    local cmp = require('cmp')
+    local is_enabled = true
+
+    local toggle_cmp = function()
+    is_enabled = not is_enabled
+    cmp.setup({ enabled = is_enabled })
+    print('CMP ' .. (is_enabled and 'ON' or 'OFF'))
+    end
+
+    vim.keymap.set('n', '<localleader>ct', toggle_cmp, { desc = 'Toggle autocompletamento' })
+end
+
 
 return M

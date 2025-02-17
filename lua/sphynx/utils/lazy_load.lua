@@ -29,13 +29,13 @@ end
 -- load certain plugins only when there's a file opened in the buffer
 -- if "nvim filename" is executed -> load the plugin after nvim gui loads
 -- This gives an instant preview of nvim with the file opened
-
 M.on_file_open = function(plugin_name)
    M.lazy_load {
       events = { "BufRead", "BufWinEnter", "BufNewFile" },
       augroup_name = "BeLazyOnFileOpen" .. plugin_name,
       plugins = plugin_name,
       condition = function()
+         --recupera il nome del file corrente nel buffer
          local file = vim.fn.expand "%"
          return file ~= "NvimTree_1" and file ~= "[packer]" and file ~= ""
       end,
