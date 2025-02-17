@@ -34,6 +34,24 @@ function config.load()
             enabled = true,
             lazyload = true,
         },
+    },
+    excluded_filetypes = {
+        'help',
+        'git',
+        'nerdtree',
+        'vista',
+        'Trouble',
+        'NvimTree',
+        'neoterm',
+        'qf',
+        'TelescopePrompt',
+        'markdown',
+        'packer',
+        'lspinfo',
+        'text',
+        'markdown',
+        'snippets',
+        'noice',
     }
   }
 end

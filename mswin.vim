@@ -19,7 +19,7 @@ set cpo&vim
 set selection=exclusive
 set selectmode=mouse,key
 set mousemodel=popup
-set keymodel=startsel,stopsel
+
 
 " backspace and cursor keys wrap to previous/next line
 set backspace=indent,eol,start whichwrap+=<,>,[,]
@@ -101,13 +101,6 @@ inoremap <C-Z> <C-O>u
 noremap <C-Y> <C-R>
 inoremap <C-Y> <C-O><C-R>
 
-" Alt-Space is System menu
-if has("gui")
-  noremap <M-Space> :simalt ~<CR>
-  inoremap <M-Space> <C-O>:simalt ~<CR>
-  cnoremap <M-Space> <C-C>:simalt ~<CR>
-endif
-
 " CTRL-A is Select all
 noremap <C-A> gggH<C-O>G
 inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
@@ -127,19 +120,6 @@ noremap <C-F4> <C-W>c
 inoremap <C-F4> <C-O><C-W>c
 cnoremap <C-F4> <C-C><C-W>c
 onoremap <C-F4> <C-C><C-W>c
-
-if has("gui")
-  " CTRL-F is the search dialog
-  noremap  <expr> <C-F> has("gui_running") ? ":promptfind\<CR>" : "/"
-  inoremap <expr> <C-F> has("gui_running") ? "\<C-\>\<C-O>:promptfind\<CR>" : "\<C-\>\<C-O>/"
-  cnoremap <expr> <C-F> has("gui_running") ? "\<C-\>\<C-C>:promptfind\<CR>" : "\<C-\>\<C-O>/"
-
-  " CTRL-H is the replace dialog,
-  " but in console, it might be backspace, so don't map it there
-  nnoremap <expr> <C-H> has("gui_running") ? ":promptrepl\<CR>" : "\<C-H>"
-  inoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-O>:promptrepl\<CR>" : "\<C-H>"
-  cnoremap <expr> <C-H> has("gui_running") ? "\<C-\>\<C-C>:promptrepl\<CR>" : "\<C-H>"
-endif
 
 " restore 'cpoptions'
 set cpo&
