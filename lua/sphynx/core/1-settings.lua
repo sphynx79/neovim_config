@@ -268,8 +268,23 @@ local utils = require("sphynx.utils")
         -- Persistent undo
         vim.opt.undofile = true
         vim.opt.undolevels = 200
-        -- TODO: vedere che valori mettere per salvare la sessione @sessione
-        vim.opt.sessionoptions = { "blank", "buffers", "curdir", "folds", "help", "tabpages", "winsize", "resize", "winpos", "terminal" }
+        vim.opt.sessionoptions = {
+            "buffers",     -- Buffer nascosti
+            "curdir",      -- Directory di lavoro corrente
+            "folds",       -- Stato delle fold
+            "globals",     -- Variabili globali (iniziano con maiuscola)
+            "help",        -- Finestre della guida
+            "localoptions",-- Opzioni locali di buffer e finestre
+            "options",     -- Opzioni globali
+            "resize",      -- Dimensioni delle finestre
+            "tabpages",    -- Tab pages
+            "terminal",    -- Terminali
+            "winpos",      -- Posizione finestra Vim
+            "winsize",     -- Dimensione finestra
+            "slash",       -- Backslashes in nomi file
+            "unix",        -- File endings
+        }
+        -- vim.opt.sessionoptions = { "blank", "buffers", "curdir", "folds", "help", "tabpages", "winsize", "resize", "winpos", "terminal" }
     --}}} Files, backups and undo
 
     --{{{ Tab and indent

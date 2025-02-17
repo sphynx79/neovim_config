@@ -7,15 +7,16 @@ local modules = {
     --}}} CORE
 
     --{{{ UI
-        "scrollview",
-        "pretty-fold",
+        "scrollview",           -- Barra di scorrimento
+        "pretty-fold",          -- Migliora il testo visualizzato nel folding
         "illuminate",
         "foldsigns",
         "heirline",
-        -- "onenord",       -- Theme
-        "nightfox",         -- Theme
+        -- "onenord",           -- Theme
+        "nightfox",             -- Theme
         "indent-blankline",
         "devicons",
+        "smoothcursor",
         "bqf",
     --}}} UI
 
@@ -24,6 +25,7 @@ local modules = {
     --}}} MAPPING
 
     --{{{ LSP
+        "smoothcursor",
         "lspconfig",
         "neodev",
         "floating-tag-preview",
@@ -94,7 +96,6 @@ local modules = {
         -- "symbols-outline",
         -- "vista",
         "cybu",                 --Switch buffer con Tab come windows
-        "smoothcursor",
         "noice",
         "chatgpt",
         "grepper",
@@ -209,7 +210,7 @@ Plugin_setup = (function ()
 		  rocks = {
 			enabled = false,
 		},
-        
+
         performance = {
 		    cache = {
 				enabled = true,

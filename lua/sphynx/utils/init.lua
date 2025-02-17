@@ -20,11 +20,40 @@
     vim.opt.viewoptions:prepend('options')
   end
 
-  _G.custom_fold_text = function()
-      local line = vim.fn.getline(vim.v.foldstart)
-      local line_count = vim.v.foldend - vim.v.foldstart + 1
-      return "  ⚡ " .. line .. ": " .. line_count .. " lines"
-  end
+  -- _G.custom_fold_text = function()
+  --     local line = vim.fn.getline(vim.v.foldstart)
+  --     local line_count = vim.v.foldend - vim.v.foldstart + 1
+  --     return "  ⚡ " .. line .. ": " .. line_count .. " lines"
+  -- end
+
+  -- _G.custom_fold_text = function()
+  --       local foldstart = vim.fn.getline(vim.v.foldstart)
+  --       local lines = vim.v.foldend - vim.v.foldstart + 1
+  --       local width = vim.api.nvim_win_get_width(0) - vim.fn.winsaveview().leftcol
+
+  --       -- Pulisce il testo iniziale
+  --       local start_text = foldstart:gsub('^%s*/%*%s*', '')
+  --                                 :gsub('^%s*//+%s*', '')
+  --                                 :gsub('^%s*#%s*', '')
+  --                                 :gsub('^%s*', '')
+
+  --       -- Formatta il conteggio delle linee come nell'immagine
+  --       local lines_text = string.format('│ %d lines: %d%%', lines, math.floor((lines / vim.api.nvim_buf_line_count(0)) * 100))
+
+  --       -- Calcola lo spazio disponibile per il testo principale
+  --       local available_width = width - vim.fn.strwidth(lines_text)
+  --       local main_text = string.format('%s ', start_text)
+
+  --       -- Tronca il testo se necessario
+  --       if vim.fn.strwidth(main_text) > available_width then
+  --           main_text = vim.fn.strcharpart(main_text, 0, available_width - 3) .. '... '
+  --       else
+  --           -- Aggiunge padding se necessario
+  --           main_text = main_text .. string.rep('─', available_width - vim.fn.strwidth(main_text) - 9)
+  --       end
+
+  --       return main_text .. lines_text
+  -- end
 --}}} Global Utils
 
 --{{{ Utils for sphynx-nvim
@@ -168,14 +197,30 @@ function utils.error(msg, name)
   utils.log(msg, "LspDiagnosticsDefaultError", name)
 end
 
+-- Funzione toggle_fold modificata
 function utils.toggle_fold()
-  if vim.api.nvim_get_option_value("foldclose", { }) == "all" then
-    utils.info("Fold auto disable", "Fold")
-    vim.cmd([[set foldclose&]])
-  else
-    utils.info("Fold auto enabled", "Fold")
-    vim.opt.foldclose = "all"
-  end
+    local is_fold_auto = vim.api.nvim_get_option_value("foldclose", {}) == "all"
+
+    -- Toggle dello stato
+    if is_fold_auto then
+        vim.opt.foldclose = ""
+        vim.cmd("normal! zv")
+        utils.info("Fold auto disabled", "Fold")
+    else
+        vim.opt.foldclose = "all"
+        utils.info("Fold auto enabled", "Fold")
+    end
+
+    -- Salva lo stato in un file locale
+    local state_file = vim.fn.stdpath("data") .. "/fold_auto_state"
+    local file = io.open(state_file, "w")
+    if file then
+        file:write(is_fold_auto and "0" or "1")
+        file:close()
+    end
+
+    -- Salva la view del file
+    -- vim.cmd("mkview")
 end
 
 function utils.toggle_qf()
