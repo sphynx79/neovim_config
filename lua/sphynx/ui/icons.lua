@@ -1,0 +1,50 @@
+local icons = {}
+
+icons.diagnostics = {
+    Error = "",
+    Warn = " ",
+    Info = "",
+    Hint = " ",
+}
+
+icons.lspkind = {
+    Text = "󰉿",
+    Method = "󰊕",
+    Function = "󰊕",
+    Constructor = "",
+    Field = "󰈔",
+    Variable = "",
+    Class = "󰠱",
+    Interface = "",
+    Module = " ",
+    Property = "󰜢",
+    Unit = "塞",
+    Value = "󰎠",
+    Enum = "",
+    Keyword = "󰌋",
+    Snippet = "󰃅",
+    Color = "󰏘",
+    File = "󰈙",
+    Reference = "󰈇",
+    Folder = "",
+    EnumMember = "",
+    Constant = "",
+    Struct = "󰘍",
+    Event = "",
+    Operator = "󰆕",
+    TypeParameter = "󰜢",
+    Namespace = "",
+    Package = "",
+    Table = "",
+    Object = " ",
+    Tag = "",
+    Array = "[]",
+    Boolean = " ",
+    Number = " ",
+    Null = "󰟢",
+    String = "󰉿",
+    Calendar = "",
+    Watch = "󰥔",
+}
+
+return icons

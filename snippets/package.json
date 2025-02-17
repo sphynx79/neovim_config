@@ -1,0 +1,120 @@
+{
+  "name": "friendly-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "plaintext",
+          "markdown",
+          "tex",
+          "html",
+          "global"
+        ],
+        "path": "./snippets/global.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/ejs.json"
+      },
+      {
+        "language": "eruby",
+        "path": "./snippets/erb.json"
+      },
+      {
+        "language": "lua",
+        "path": "./snippets/lua.json"
+      },
+      {
+        "language": "ruby",
+        "path": "./snippets/ruby.json"
+      },
+      {
+        "language": "ruby",
+        "path": "./snippets/rails.json"
+      },
+      {
+        "language": "sql",
+        "path": "./snippets/sql.json"
+      },
+      {
+        "language": [
+          "markdown",
+          "rmd"
+        ],
+        "path": "./snippets/markdown.json"
+      },
+      {
+        "language": [
+          "html",
+          "jade",
+          "pug"
+        ],
+        "path": "./snippets/html.json"
+      },
+      {
+        "language": [
+          "css",
+          "scss",
+          "sass",
+          "less",
+          "stylus"
+        ],
+        "path": "./snippets/css.json"
+      },
+      {
+        "language": [
+          "javascript",
+          "typescript",
+          "javascriptreact",
+          "typescriptreact"
+        ],
+        "path": "./snippets/javascript/javascript.json"
+      },
+      {
+        "language": [
+          "javascriptreact",
+          "typescriptreact"
+        ],
+        "path": "./snippets/javascript/apollo.json"
+      },
+      {
+        "language": [
+          "typescript",
+          "typescriptreact"
+        ],
+        "path": "./snippets/javascript/typescript.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/javascript/react.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/javascript/react-ts.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/html.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/pug.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/javascript.json"
+      },
+      {
+        "language": "vue",
+        "path": "./snippets/vue/vue.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./snippets/jekyll/vscode-jekyll-snippets.json"
+      }
+    ]
+  }
+}
