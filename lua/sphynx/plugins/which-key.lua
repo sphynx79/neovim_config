@@ -12,19 +12,19 @@ M.configs = {
         require('which-key').setup {
             preset = "classic",
             debug = false,
-			-- show a warning when issues were detected with your mappings
+            -- show a warning when issues were detected with your mappings
             notify = true,
             delay = function(ctx)
                 return ctx.plugin and 0 or 800
             end,
-			filter = function(mapping)
-				-- example to exclude mappings without a description
-				-- return mapping.desc and mapping.desc ~= ""
-				return mapping.desc ~= ""
-			end,
+            filter = function(mapping)
+                -- example to exclude mappings without a description
+                -- -- return mapping.desc and mapping.desc ~= ""
+                return mapping.desc ~= ""
+            end,
             triggers = {
                 { "<auto>", mode = "nxsot" },
-				--{ "<leader>", mode = "nxsotv" },
+                --{ "<leader>", mode = "nxsotv" },
                 { "w", mode = "n" },
                 { "b", mode = "n" },
                 { "t", mode = "n" },

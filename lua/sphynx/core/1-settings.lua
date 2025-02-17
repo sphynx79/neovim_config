@@ -91,8 +91,6 @@ local utils = require("sphynx.utils")
     --{{{ Windows Config
         if is_windows() then
             -- Load windows support
-            --cmd('source ' .. vim.fn.expand('$VIMRUNTIME/mswin.vim'))
-            print(vim.fn.expand(sphynx.path.nvim_config .. '/mswin.vim'))
             vim.cmd('source ' .. vim.fn.expand(sphynx.path.nvim_config .. '/mswin.vim'))
         end
     --}}} Windows Config
@@ -207,6 +205,10 @@ local utils = require("sphynx.utils")
         vim.g.vimsyn_embed = 'l'
         -- in modalità V-Block will only allow moving the cursor just after the last character of the line.
         vim.opt.virtualedit = "onemore"
+        -- permette di cancellare in modo fluido attraverso indentazioni, fine riga e punto di inizio inserimento
+        vim.opt.backspace = { "indent", "eol", "start" }
+        -- consente di muovere il cursore oltre l'inizio e la fine delle righe usando i tasti freccia e di movimento
+        vim.opt.whichwrap:append("<,>,[,]")
 
     --}}} Global
 

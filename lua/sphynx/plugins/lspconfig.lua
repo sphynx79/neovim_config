@@ -372,16 +372,15 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	local prefix = "<leader>l"
-	
-	wk.add({
-		{ prefix, group = "󰁨 LSP" },
-		{ prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "go definiton" },
-		{ prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "hover doc" },
+    local wk = require("which-key")
+    local prefix = "<leader>l"
+
+    wk.add({
+        { prefix, group = "󰁨 LSP" },
+        { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "go definiton" },
+        { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "hover doc" },
     }, mapping.opt_mappping)
 
 end
 
 return M
-

@@ -2,7 +2,7 @@ local M = {}
 
 M.plugins = {
     ["plenary.nvim"]   = { "nvim-lua/plenary.nvim" },
-    ["notify"] = { "rcarriga/nvim-notify" },
+    ["notify"]         = { "rcarriga/nvim-notify" },
 }
 
 -- M.setup = {
