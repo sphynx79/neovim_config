@@ -1,3 +1,37 @@
+--[[
+===============================================================================================
+Plugin: vim-illuminate
+===============================================================================================
+Description: Evidenzia automaticamente altre occorrenze della parola sotto il cursore
+             utilizzando LSP, Tree-sitter o regex matching.
+Status: Active
+Author: RRethy
+Repository: https://github.com/RRethy/vim-illuminate
+Notes:
+ - Utilizza tre provider in ordine di priorità: LSP, TreeSitter, Regex
+ - Delay impostato a 3000ms per evitare highlighting troppo frequente
+ - File considerati "grandi" sopra le 3000 righe
+ - Case insensitive per il matching regex
+ - Evidenziazione sotto il cursore disabilitata
+ - Utilizza la configurazione esterna per i filetypes da escludere
+Keymaps:
+ - <a-n>                 → Muove al prossimo riferimento
+ - <a-p>                 → Muove al riferimento precedente
+ - <a-i>                 → Seleziona il riferimento corrente come text object
+ - :IlluminatePause     → Mette in pausa il plugin globalmente
+ - :IlluminateResume    → Riprende il plugin globalmente
+ - :IlluminateToggle    → Attiva/disattiva il plugin globalmente
+ - :IlluminatePauseBuf  → Mette in pausa per il buffer corrente
+ - :IlluminateResumeBuf → Riprende per il buffer corrente
+ - :IlluminateToggleBuf → Attiva/disattiva per il buffer corrente
+TODO:
+ - [ ] Valutare riduzione del delay a 100-500ms per maggiore reattività
+ - [ ] Considerare aumento del large_file_cutoff a 5000-10000 righe
+ - [ ] Valutare min_count_to_highlight = 2 per evidenziare solo parole multiple
+ - [ ] Verificare performance con i diversi provider
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -16,40 +50,23 @@ M.setup = {
 M.configs = {
     ["illuminate"] = function()
         require('illuminate').configure({
-            -- providers: provider used to get references in the buffer, ordered by priority
-            providers = {
-                'lsp',
-                'treesitter',
-                'regex',
+            providers = {                            -- provider utilizzati per trovare i riferimenti nel buffer, ordinati per priorità
+                'lsp',                               -- usa il Language Server Protocol
+                'treesitter',                        -- usa TreeSitter per l'analisi sintattica
+                'regex',                             -- usa espressioni regolari come fallback
             },
-            -- delay: delay in milliseconds
-            delay = 3000,
-            -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
-            filetypes_denylist = {
-                'nerdtree',
-                'vista',
-                'neoterm',
-                'NvimTree',
-                'quickfix',
-                'dirvish',
-                'fugitive',
-            },
-            -- filetypes_allowlist: filetypes to illuminate, this is overriden by filetypes_denylist
-            filetypes_allowlist = {},
-            -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
-            modes_denylist = {},
-            -- modes_allowlist: modes to illuminate, this is overriden by modes_denylist
-            modes_allowlist = {},
-            -- providers_regex_syntax_denylist: syntax to not illuminate, this overrides providers_regex_syntax_allowlist
-            -- Only applies to the 'regex' provider
-            -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-            providers_regex_syntax_denylist = {},
-            -- providers_regex_syntax_allowlist: syntax to illuminate, this is overriden by providers_regex_syntax_denylist
-            -- Only applies to the 'regex' provider
-            -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-            providers_regex_syntax_allowlist = {},
-            -- under_cursor: whether or not to illuminate under the cursor
-            under_cursor = false,
+            delay = 3000,                            -- ritardo in millisecondi prima dell'evidenziazione
+            filetypes_denylist = sphynx.config.excluded_filetypes,  -- lista di tipi di file da escludere dall'evidenziazione
+            filetypes_allowlist = {},                -- lista di tipi di file da includere nell'evidenziazione (vuota = tutti)
+            modes_denylist = {},                     -- modalità di Vim da escludere dall'evidenziazione
+            modes_allowlist = {},                    -- modalità di Vim da includere nell'evidenziazione (vuota = tutte)
+            providers_regex_syntax_denylist = {},    -- sintassi regex da escludere
+            providers_regex_syntax_allowlist = {},   -- sintassi regex da includere
+            under_cursor = false,                    -- se evidenziare la parola sotto il cursore
+            large_file_cutoff = 3000,               -- numero di righe oltre il quale considerare il file come "grande"
+            min_count_to_highlight = 1,             -- numero minimo di occorrenze necessarie per l'evidenziazione
+            case_insensitive_regex = true,          -- se ignorare maiuscole/minuscole nelle regex
+            disable_keymaps = false,                -- se disabilitare le scorciatoie da tastiera predefinite
         })
     end,
 }

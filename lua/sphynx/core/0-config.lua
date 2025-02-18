@@ -54,6 +54,7 @@ function config.load()
         'noice',
         'quickfix',
         'gitcommit',
+        'fugitive',
     }
   }
 end
