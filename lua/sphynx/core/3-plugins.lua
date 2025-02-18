@@ -7,8 +7,8 @@ local modules = {
     --}}} CORE
 
     --{{{ UI
-        "scrollview",           -- Barra di scorrimento
-        "pretty-fold",          -- Migliora il testo visualizzato nel folding
+        "scrollview",           -- OK - Barra di scorrimento
+        "pretty-fold",          -- OK - Migliora il testo visualizzato nel folding
         "illuminate",
         "foldsigns",
         "heirline",
