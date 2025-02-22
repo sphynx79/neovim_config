@@ -9,17 +9,15 @@ function config.load()
     cursorline = true,
     -- theme style to use
         -- • nightfox
+            -- • nightfox
+            -- • dayfox
+            -- • dawnfox
+            -- • duskfox
+            -- • nordfox
+            -- • terafox
+            -- • carbonfox
         -- • onenord
-    colorscheme = "nightfox",
-    -- theme style variant to use
-        -- • nightfox
-        -- • dayfox
-        -- • dawnfox
-        -- • duskfox
-        -- • nordfox
-        -- • terafox
-        -- • carbonfox
-    colorscheme_variant = "nordfox",
+    colorscheme = "nordfox",
     -- Whether the background is transparent
     -- • boolean
     transparent_background = false,
@@ -60,3 +58,4 @@ function config.load()
 end
 
 return config
+

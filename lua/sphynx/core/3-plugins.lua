@@ -1,7 +1,19 @@
 sphynx.modules = {}
 
+local theme = function()
+    if ({ nightfox = true, dayfox = true, dawnfox = true, duskfox = true, nordfox = true, terafox = true, carbonfox = true})[sphynx.config.colorscheme] then
+        return "nightfox"
+    else
+        return "onenord"
+    end
+end
+
 -- List modules
 local modules = {
+    --{{{ Theme
+        theme(),
+    --}}} Theme
+
     --{{{ CORE
         "core",
     --}}} CORE
@@ -12,8 +24,6 @@ local modules = {
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
         "foldsigns",            -- ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
         "heirline",
-        -- "onenord",           -- Theme
-        "nightfox",             -- Theme
         "indent-blankline",
         "devicons",
         "smoothcursor",

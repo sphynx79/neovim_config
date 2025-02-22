@@ -3,7 +3,6 @@ local M = {}
 M.plugins = {
     ["nightfox"] = {
         "EdenEast/nightfox.nvim",
-        cond = sphynx.config.colorscheme == "nightfox",
         lazy = false,
         priority = 1000, -- make sure to load this before all the other start plugins
     },
@@ -39,7 +38,8 @@ M.configs = {
                 }
             },
             groups = {
-                all = {
+                all = { },
+                nordfox = {
                     Normal                      = { fg = palette.fg, bg = palette.bg1 },
                     NormalNC                    = { bg = palette.bg1 },
                     Folded                      = { fg = palette.blue, bg = palette.grey13, style = "italic" },
@@ -100,7 +100,8 @@ M.configs = {
                     TbLineCloseAllBufsBtn       = { fg = palette.red, bg = palette.bg, style = "bold" },
                     -- Scrollview
                     -- ScrollView                  = { bg = palette.grey11 },
-                },
+                }
+
             },
             palettes = {
                 all = {
@@ -117,7 +118,7 @@ M.configs = {
         -- • nordfox
         -- • terafox
         -- • carbonfox
-        vim.cmd.colorscheme(sphynx.config.colorscheme_variant)
+        -- vim.cmd.colorscheme(sphynx.config.colorscheme_variant)
     end,
 }
 

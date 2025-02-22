@@ -1,4 +1,4 @@
-require("sphynx.colors").init(sphynx.config.colorscheme)
+require("sphynx.colors").init()
 
 local tabufline_opts = sphynx.config.ui.tabufline
 

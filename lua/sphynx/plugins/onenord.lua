@@ -3,7 +3,6 @@ local M = {}
 M.plugins = {
     ["onenord"] = {
         "rmehri01/onenord.nvim",
-        cond = sphynx.config.colorscheme == "onenord",
         lazy = false,
         priority = 1000, -- make sure to load this before all the other start plugins
     },
@@ -14,6 +13,7 @@ M.configs = {
         local palette = require("sphynx.colors.palette.onenord").colors
         local ok, onenord = pcall(require, "onenord")
         if not ok then
+            print('ciao')
             return
         end
 

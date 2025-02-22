@@ -1,28 +1,26 @@
 local colors = {}
 
+-- Tabella per tenere traccia del tema corrente
+colors.current = {
+    theme = nil,
+}
 -- if theme given, load given theme if given, otherwise nvchad_theme
-colors.init = function(theme, reload)
-    reload = reload or false
-    -- if theme and vim.g.colors_name and theme ~= vim.g.colors_name then
-    --     reload = true
-    -- end
-    -- set the global theme, used at various places like theme switcher, highlights
-    if not theme then
-        if vim.g.forced_theme then
-            theme = vim.g.forced_theme
-        elseif vim.g.colors_name then
-            theme = vim.g.colors_name
-        end
-    end
-    vim.g.colors_name = theme
+colors.init = function(theme)
+    -- Se theme è passato, usa quello, altrimenti usa la configurazione di default
+    colors.current.theme = theme or sphynx.config.colorscheme
+    vim.cmd("colorscheme " .. colors.current.theme)
 end
 
-colors.get_color = function()
-    -- P(require("sphynx.colors.palette." .. vim.g.colors_name ).palette())
-    if sphynx.config.colorscheme_variant then
-        return require("sphynx.colors.palette." .. sphynx.config.colorscheme_variant ).colors
+colors.get_color = function(colorscheme)
+    local current_theme = colorscheme or sphynx.config.colorscheme
+
+    local ok, palette = pcall(require, "sphynx.colors.palette." .. current_theme)
+    if not ok then
+        vim.notify("Couldn't load colorscheme: " .. current_theme, vim.log.levels.ERROR)
+        return require("sphynx.colors.palette.nightfox").colors  -- fallback sicuro
     end
-    return require("sphynx.colors.palette." .. vim.g.colors_name ).colors
+    
+    return palette.colors
 end
 
 return colors
