@@ -144,6 +144,14 @@ M.configs = {
                 local color = self:mode_color()
                 return { fg = color, bold = true }
             end,
+
+            -- update = {
+            --     "BufEnter",
+            --     "FocusGained",
+            --     "VimEnter",
+            --     -- Se stai usando gitsigns, puoi anche aggiungere:
+            --     -- "GitSignsUpdate",
+            -- },
         }
 
         local FileNameBlock = {
@@ -205,14 +213,14 @@ M.configs = {
                     return vim.bo.modified
                 end,
                 provider = "[+]",
-                hl = { fg = colors.green },
+                hl = { fg = "green" },
             },
             {
                 condition = function()
                     return not vim.bo.modifiable or vim.bo.readonly
                 end,
                 provider = "",
-                hl = { fg = colors.orange },
+                hl = { fg = "orange" },
             },
         }
 
@@ -220,7 +228,7 @@ M.configs = {
             hl = function()
                 if vim.bo.modified then
                     -- use `force` because we need to override the child's hl foreground
-                    return { fg = colors.cyan, bold = true, force = true }
+                    return { fg = "cyan", bold = true, force = true }
                 end
             end,
         }
@@ -232,7 +240,7 @@ M.configs = {
                     local buffer = vim.bo[self and self.bufnr or 0]
                     return string.upper(buffer.filetype)
                 end,
-                hl = { fg = colors.grey8 },
+                hl = { fg = "grey8" },
             },
         }
 
@@ -246,7 +254,7 @@ M.configs = {
                     local tname, _ = vim.api.nvim_buf_get_name(0):gsub(".*:", "")
                     return " " .. tname
                 end,
-                hl = { fg = colors.blue, bold = true },
+                hl = { fg = "blue", bold = true },
             },
             { provider = " - " },
             {
@@ -259,11 +267,12 @@ M.configs = {
             --         local id = require("terminal"):current_term_index() --[[ .active_terminals':get_current_buf_terminal():get_index() ]]
             --         return " " .. (id or "Exited")
             --     end,
-            --     hl = { bold = true, fg = colors.blue },
+            --     hl = { bold = true, fg = "blue" },
             -- },
         }
 
         local LspClient = {
+            condition = conditions.lsp_attached,
 
             static = {
                 msg = "no active lsp",
@@ -286,7 +295,7 @@ M.configs = {
                 return self.icon .. self.msg
             end,
 
-            hl = { fg = colors.grey5 },
+            hl = { fg = "bright_fg" },
 
             update = {'LspAttach', 'LspDetach', 'WinEnter'},
 
@@ -329,7 +338,7 @@ M.configs = {
         --         return table.concat(status, " | ") .. " " .. spinners[frame + 1]
         --     end,
 
-        --     hl = { fg = colors.grey5 },
+        --     hl = { fg = "bright_fg" },
         -- }
 
         local Path =  {
@@ -337,7 +346,7 @@ M.configs = {
                 self.icon = " " .. " "
                 self.path = vim.fn.fnamemodify(vim.fn.expand('%:h'), ':p:~:.')
             end,
-            hl = { fg = colors.blue, bold = true },
+            hl = { fg = "blue", bold = true },
 
             flexible = 1,
 
@@ -362,66 +371,63 @@ M.configs = {
             },
         }
 
-        local Diagnostics = {
-            condition = conditions.has_diagnostics,
+        local Diagnostics = utils.surround(
+            {" [", "]"},
+            nil,
+            {
+                condition = conditions.has_diagnostics,
 
-            static = {
-                error_icon = ' ',
-                warn_icon = '  ',
-                info_icon = '  ',
-                hint_icon = '  ',
-            },
+                static = {
+                    error_icon = ' ',
+                    warn_icon  = ' ',
+                    info_icon  = ' ',
+                    hint_icon  = ' ',
+                },
 
-            init = function(self)
+                init = function(self)
                     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
                     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
                     self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
                     self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-            end,
+                end,
 
-            on_click = {
-                name = "heirline_diagnostic",
-                callback = function()
-                    if is_available "telescope.nvim" then
-                        require("telescope.builtin").diagnostics()
-                    end
-                end,
-            },
+                on_click = {
+                    name = "heirline_diagnostic",
+                    callback = function()
+                        if is_available "telescope.nvim" then
+                            require("telescope.builtin").diagnostics()
+                        end
+                    end,
+                },
 
-            update = { "DiagnosticChanged", "BufEnter" },
+                update = { "DiagnosticChanged", "BufEnter" },
 
-            {
-                provider = " [",
-            },
-            {
-                provider = function(self)
-                    -- 0 is just another output, we can decide to print it or not!
-                    return self.errors > 0 and (self.error_icon .. self.errors .. " ")
-                end,
-                hl = { fg =  colors.red},
-            },
-            {
-                provider = function(self)
-                    return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
-                end,
-                hl = { fg = colors.magenta },
-            },
-            {
-                provider = function(self)
-                    return self.info > 0 and (self.info_icon .. self.info .. " ")
-                end,
-                hl = { fg = colors.green },
-            },
-            {
-                provider = function(self)
-                    return self.hints > 0 and (self.hint_icon .. self.hints)
-                end,
-                hl = { fg = colors.blue },
-            },
-            {
-                provider = "]",
-            },
-        }
+                {
+                    provider = function(self)
+                        return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+                    end,
+                    hl = { fg = "red" },
+                },
+                {
+                    provider = function(self)
+                        return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+                    end,
+                    hl = { fg = "magenta" },
+                },
+                {
+                    provider = function(self)
+                        return self.info > 0 and (self.info_icon .. self.info .. " ")
+                    end,
+                    hl = { fg = "green" },
+                },
+                {
+                    provider = function(self)
+                        return self.hints > 0 and (self.hint_icon .. self.hints)
+                    end,
+                    hl = { fg = "blue" },
+                },
+            }
+        )
 
         local Progress = {
             provider = '%3p%%',
@@ -447,7 +453,7 @@ M.configs = {
                 return string.rep(self.sbar[i], 2)
             end,
             hl = function(self)
-                return { fg = colors.yellow, bold = true }
+                return { fg = "yellow", bold = true }
             end
         }
 
@@ -459,7 +465,7 @@ M.configs = {
                 local filename = vim.api.nvim_buf_get_name(0)
                 return vim.fn.fnamemodify(filename, ":t")
             end,
-            hl = { fg = colors.blue, bold = true },
+            hl = { fg = "blue", bold = true },
         }
 
         -- let's add the children to our FileNameBlock component
@@ -470,9 +476,9 @@ M.configs = {
             unpack(FileFlags) -- A small optimisation, since their parent does nothing
         )
 
-        ViMode = utils.surround({ "", "" }, function(self) return self:mode_color() end, {ViMode, hl = {fg = colors.grey14, bold = true}} )
+        ViMode = utils.surround({ "", "" }, function(self) return self:mode_color() end, {ViMode, hl = {fg = "grey14", bold = true}} )
 
-        Location = utils.surround({ "", "" }, function(self) return self:mode_color() end, {Location, Space,  hl = {fg = colors.grey14, bold = true}} )
+        Location = utils.surround({ "", "" }, function(self) return self:mode_color() end, {Location, Space,  hl = {fg = "grey14", bold = true}} )
 
         local DefaultStatusline = {
             ViMode,
@@ -507,26 +513,26 @@ M.configs = {
         local StatusLines = {
             hl = function()
                 return {
-                    fg = colors.grey10,
-                    bg = colors.grey13,
+                    fg = "grey10",
+                    bg = "bright_bg",
                 }
             end,
 
             static = {
                 mode_colors = {
-                    n = colors.cyan,
-                    i = colors.green,
-                    v = colors.cyan,
-                    V = colors.cyan,
-                    ["\22"] = colors.cyan, -- this is an actual ^V, type <C-v><C-v> in insert mode
-                    c = colors.yellow,
-                    s = colors.magenta,
-                    S = colors.magenta,
-                    ["\19"] = colors.pink, -- this is an actual ^S, type <C-v><C-s> in insert mode
-                    R = colors.orange,
-                    r = colors.orange,
-                    ["!"] = colors.red,
-                    t = colors.green,
+                    n = "cyan",
+                    i = "green",
+                    v = "purple",
+                    V = "purple",
+                    ["\22"] = "purple", -- this is an actual ^V, type <C-v><C-v> in insert mode
+                    c = "orange",
+                    s = "magenta",
+                    S = "magenta",
+                    ["\19"] = "pink", -- this is an actual ^S, type <C-v><C-s> in insert mode
+                    R = "red",
+                    r = "red",
+                    ["!"] = "red",
+                    t = "green",
                 },
                 mode_color = function(self)
                     local mode = vim.fn.mode() or "n"
@@ -541,7 +547,7 @@ M.configs = {
 
         local CloseButton = {
             condition = function(self)
-                return not vim.bo.modified
+                return not vim.bo.modified and conditions.is_active()
             end,
             -- update = 'BufEnter',
             update = { "WinNew", "WinClosed", "BufEnter" },
@@ -552,7 +558,7 @@ M.configs = {
                     if conditions.is_not_active() then
                         return { fg = "gray", force = true }
                     else
-                        return { fg = colors.red, force = true }
+                        return { fg = "red", force = true }
                     end
                 end,
 
@@ -573,10 +579,11 @@ M.configs = {
             fallthrough = false,
 
             {
+                -- Terminal WinBar rimane invariato perché ha un layout specifico
                 condition = function()
                     return conditions.buffer_matches({ buftype = { "terminal" } })
                 end,
-                utils.surround({ "", "" }, colors.grey13, {
+                utils.surround({ "", "" }, "bright_bg", {
                     FileType,
                     Space,
                     TerminalName,
@@ -585,38 +592,98 @@ M.configs = {
             },
 
             {
+                -- Inactive WinBar
                 condition = function()
                     return not conditions.is_active()
                 end,
+                flexible = 1,
                 {
-                    BigSpace,
+                    -- Versione completa
                     {
-                        FileNameBlock,
-                        hl = { fg = "gray", bold = true, force = true }
+                        BigSpace,
+                        {
+                            FileNameBlock,
+                            hl = { fg = "gray", bold = true, force = true }
+                        },
+                        {
+                            CloseButton,
+                            provider = nil,
+                            Align,
+                            { provider = ""},
+                            hl = { bg = "bg1", force = true },
+                        }
                     },
+                },
+                {
+                    -- Versione ridotta
                     {
+                        Space,
+                        {
+                            FileNameBlock,
+                            hl = { fg = "gray", bold = true, force = true }
+                        },
                         CloseButton,
-                        provider = nil,
-                        Align,
-                        { provider = ""},
-                        hl = { bg = colors.bg1, force = true },
-                    }
+                    },
+                },
+                {
+                    -- Versione minima
+                    {
+                        Space,
+                        {
+                            provider = function(self)
+                                local filename = vim.fn.fnamemodify(self.filename, ":t")
+                                return filename == "" and "[No Name]" or filename
+                            end,
+                            hl = { fg = "gray", bold = true, force = true }
+                        },
+                    },
                 },
             },
 
             {
-                BigSpace,
+                -- Active WinBar
+                flexible = 1,
                 {
-                    FileNameBlock,
-                    hl = { fg = colors.blue, bold = true, force = true },
+                    -- Versione completa
+                    {
+                        BigSpace,
+                        {
+                            FileNameBlock,
+                            hl = { fg = "blue", bold = true, force = true },
+                        },
+                        {
+                            CloseButton,
+                            provider = nil,
+                            Align,
+                            { provider = ""},
+                            hl = { bg = "bg1", force = true },
+                        }
+                    },
                 },
                 {
-                    CloseButton,
-                    provider = nil,
-                    Align,
-                    { provider = ""},
-                    hl = { bg = colors.bg1, force = true },
-                }
+                    -- Versione ridotta
+                    {
+                        Space,
+                        {
+                            FileNameBlock,
+                            hl = { fg = "blue", bold = true, force = true },
+                        },
+                        CloseButton,
+                    },
+                },
+                {
+                    -- Versione minima
+                    {
+                        Space,
+                        {
+                            provider = function(self)
+                                local filename = vim.fn.fnamemodify(self.filename, ":t")
+                                return filename == "" and "[No Name]" or filename
+                            end,
+                            hl = { fg = "blue", bold = true, force = true }
+                        },
+                    },
+                },
             },
         }
 
@@ -628,10 +695,32 @@ M.configs = {
                 -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
                 disable_winbar_cb = function(args)
                     local buf = args.buf
-                    local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[buf].buftype)
-                    local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "lazy" }, vim.bo[buf].filetype)
+                    local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "terminal" }, vim.bo[buf].buftype)
+                    local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "lazy", "NvimTree", "neo%-tree" }, vim.bo[buf].filetype)
                     return buftype or filetype
                 end,
+                -- Mappa i nomi dei colori che usi in Heirline ai tuoi colori personalizzati
+                colors = {
+                    bright_bg = colors.grey13,
+                    bright_fg = colors.grey5,
+                    red = colors.red,
+                    green = colors.green,
+                    blue = colors.blue,
+                    gray = colors.grey7,
+                    orange = colors.orange,
+                    yellow = colors.yellow,
+                    purple = colors.magenta,
+                    cyan = colors.cyan,
+                    pink = colors.pink,
+                    magenta = colors.magenta,
+                    bg = colors.bg,
+                    bg1 = colors.bg1,
+                    fg = colors.fg,
+                    grey8 = colors.grey8,
+                    grey10 = colors.grey10,
+                    grey13 = colors.grey13,
+                    grey14 = colors.grey14,
+                },
             },
         })
         -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
@@ -642,9 +731,29 @@ M.configs = {
         vim.cmd([[au Heirline FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif]])
 
         vim.api.nvim_create_autocmd("ColorScheme", {
-            callback = function()
-                local color = require("sphynx.colors").get_color()
-                utils.on_colorscheme(color)
+            callback = function(args)
+                local updated_colors = require("sphynx.colors").get_color(args.match)
+                utils.on_colorscheme({
+                    bright_bg = updated_colors.grey13,
+                    bright_fg = updated_colors.grey5,
+                    red = updated_colors.red,
+                    green = updated_colors.green,
+                    blue = updated_colors.blue,
+                    gray = updated_colors.grey7,
+                    orange = updated_colors.orange,
+                    yellow = updated_colors.yellow,
+                    purple = updated_colors.magenta,
+                    cyan = updated_colors.cyan,
+                    pink = updated_colors.pink,
+                    magenta = updated_colors.magenta,
+                    bg = updated_colors.bg,
+                    bg1 = updated_colors.bg1,
+                    fg = updated_colors.fg,
+                    grey8 = updated_colors.grey8,
+                    grey10 = updated_colors.grey10,
+                    grey13 = updated_colors.grey13,
+                    grey14 = updated_colors.grey14,
+                })
             end,
             group = "Heirline",
         })
@@ -652,4 +761,3 @@ M.configs = {
 }
 
 return M
-

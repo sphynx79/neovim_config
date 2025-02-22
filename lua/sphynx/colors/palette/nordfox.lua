@@ -1,24 +1,26 @@
 local M = {}
 
-
-
 M.palette = function()
     local palette = require('nightfox.palette').load("nordfox")
     return palette
 end
 
+-- Otteniamo il valore della palette
+local palette = M.palette()
+
 M.colors = {
-    bg        = "#2e3440",
-    bg1       = "#2d323e",
-    fg        = "#ECEFF4",
-    red       = "#bf616a",
-    orange    = "#d08770",
-    yellow    = "#ebcb8b",
-    blue      = "#5e81ac",
-    green     = "#a3be8c",
-    cyan      = "#88c0d0",
-    magenta   = "#b48ead",
-    pink      = "#FFA19F",
+    bg        = palette.bg0,
+    bg1       = palette.bg1,
+    fg        = palette.fg0,
+    red       = palette.red.base,
+    orange    = palette.orange.base,
+    yellow    = palette.yellow.base,
+    blue      = palette.blue.base,
+    green     = palette.green.base,
+    cyan      = palette.cyan.base,
+    magenta   = palette.magenta.base,
+    pink      = palette.pink.base,
+    dark_pink = "#E44675",
     grey1     = "#f8fafc",
     grey2     = "#f0f1f4",
     grey3     = "#eaecf0",
@@ -31,14 +33,13 @@ M.colors = {
     grey10    = "#616d85",
     grey11    = "#464f62",
     grey12    = "#3a4150",
-    grey13    = "#333a47",
+    grey13    = "#262E38",
     grey14    = "#242932",
     grey15    = "#1e222a",
     grey16    = "#1c1f26",
     grey17    = "#0f1115",
     grey18    = "#0d0e11",
     grey19    = "#020203",
-    dark_pink = "#E44675",
 }
 
 return M
