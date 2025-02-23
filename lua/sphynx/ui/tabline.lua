@@ -125,6 +125,7 @@ M.tablist = function()
 
       return result
    end
+   return ""
 end
 
 M.buttons = function()
