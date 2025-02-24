@@ -23,7 +23,7 @@ local mapping = {}
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
   }
-  
+
   mapping.opt_visual = {
     mode = "v", -- NORMAL mode
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
@@ -49,7 +49,7 @@ local mapping = {}
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
   }
-  
+
   mapping.opt_visual = {
     mode = "v", -- NORMAL mode
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
@@ -241,8 +241,11 @@ local mapping = {}
 --{{{ Buffer
   require("which-key").add({
     { "b", group = " Buffers" },
-    { "bC", [[<CMD>bd<CR>]], desc = "Close buffer and window" },
-    { "bX", [[<CMD>bufdo bd<CR>]], desc = "Close all buffers" },
+    { "bC", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer_and_window()<CR>]], desc = "Close buffer and window [tabufline]"},
+    { "bc", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer()<CR>]], desc = "Close buffer and keep window  [tabufline]"},
+    { "bx", [[<CMD>lua require("sphynx.ui.tabufline").closeAllBufs()<CR>]], desc = "Close all buffers [tabufline]"},
+    -- { "bC", [[<CMD>bd<CR>]], desc = "Close buffer and window" },
+    -- { "bX", [[<CMD>bufdo bd<CR>]], desc = "Close all buffers" },
     { "bn", group = " New Buffer" },
     { "bn<Left>", [[<CMD>leftabove vnew<CR>]], desc = "Left" },
     { "bn<Right>", [[<CMD>rightbelow vnew<CR>]], desc = "Right" },
