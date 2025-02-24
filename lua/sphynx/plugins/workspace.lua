@@ -39,62 +39,42 @@ M.configs = {
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     local wk = require("which-key")
-    wk.register({
-        w = {
-            name = "  Workspace",
-            ["s"] = {[[<Cmd>call WS_Backforth()<CR>]], "Switch from two tab [Workspace]"},
-            ["#"] = "New tab or move exist tab .N [Workspace]",
-            ["p"] = {[[<Cmd>echo WS_Line()<CR>]], "Print the tab status [Workspace]"},
-            ["<Left>"]  = {[[<Cmd>tabprevious<CR>]], "Tab left"},
-            ["<Right>"] = {[[<Cmd>tabnext<CR>]], "Tab right"},
-            ["n"] = {[[<Cmd>tabnew<CR>]], "Tab new"},
-            ["m"]       = {
-                name = "󰆾 Move",
-                ["#"] = "Move buffer to tab .N [Workspace]",
-            },
-            ["c"]       = {
-                name = " Close",
-                ["c"] = { [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], "Close current tab [utils=>init.lua]" },
-                ["#"] = "Close tab .N [Workspace]",
-            },
-        },
-    }, mapping.opt_plugin)
+    local prefix = "w"
 
+    wk.add({
+        { "<leader>" .. prefix, group = "  Workspace" },
+        { "<leader>" .. prefix .. "s", [[<Cmd>call WS_Backforth()<CR>]], desc = "Switch from two tab [Workspace]" },
+        { "<leader>" .. prefix .. "p", [[<Cmd>echo WS_Line()<CR>]], desc = "Print the tab status [Workspace]" },
+        { "<leader>" .. prefix .. "<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left [Workspace]" },
+        { "<leader>" .. prefix .. "<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right [Workspace]" },
+        { "<leader>" .. prefix .. "n", [[<Cmd>tabnew<CR>]], desc = "Tab new [Workspace]" },
+        { "<leader>" .. prefix .. "#", desc = "New tab or move exist tab .N [Workspace]" },
+        { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
+        { "<leader>" .. prefix .. "m" .. "#", desc = "Move buffer to tab .N [Workspace]" },
+        { "<leader>" .. prefix .. "c", group = " Close" },
+        { "<leader>" .. prefix .. "c" .. "c", [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], desc = "Close current tab [utils=>init.lua]" },
+        { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
+    }, mapping.opt_mappping)
 
     -- New tab .N
     for i = 1, 10 do
-        wk.register({
-            w = {
-                name = " Workspace",
-                [tostring(i)] =  { [[<Cmd>WS ]] .. tostring(i) .. [[<CR>]], "which_key_ignore" },
-            }
-        }, mapping.opt_plugin)
+        wk.add({
+            { "<leader>" .. prefix .. tostring(i),  [[<Cmd>WS ]] .. tostring(i) .. [[<CR>]], hidden = true },
+        }, mapping.opt_mappping)
     end
 
     -- Move buffer to tab .N
     for i = 1, 10 do
-        wk.register({
-            w = {
-                name = "  Workspace",
-                ["m"] = {
-                    name = " Move",
-                    [tostring(i)] = { [[<Cmd>WSbmv ]] .. tostring(i) .. [[<CR>]], "which_key_ignore" },
-                }
-            }
-        }, mapping.opt_plugin)
+        wk.add({
+            { "<leader>" .. prefix .. "m" .. tostring(i),  [[<Cmd>WSbmv ]] .. tostring(i) .. [[<CR>]], hidden = true },
+        }, mapping.opt_mappping)
     end
 
     -- Close tab .N
     for i = 1, 10 do
-        wk.register({
-            w = {
-                name = "  Workspace",
-                ["c"] = {
-                    name = " Close",
-                    [tostring(i)] = { [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]], "which_key_ignore" },
-                }
-            }
-        }, mapping.opt_plugin)
+        wk.add({
+            { "<leader>" .. prefix .. "c" .. tostring(i),  [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]], hidden = true },
+        }, mapping.opt_mappping)
     end
 end
 

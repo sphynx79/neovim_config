@@ -341,52 +341,52 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	local prefix = "t"
-		
+    local wk = require("which-key")
+    local prefix = "t"
+
     -- require("which-key").add({
         -- ["b"] = {
             -- name = " Buff
-			-- ers",
+            -- ers",
             -- ["b"] = {[[<Cmd>lua require('telescope.builtin').buffers(require('sphynx.plugins.telescope').no_preview())<CR>]], "Switch buffer [Telescope]"},
         -- }
     -- }, mapping.opt_mappping)
-	
 
-	wk.add({
-		{ "b", group = " Buffers" },
-		{ "bb", [[<Cmd>lua require('telescope.builtin').buffers(require('sphynx.plugins.telescope').no_preview())<CR>]], desc = "Switch buffer [Telescope]" },
-	}, mapping.opt_mappping)
 
-	wk.add({
-		{ "<leader>" .. prefix, group = " Telescope" },
-		{ "<leader>" .. prefix .. "f", [[<Cmd>lua require("sphynx.plugins.telescope").project_files()<CR>]], desc = "find files" },
-		{ "<leader>" .. prefix .. "s", [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], desc = "search in current buffer" },
-		{ "<leader>" .. prefix .. "q", [[<Cmd>lua require('telescope.builtin').treesitter()<CR>]], desc = "find treesiter node" },
-		{ "<leader>" .. prefix .. "t", [[<Cmd>lua require('telescope.builtin').tags()<CR>]], desc = "find tags" },
-		{ "<leader>" .. prefix .. "S", [[<Cmd>lua require('telescope.builtin').tagstack()<CR>]], desc = "tags stack" },
-		{ "<leader>" .. prefix .. "g", [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], desc = "grep" },
-		{ "<leader>" .. prefix .. "o", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], desc = "old file" },
-		{ "<leader>" .. prefix .. "c", [[<Cmd>lua require('telescope.builtin').highlights()<CR>]], desc = "highlights" },
-		{ "<leader>" .. prefix .. "k", [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], desc = "keymaps" },
-		{ "<leader>" .. prefix .. "h", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], desc = "help" },
-		{ "<leader>" .. prefix .. "e", [[<Cmd>lua require('telescope.builtin').commands()<CR>]], desc = "commands" },
-		{ "<leader>" .. prefix .. "v", [[<Cmd>lua require('telescope.builtin').vim_options()<CR>]], desc = "vim option" },
-		{ "<leader>" .. prefix .. "a", [[<Cmd>lua require('telescope.builtin').autocommands()<CR>]], desc = "autocmd" },
-		{ "<leader>" .. prefix .. "y", [[<Cmd>lua require('telescope').extensions.neoclip.neoclip(require('telescope.themes').get_dropdown({ winblend = 10, layout_config={width=0.7 }, initial_mode="normal" }))<CR>]], desc = "neoclip" },
-		{ "<leader>" .. prefix .. "T", [[<Cmd>lua require("sphynx.plugins.telescope").builtins()<CR>]], desc = "Serch all Telescope" },
-		{ "<leader>" .. prefix .. "n", [[<Cmd>lua require('sphynx.plugins.telescope').neovim_module()<CR>]], desc = "neovim module config" },
-		{ "<leader>" .. prefix .. "w", [[<Cmd>lua require("sphynx.plugins.telescope").grep_prompt({})<CR>]], desc = "grep word" },
-		
-		-- LSP submenu
-		{ "<leader>" .. prefix .. "l", group = "+lsp" },
-		{ "<leader>" .. prefix .. "lr", [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], desc = "reference" },
-		{ "<leader>" .. prefix .. "la", [[<Cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]], desc = "code actions" },
-		{ "<leader>" .. prefix .. "li", [[<Cmd>lua require('telescope.builtin').lsp_implementations()<CR>]], desc = "implementations" },
-		{ "<leader>" .. prefix .. "ld", [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], desc = "definitions" },
-		{ "<leader>" .. prefix .. "lb", [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], desc = "buffer symbols" },
-		{ "<leader>" .. prefix .. "ls", [[<Cmd>lua require("sphynx.plugins.telescope").workspace_symbols()<CR>]], desc = "workspace symbols" },
-	}, mapping.opt_mappping)
+    wk.add({
+        { "b", group = " Buffers" },
+        { "bb", [[<Cmd>lua require('telescope.builtin').buffers(require('sphynx.plugins.telescope').no_preview())<CR>]], desc = "Switch buffer [Telescope]" },
+    }, mapping.opt_mappping)
+
+    wk.add({
+        { "<leader>" .. prefix, group = " Telescope" },
+        { "<leader>" .. prefix .. "f", [[<Cmd>lua require("sphynx.plugins.telescope").project_files()<CR>]], desc = "find files" },
+        { "<leader>" .. prefix .. "s", [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], desc = "search in current buffer" },
+        { "<leader>" .. prefix .. "q", [[<Cmd>lua require('telescope.builtin').treesitter()<CR>]], desc = "find treesiter node" },
+        { "<leader>" .. prefix .. "t", [[<Cmd>lua require('telescope.builtin').tags()<CR>]], desc = "find tags" },
+        { "<leader>" .. prefix .. "S", [[<Cmd>lua require('telescope.builtin').tagstack()<CR>]], desc = "tags stack" },
+        { "<leader>" .. prefix .. "g", [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], desc = "grep" },
+        { "<leader>" .. prefix .. "o", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], desc = "old file" },
+        { "<leader>" .. prefix .. "c", [[<Cmd>lua require('telescope.builtin').highlights()<CR>]], desc = "highlights" },
+        { "<leader>" .. prefix .. "k", [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], desc = "keymaps" },
+        { "<leader>" .. prefix .. "h", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], desc = "help" },
+        { "<leader>" .. prefix .. "e", [[<Cmd>lua require('telescope.builtin').commands()<CR>]], desc = "commands" },
+        { "<leader>" .. prefix .. "v", [[<Cmd>lua require('telescope.builtin').vim_options()<CR>]], desc = "vim option" },
+        { "<leader>" .. prefix .. "a", [[<Cmd>lua require('telescope.builtin').autocommands()<CR>]], desc = "autocmd" },
+        { "<leader>" .. prefix .. "y", [[<Cmd>lua require('telescope').extensions.neoclip.neoclip(require('telescope.themes').get_dropdown({ winblend = 10, layout_config={width=0.7 }, initial_mode="normal" }))<CR>]], desc = "neoclip" },
+        { "<leader>" .. prefix .. "T", [[<Cmd>lua require("sphynx.plugins.telescope").builtins()<CR>]], desc = "Serch all Telescope" },
+        { "<leader>" .. prefix .. "n", [[<Cmd>lua require('sphynx.plugins.telescope').neovim_module()<CR>]], desc = "neovim module config" },
+        { "<leader>" .. prefix .. "w", [[<Cmd>lua require("sphynx.plugins.telescope").grep_prompt({})<CR>]], desc = "grep word" },
+
+        -- LSP submenu
+        { "<leader>" .. prefix .. "l", group = "+lsp" },
+        { "<leader>" .. prefix .. "lr", [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], desc = "reference" },
+        { "<leader>" .. prefix .. "la", [[<Cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]], desc = "code actions" },
+        { "<leader>" .. prefix .. "li", [[<Cmd>lua require('telescope.builtin').lsp_implementations()<CR>]], desc = "implementations" },
+        { "<leader>" .. prefix .. "ld", [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], desc = "definitions" },
+        { "<leader>" .. prefix .. "lb", [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], desc = "buffer symbols" },
+        { "<leader>" .. prefix .. "ls", [[<Cmd>lua require("sphynx.plugins.telescope").workspace_symbols()<CR>]], desc = "workspace symbols" },
+    }, mapping.opt_mappping)
 end
 
 return M

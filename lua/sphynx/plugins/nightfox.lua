@@ -38,7 +38,23 @@ M.configs = {
                 }
             },
             groups = {
-                all = { },
+                all = {
+                    -- TabLine
+                    TbiFill                 = { fg = palette.fg, bg = palette.grey13 },
+                    TbBufOn                 = { fg = palette.grey4, bg = palette.bg },
+                    TbBufOff                = { fg = palette.grey9, bg = palette.grey13 },
+                    TbBufOnModified         = { fg = palette.green, bg = palette.bg },
+                    TbBufOffModified        = { fg = palette.red, bg = palette.grey13 },
+                    TbBufOnClose            = { fg = palette.red, bg = palette.bg },
+                    TbBufOffClose           = { fg = palette.grey10, bg = palette.grey13 },
+                    TbTabNewBtn             = { fg = palette.green, bg = palette.grey19 },
+                    TbTabOn                 = { fg = palette.bg, bg = palette.blue },
+                    TbTabOff                = { fg = palette.fg, bg = palette.grey9 },
+                    TbTabCloseBtn           = { fg = palette.bg, bg = palette.blue },
+                    TBTabTitle              = { fg = palette.fg, bg = palette.grey12 },
+                    TbThemeToggleBtn        = { fg = palette.fg, bg = palette.grey13, style = "bold" },
+                    TbCloseAllBufsBtn       = { fg = palette.red, bg = palette.grey13, style = "bold" },
+                },
                 nordfox = {
                     Normal                      = { fg = palette.fg, bg = palette.bg1 },
                     NormalNC                    = { bg = palette.bg1 },
@@ -83,21 +99,6 @@ M.configs = {
                     IlluminatedWordRead         = { bg = palette.grey11, style = "underline", sp=palette.grey5 },
                     IlluminatedWordWrite        = { bg = palette.grey11, style = "underline", sp=palette.grey5 },
                     IlluminatedCurWord          = { bg = palette.grey16, style = "underline" },
-                    -- TabLine
-                    TblineFill                  = { fg = palette.fg, bg = palette.grey13 },
-                    TbLineBufOn                 = { fg = palette.grey4, bg = palette.bg },
-                    TbLineBufOff                = { fg = palette.grey9, bg = palette.grey13 },
-                    TbLinesBufOnModified        = { fg = palette.green, bg = palette.bg },
-                    TbBufLineBufOffModified     = { fg = palette.red, bg = palette.grey13 },
-                    TbLineBufOnClose            = { fg = palette.red, bg = palette.bg },
-                    TbLineBufOffClose           = { fg = palette.grey10, bg = palette.grey13 },
-                    TblineTabNewBtn             = { fg = palette.green, bg = palette.grey19 },
-                    TbLineTabOn                 = { fg = palette.bg, bg = palette.blue },
-                    TbLineTabOff                = { fg = palette.fg, bg = palette.grey9 },
-                    TbLineTabCloseBtn           = { fg = palette.bg, bg = palette.blue },
-                    TBTabTitle                  = { fg = palette.fg, bg = palette.grey12 },
-                    TbLineThemeToggleBtn        = { fg = palette.fg, bg = palette.grey19, style = "bold" },
-                    TbLineCloseAllBufsBtn       = { fg = palette.red, bg = palette.bg, style = "bold" },
                     -- Scrollview
                     -- ScrollView                  = { bg = palette.grey11 },
                 }

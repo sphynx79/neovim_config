@@ -28,6 +28,7 @@ local modules = {
         "devicons",
         "smoothcursor",
         "bqf",
+        "smoothcursor",
     --}}} UI
 
     --{{{ MAPPING
@@ -35,7 +36,6 @@ local modules = {
     --}}} MAPPING
 
     --{{{ LSP
-        "smoothcursor",
         "lspconfig",
         "neodev",
         "floating-tag-preview",
@@ -76,7 +76,6 @@ local modules = {
     -- {{{ MISC
         "treesitter",
         "rainbow-delimiters",   -- mostra le parentesi in modalità rainbow
-        "close-buffers",
         "maximizer",
         "comment",
         "hexokinase",
@@ -100,7 +99,7 @@ local modules = {
         "nvim-window-picker",
         -- "windowswap",
         -- -- -- "scope",
-        -- "workspace",
+        "workspace",
         -- "spectre",
         -- "vimade",
         -- "symbols-outline",
