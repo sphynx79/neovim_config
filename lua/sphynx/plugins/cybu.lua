@@ -82,10 +82,10 @@ M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     require("which-key").add({
         { "b", group = " Buffers" },
-        { "b<Right>", [[<CMD>lua require("cybu").cycle("next")<CR>]], desc = "Next buffer" },
-        { "b<Left>", [[<CMD>lua require("cybu").cycle("prev")<CR>]], desc = "Prev buffer" },
-        { "b<Down>", [[<CMD>lua require("cybu").cycle("next", "last_used")<CR>]], desc = "Next Last buffer" },
-        { "b<Up>", [[<CMD>lua require("cybu").cycle("prev", "last_used")<CR>]], desc = "Prev Last Buffer" },
+        { "b<Right>", [[<CMD>lua require("cybu").cycle("next")<CR>]], desc = "Next buffer [cybu.nvim]" },
+        { "b<Left>", [[<CMD>lua require("cybu").cycle("prev")<CR>]], desc = "Prev buffer [cybu.nvim]" },
+        { "b<Down>", [[<CMD>lua require("cybu").cycle("next", "last_used")<CR>]], desc = "Next Last buffer [cybu.nvim]" },
+        { "b<Up>", [[<CMD>lua require("cybu").cycle("prev", "last_used")<CR>]], desc = "Prev Last Buffer [cybu.nvim]" },
     })
 end
 

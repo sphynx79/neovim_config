@@ -32,14 +32,14 @@ M.configs = {
 }
 
 M.keybindings = function()
-		local mapping = require("sphynx.core.5-mapping")
-		local wk = require("which-key")
-		local prefix = "b"
-		
-        wk.add({
-			{ prefix, group = "﬘ Buffers" },
-            { prefix .. "c", [[<CMD>lua require('close_buffers').delete({type = 'this'})<CR>]], desc = "Close buffer and keep window [close-buffer]"},
-            { prefix .. "x", [[<CMD>lua require('close_buffers').delete({type = 'all', force = true})<CR>]], desc = "Close all buffers [close-buffer]"},
+    local mapping = require("sphynx.core.5-mapping")
+    local wk = require("which-key")
+    local prefix = "b"
+
+    wk.add({
+        { prefix, group = " Buffers" },
+        -- { prefix .. "c", [[<CMD>lua require('close_buffers').delete({type = 'this'})<CR>]], desc = "Close buffer and keep window [close-buffer]"},
+        -- { prefix .. "x", [[<CMD>lua require('close_buffers').delete({type = 'all', force = true})<CR>]], desc = "Close all buffers [close-buffer]"},
         }, mapping.opt_mappping)
 end
 

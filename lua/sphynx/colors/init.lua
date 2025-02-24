@@ -4,7 +4,7 @@ local colors = {}
 colors.current = {
     theme = nil,
 }
--- if theme given, load given theme if given, otherwise nvchad_theme
+-- if theme given, load given theme, otherwise load config theme
 colors.init = function(theme)
     -- Se theme è passato, usa quello, altrimenti usa la configurazione di default
     colors.current.theme = theme or sphynx.config.colorscheme
@@ -24,3 +24,6 @@ colors.get_color = function(colorscheme)
 end
 
 return colors
+
+
+
