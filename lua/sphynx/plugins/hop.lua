@@ -2,7 +2,8 @@ local M = {}
 
 M.plugins = {
     ["hop"] = {
-        "phaazon/hop.nvim",
+        "smoka7/hop.nvim",
+        tag = '*',
         lazy = true,
         name = 'hop',
         -- keys = {"è","ò","à","f"},
@@ -23,31 +24,35 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
+    local wk = require("which-key")
+    wk.add({
+        { "<leader>h", group = "󰋟 Hop" },
+    })
     mapping.register({
         {
             mode = { "n"},
-            lhs = "à",
+            lhs = "<leader>hh",
             rhs = [[<Cmd>lua require'hop'.hint_words()<CR>]],
             options = {silent = true },
             description = "Easymotion next and previeous all",
         },
         {
             mode = { "n"},
-            lhs = "ò",
+            lhs = "<leader>h<UP>",
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<CR>]],
             options = {silent = true },
             description = "Easymotion previeous all",
         },
         {
             mode = { "n"},
-            lhs = "ù",
+            lhs = "<leader>h<DOWN>",
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<CR>]],
             options = {silent = true },
             description = "Easymotion next all",
         },
         {
             mode = { "n"},
-            lhs = "è",
+            lhs = "<leader>hH",
             rhs = [[<Cmd>lua require'hop'.hint_words({ multi_windows = true })<CR>]],
             options = {silent = true },
             description = "Easymotion next and previeous all window",

@@ -31,6 +31,9 @@ function config.load()
         tabufline = {
             enabled = true,
             lazyload = true,
+            order = { "treeOffset", "buffers", "tabs", "btns" },
+            modules = nil,
+            bufwidth = 21,
         },
     },
     excluded_filetypes = {

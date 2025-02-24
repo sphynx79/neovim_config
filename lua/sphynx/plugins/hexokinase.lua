@@ -23,8 +23,8 @@ M.setup = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	
+    local wk = require("which-key")
+
     wk.add({
         { "<leader>c", group = " Colors" },
         { "<leader>ce", [[<Cmd>HexokinaseTurnOn<CR>]], desc = "Enable" },
