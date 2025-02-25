@@ -54,33 +54,33 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	local prefix = "<leader>s"
+ local wk = require("which-key")
+ local prefix = "<leader>s"
 
-	wk.add({
-		-- Gruppo principale Grepper
-		{ prefix, group = " Grepper" },
-		
-		-- Sottogruppo Grepper Quickfix
-		{ prefix .. "s", group = " Grepper Quickfix" },
-		{ prefix .. "sG", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search with git" },
-		{ prefix .. "sg", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search word in current buffer with git" },
-		{ prefix .. "sR", [[<Cmd>Grepper -tool rg -quickfix<CR>]], desc = "Search with rg" },
-		{ prefix .. "sr", [[<Cmd>Grepper -tool rg -quickfix -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
-		{ prefix .. "sw", [[<Cmd>Grepper -tool rg -quickfix -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
-		{ prefix .. "sW", [[<Cmd>Grepper -tool rg -quickfix -buffer -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
-		
-		-- Sottogruppo Grepper Side
-		{ prefix .. "S", group = " Grepper Side" },
-		{ prefix .. "SG", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search with git" },
-		{ prefix .. "Sg", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search word in current buffer with git" },
-		{ prefix .. "SR", [[<Cmd>Grepper -tool rg -side<CR>]], desc = "Search with rg" },
-		{ prefix .. "Sr", [[<Cmd>Grepper -tool rg -side -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
-		{ prefix .. "Sw", [[<Cmd>Grepper -tool rg -side -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
-		{ prefix .. "SW", [[<Cmd>Grepper -tool rg -side -buffer -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
-	}, mapping.opt_mappping )
-	
-    vim.keymap.set({ 'n', 'x' }, 'gs', '<Plug>(GrepperOperator)', { remap = true })
+ wk.add({
+ 	-- Gruppo principale Grepper
+ 	{ prefix, group = " Grepper" },
+
+ 	-- Sottogruppo Grepper Quickfix
+ 	{ prefix .. "s", group = " Grepper Quickfix" },
+ 	{ prefix .. "sG", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search with git" },
+ 	{ prefix .. "sg", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search word in current buffer with git" },
+ 	{ prefix .. "sR", [[<Cmd>Grepper -tool rg -quickfix<CR>]], desc = "Search with rg" },
+ 	{ prefix .. "sr", [[<Cmd>Grepper -tool rg -quickfix -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
+ 	{ prefix .. "sw", [[<Cmd>Grepper -tool rg -quickfix -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
+ 	{ prefix .. "sW", [[<Cmd>Grepper -tool rg -quickfix -buffers -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
+
+ 	-- Sottogruppo Grepper Side
+ 	{ prefix .. "S", group = " Grepper Side" },
+ 	{ prefix .. "SG", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search with git" },
+ 	{ prefix .. "Sg", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search word in current buffer with git" },
+ 	{ prefix .. "SR", [[<Cmd>Grepper -tool rg -side<CR>]], desc = "Search with rg" },
+ 	{ prefix .. "Sr", [[<Cmd>Grepper -tool rg -side -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
+ 	{ prefix .. "Sw", [[<Cmd>Grepper -tool rg -side -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
+ 	{ prefix .. "SW", [[<Cmd>Grepper -tool rg -side -buffers -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
+ }, mapping.opt_mappping )
+
+  vim.keymap.set({ 'n', 'x' }, 'gs', '<Plug>(GrepperOperator)', { remap = true })
 end
 
 return M
