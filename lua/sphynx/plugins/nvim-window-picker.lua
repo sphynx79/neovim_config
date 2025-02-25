@@ -122,8 +122,8 @@ M.keybindings = function()
     end
 
     require("which-key").add({
-        { "ws", picked_window, desc = "Switch window [nvim-window-picker]" },
-        { "ww", swap_windows, desc = "Go to window [nvim-window-picker]" },
+        { "ws", swap_windows, desc = "Switch window [nvim-window-picker]" },
+        { "ww", picked_window, desc = "Go to window [nvim-window-picker]" },
     })
 end
 
