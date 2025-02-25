@@ -3,7 +3,6 @@ local M = {}
 M.plugins = {
     ["hop"] = {
         "smoka7/hop.nvim",
-        tag = '*',
         lazy = true,
         name = 'hop',
         -- keys = {"è","ò","à","f"},
@@ -34,14 +33,14 @@ M.keybindings = function()
             lhs = "<leader>hh",
             rhs = [[<Cmd>lua require'hop'.hint_words()<CR>]],
             options = {silent = true },
-            description = "Easymotion next and previeous all",
+            description = "Easymotion current buffer",
         },
         {
             mode = { "n"},
             lhs = "<leader>h<UP>",
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<CR>]],
             options = {silent = true },
-            description = "Easymotion previeous all",
+            description = "Easymotion next and previeous current window",
         },
         {
             mode = { "n"},
@@ -49,6 +48,13 @@ M.keybindings = function()
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<CR>]],
             options = {silent = true },
             description = "Easymotion next all",
+        },
+        {
+            mode = { "n"},
+            lhs = "<leader>hs",
+            rhs = [[<Cmd>lua require'hop'.hint_patterns()<CR>]],
+            options = {silent = true },
+            description = "Easymotion search word",
         },
         {
             mode = { "n"},
