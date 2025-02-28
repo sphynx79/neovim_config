@@ -56,7 +56,11 @@ function config.load()
         'quickfix',
         'gitcommit',
         'fugitive',
-    }
+    },
+    -- Plugin utilizzato per autocompletem
+        -- cmp
+        -- blink
+    autocomplete = "blink"
   }
 end
 
