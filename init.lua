@@ -13,3 +13,4 @@ sphynx.path = {
 --vim.opt.rtp:append(sphynx.path.nvim_config .. "/after")
 
 require("sphynx.core")
+

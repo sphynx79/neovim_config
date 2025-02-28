@@ -263,6 +263,18 @@ M.configs = {
         setup_ruby_adapter(dap)
         setup_ruby_configuration(dap)
 
+        dap.configurations.lua = {
+            {
+                type = "nlua",
+                request = "attach",
+                name = "Attach to running Neovim instance",
+            },
+        }
+
+        dap.adapters.nlua = function(callback, config)
+            callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+        end
+
     end,
 }
 
@@ -317,24 +329,24 @@ M.keybindings = function()
             description = "Dap toggle breakpoint",
         },
     })
-	
-	local wk = require("which-key")
-	local prefix = "<leader>d"
-		
+
+    local wk = require("which-key")
+    local prefix = "<leader>d"
+
     wk.add({
-		{ prefix, group = "󰠭 Debug" },
-		{ prefix .. "C", "<Cmd>lua require('sphynx.plugins.dap_utils').reload_continue()<CR>", desc = "reload and continue" },
-		{ prefix .. "c", "<Cmd>lua require('dap').continue()<CR>", desc = "continue" },
-		{ prefix .. "i", "<Cmd>lua require('dap').step_into()<CR>", desc = "step into"  },
-		{ prefix .. "o", "<Cmd>lua require('dap').step_out()<CR>", desc = "step out" },
-		{ prefix .. "r", "<Cmd>lua require('dap').repl.open()<CR>", desc = "repl" },
-		{ prefix .. "s", "<Cmd>lua require('dap').step_over()<CR>", desc = "step over" },
-		{ prefix .. "u", "<Cmd>lua require('dapui').toggle()<CR>", desc = "toggle UI" },
-		{ prefix .. "x", "<Cmd>lua require('dap').disconnect() require('dapui').close()<CR>", desc = "close" },
-		{ prefix .. "b", group = "󰏃 Breakpoint" },
-		{ prefix .. "bb", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "toggle breakpoint" },
-		{ prefix .. "bc", "<Cmd>lua require('dap').set_breakpoint (vim.fn.input('Breakpoint condition: '))<CR>", desc = "conditional breakpoint" },
-		{ prefix .. "bl", "<Cmd>lua require('dap').set_breakpoint (nil, nil, vim.fn.input('Log point message: '))<CR>", desc = "log breakpoint" },
+        { prefix, group = "󰠭 Debug" },
+        { prefix .. "C", "<Cmd>lua require('sphynx.plugins.dap_utils').reload_continue()<CR>", desc = "reload and continue" },
+        { prefix .. "c", "<Cmd>lua require('dap').continue()<CR>", desc = "continue" },
+        { prefix .. "i", "<Cmd>lua require('dap').step_into()<CR>", desc = "step into"  },
+        { prefix .. "o", "<Cmd>lua require('dap').step_out()<CR>", desc = "step out" },
+        { prefix .. "r", "<Cmd>lua require('dap').repl.open()<CR>", desc = "repl" },
+        { prefix .. "s", "<Cmd>lua require('dap').step_over()<CR>", desc = "step over" },
+        { prefix .. "u", "<Cmd>lua require('dapui').toggle()<CR>", desc = "toggle UI" },
+        { prefix .. "x", "<Cmd>lua require('dap').disconnect() require('dapui').close()<CR>", desc = "close" },
+        { prefix .. "b", group = "󰏃 Breakpoint" },
+        { prefix .. "bb", "<Cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "toggle breakpoint" },
+        { prefix .. "bc", "<Cmd>lua require('dap').set_breakpoint (vim.fn.input('Breakpoint condition: '))<CR>", desc = "conditional breakpoint" },
+        { prefix .. "bl", "<Cmd>lua require('dap').set_breakpoint (nil, nil, vim.fn.input('Log point message: '))<CR>", desc = "log breakpoint" },
     }, mapping.opt_mappping)
 end
 

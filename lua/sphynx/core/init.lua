@@ -15,6 +15,14 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 
+-- decommentare queste righe per fare il debug dei plugin per lua
+-- e abilitare il plugin one-small-step-for-vimkind
+-- vim.opt.rtp:append("C:\\Users\\en27553\\AppData\\Local\\nvim-dev-data\\lazy\\one-small-step-for-vimkind\\")
+-- if init_debug then
+--     require"osv".launch({port=8086, blocking=true})
+-- end
+
+
 -------  TESTING ---------
 -- Configurazione base per il wrapping
 vim.opt.wrap = true                -- Abilita il wrapping

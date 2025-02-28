@@ -57,7 +57,7 @@ M.setup = {
 
 M.configs = {
     ["nvim-treesitter"] = function()
-        require 'nvim-treesitter.install'.compilers = { "gcc" }
+        require 'nvim-treesitter.install'.compilers = { "zig" }
         -- require 'nvim-treesitter.install'.prefer_git = false
         require('nvim-treesitter.configs').setup {
             ensure_installed = ts_filetypes,
@@ -66,6 +66,7 @@ M.configs = {
                 enable = true,              -- false will disable the whole extension
                 use_languagetree = true,
                 additional_vim_regex_highlighting = false,
+                disable = { "vim" }
             },
 
             indent = {

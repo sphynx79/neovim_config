@@ -37,7 +37,7 @@ local modules = {
 
     --{{{ LSP
         "lspconfig",
-        "neodev",
+        "lazydev",
         "floating-tag-preview",
         "lsp-smag",
         "dd",
@@ -48,9 +48,10 @@ local modules = {
 
 
     --{{{ COMPLETION
-        "luasnip",
-        "cmp",
-        "cmp-cmdline",
+        -- "luasnip",
+        -- "cmp",
+        -- "cmp-cmdline",
+        "blink",
         "autopair",
     --}}} COMPLETION
 
@@ -58,6 +59,7 @@ local modules = {
         "dap",
         "dap-virtual-text",
         "dap-telescope",
+        -- "one-small-step-for-vimkind",
     --}}} DEBUG
 
     --{{{ LANGUAGE
