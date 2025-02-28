@@ -56,7 +56,7 @@ M.configs = {
                 end
             },
             completion = {
-                keyword_length = 2,
+                keyword_length = 3,
                 completeopt = "menu,menuone,noinsert"
             },
             formatting = {
@@ -69,29 +69,7 @@ M.configs = {
                     return vim_item
                 end,
             },
-            -- formatting = {
-            --     format = function(entry, vim_item)
-            --         local icons = require("config.lsp-kind").icons
-            --         vim_item.kind = icons[vim_item.kind]
-            --         vim_item.menu = ({
-            --           nvim_lsp = "[LSP]",
-            --           emoji = "[Emoji]",
-            --           path = "[Path]",
-            --           calc = "[Calc]",
-            --           cmp_tabnine = "[Tabnine]",
-            --           vsnip = "[Snippet]",
-            --           luasnip = "[Snippet]",
-            --           buffer = "[Buffer]",
-            --           nvim_lua = "[Lua]",
-            --         })[entry.source.name]
-            --         vim_item.dup = ({
-            --           buffer = 1,
-            --           path = 1,
-            --           nvim_lsp = 0,
-            --         })[entry.source.name] or 0
-            --         return vim_item
-            --     end
-            -- },
+
             window = {
             -- completion = cmp.config.window.bordered(),
                 documentation = {
@@ -152,29 +130,29 @@ M.configs = {
                 }),
                 ["<Tab>"] = cmp.mapping({
                     c = function()
-                    if cmp.visible() then
-                        cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-                    else
-                        cmp.complete()
-                    end
+                        if cmp.visible() then
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+                        else
+                            cmp.complete()
+                        end
                     end,
                     i = function(fallback)
-                    if cmp.visible() then
-                        cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-                    elseif luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
-                    elseif has_words_before() then
-                        cmp.complete()
-                    else
-                        fallback()
-                    end
+                        if cmp.visible() then
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+                        elseif luasnip.expand_or_jumpable() then
+                            luasnip.expand_or_jump()
+                        elseif has_words_before() then
+                            cmp.complete()
+                        else
+                            fallback()
+                        end
                     end,
                     s = function(fallback)
-                    if luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
-                    else
-                        fallback()
-                    end
+                        if luasnip.expand_or_jumpable() then
+                            luasnip.expand_or_jump()
+                        else
+                            fallback()
+                        end
                     end,
                 }),
                 ["<S-Tab>"] = cmp.mapping({
@@ -215,7 +193,7 @@ M.configs = {
                     max_item_count = 3,
 
                 },
-                { name = "nvim_lua", max_item_count = 5 },
+                { name = "lazydev", max_item_count = 5, group_index = 0 },
                 { name = "path", priority = 80, max_item_count = 3 },
                 -- { name = 'nvim_lsp_signature_help' },
                 { max_item_count = 10 }
@@ -248,7 +226,7 @@ M.configs = {
             sources = cmp.config.sources(
             {{ name = "path", max_item_count = 6 },},
             {{ name = "cmdline", max_item_count = 12 },},
-            {{ name = "nvim_lua", max_item_count = 9 }}
+            {{ name = "lazydev", max_item_count = 9 }}
             ),
         })
 
@@ -268,9 +246,9 @@ M.keybindings = function()
     local is_enabled = true
 
     local toggle_cmp = function()
-    is_enabled = not is_enabled
-    cmp.setup({ enabled = is_enabled })
-    print('CMP ' .. (is_enabled and 'ON' or 'OFF'))
+        is_enabled = not is_enabled
+        cmp.setup({ enabled = is_enabled })
+        print('CMP ' .. (is_enabled and 'ON' or 'OFF'))
     end
 
     vim.keymap.set('n', '<localleader>ct', toggle_cmp, { desc = 'Toggle autocompletamento' })
@@ -278,3 +256,4 @@ end
 
 
 return M
+

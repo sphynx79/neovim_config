@@ -310,63 +310,47 @@ M.configs = {
 
         local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
         local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
-        local neodev_present, neodev = pcall(require, "neodev")
-        if neodev_present then
 
-            neodev.setup({
-                -- add any options here, or leave empty to use the default settings
-                library = {
-                    enabled = true,
-                    runtime = true,
-                    types = true,
-                    plugins = true
+        local luadev_conf = {
+                capabilities = capabilities,
+                on_attach = lsp_on_attach,
+                cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+                autostart = true;
+                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                handlers = {
+                    ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
                 },
-                lspconfig = true
-            })
-
-            local luadev_conf = {
-                    capabilities = capabilities,
-                    on_attach = lsp_on_attach,
-                    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-                    autostart = true;
-                    flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
-                    handlers = {
-                        ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
-                    },
-                    settings = {
-                        Lua = {
-                            runtime = {
-                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                                version = 'LuaJIT',
-                                -- Setup your lua path
-                                path = vim.split(package.path, ';')
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                            -- Setup your lua path
+                            path = vim.split(package.path, ';')
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = {'vim', 'nvim_config', 'sphynx'},
+                            disable = {"lowercase-global"}
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                            -- Make the server aware of Neovim runtime files
+                            library = {
+                                [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                                [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
                             },
-                            diagnostics = {
-                                -- Get the language server to recognize the `vim` global
-                                globals = {'vim', 'nvim_config'},
-                                disable = {"lowercase-global"}
-                            },
-                            workspace = {
-                                -- Make the server aware of Neovim runtime files
-                                library = {
-                                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-                                },
-                                -- adjust these two values if your performance is not optimal
-                                maxPreload = 2000,
-                                preloadFileSize = 1000
-                            },
-                            telemetry = {
-                                enable = false,
-                            },
-                        }
-                }
+                            -- adjust these two values if your performance is not optimal
+                            maxPreload = 2000,
+                            preloadFileSize = 1000
+                        },
+                        telemetry = {
+                            enable = false,
+                        },
+                    }
             }
-            nvim_lsp.lua_ls.setup(luadev_conf)
-        else
-            vim.notify("Installere neodev per usarlo con LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
-        end
-
+        }
+        nvim_lsp.lua_ls.setup(luadev_conf)
     end,
 }
 
