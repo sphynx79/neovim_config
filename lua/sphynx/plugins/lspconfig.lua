@@ -155,11 +155,20 @@ M.configs = {
                 },
             }
 
-            local cmp_nvim_lsp_present, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-            if cmp_nvim_lsp_present then
-                capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-            else
-                vim.notify("Installare cmp-nvim-lsp per autocompletamento LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
+            if sphynx.config.autocomplete == "cmp" then
+                local cmp_nvim_lsp_present, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+                if cmp_nvim_lsp_present then
+                    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+                else
+                    vim.notify("Installare cmp-nvim-lsp per autocompletamento LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
+                end
+            elseif sphynx.config.autocomplete == "blink" then
+                local blink_cmp_present, blink_cmp = pcall(require, "blink.cmp")
+                if blink_cmp_present then
+                    capabilities = blink_cmp.get_lsp_capabilities(capabilities)
+                else
+                    vim.notify("Installare blink.cmp per autocompletamento LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
+                end
             end
             return capabilities
         end
@@ -310,6 +319,7 @@ M.configs = {
 
         local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
         local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+
 
         local luadev_conf = {
                 capabilities = capabilities,
