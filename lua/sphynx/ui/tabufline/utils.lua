@@ -37,6 +37,7 @@ local function gen_unique_name(name, index)
   for i2, nr2 in ipairs(vim.t.bufs) do
     local filepath = filename(buf_name(nr2))
     if index ~= i2 and filepath == name then
+      -- return vim.fn.fnamemodify(buf_name(nr2), ":h:t") .. "/" .. name
       return vim.fn.fnamemodify(buf_name(nr2), ":h:t") .. "/" .. name
     end
   end
