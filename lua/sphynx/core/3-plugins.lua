@@ -24,7 +24,7 @@ local modules = {
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
         "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
         "heirline",             -- Ok - Statusline, Winbar
-        "indent-blankline",
+        "indent-blankline",     -- OK - Migliora indentazione mostrando linee visive
         "devicons",
         "smoothcursor",
         "bqf",
