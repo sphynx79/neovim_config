@@ -1,7 +1,13 @@
-{
-    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-    "Lua.diagnostics.disable": [
-        "unused-local",
-        "undefined-global"
-    ]
+{  
+    "diagnostics.globals": [  
+        "vim",  
+        "sphynx",
+        "describe",  
+        "it",  
+        "before_each",  
+        "after_each",  
+        "teardown",  
+        "pending"  
+    ],  
+    "runtime.version": "LuaJIT"
 }
