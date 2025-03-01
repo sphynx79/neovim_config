@@ -22,8 +22,8 @@ local modules = {
         "scrollview",           -- OK - Barra di scorrimento
         "pretty-fold",          -- OK - Migliora il testo visualizzato nel folding
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
-        "foldsigns",            -- ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
-        "heirline",
+        "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
+        "heirline",             -- Ok - Statusline, Winbar
         "indent-blankline",
         "devicons",
         "smoothcursor",
