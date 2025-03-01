@@ -175,8 +175,12 @@ M.configs = {
 
         -- Custom handlers diagnostic.
         local handlers_diagnostic = function()
-            vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                signs = {enable = true, priority = 20},
+            -- Nuova API: usa vim.diagnostic.config invece di vim.lsp.with
+            vim.diagnostic.config({
+                signs = {
+                    priority = 20,
+                    signs = false,
+                },
                 underline = true,
                 severity_sort = true,
                 update_in_insert = false,
@@ -187,7 +191,16 @@ M.configs = {
                 --   severity_limit = 'Warning',
                 -- },
             })
+
+            local signs = { Error = " ", Warn = " ", Hint = " ", Info = "" }
+            for type, icon in pairs(signs) do
+                local hl = "DiagnosticSign" .. type
+                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+            end
         end
+
+        -- Chiamalo nel tuo setup
+        handlers_diagnostic()
 
         local icons = require("sphynx.ui.icons")
         local sign_config_tbl = {
