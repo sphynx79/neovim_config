@@ -1,3 +1,49 @@
+--[[
+===============================================================================================
+Plugin: heirline.nvim
+===============================================================================================
+Description: Un plugin di statusline estremamente configurabile per Neovim che permette di
+             personalizzare completamente la statusline, winbar e altri elementi dell'UI.
+Status: Active
+Author: rebelot
+Repository: https://github.com/rebelot/heirline.nvim
+Notes:
+ - Caricamento lazy tramite condizione che verifica l'assenza di gonvim_running
+ - Configurazione della statusline con impostazione globale (laststatus = 3)
+ - Monitoraggio dello stato Git tramite fs_event/fs_poll in base al sistema operativo
+ - Visualizzazione completa di: modalità Vim, branch Git, percorso file, diagnostiche LSP
+ - Personalizzazione dei colori basata sul colorscheme attivo tramite sphynx.colors
+ - Supporto per finestre speciali (NvimTree, terminal, help, quickfix, ecc.)
+ - Winbar con nome file, icona, stato di modifica e pulsante di chiusura
+ - Disattivazione automatica della winbar per tipi di buffer specifici
+ - Gestione flessibile dello spazio disponibile con priorità di visualizzazione
+ - Aggiornamento dei colori automatico quando cambia il colorscheme
+
+Keymaps:
+ - Click sul client LSP → Apre LspInfo
+ - Click sulle diagnostiche → Apre Telescope diagnostics
+ - Click sul pulsante di chiusura → Chiude la finestra corrente
+
+Componenti principali:
+ - ViMode: Visualizza la modalità corrente di editing con colori dedicati
+ - GitBranch: Mostra il branch Git corrente con aggiornamento automatico
+ - FileNameBlock: Combinazione di icona, nome file e indicatori di modifica
+ - Diagnostics: Mostra conteggio di errori, warning, info e hint
+ - LspClient: Visualizza il client LSP attivo per il buffer corrente
+ - Path: Mostra il percorso del file con opzioni adattive
+ - ScrollBar: Indicatore grafico della posizione nel documento
+ - WinBar: Personalizzazione della barra superiore per ogni finestra
+
+TODO:
+ - [ ] Implementare visualizzazione del progresso LSP per operazioni lunghe
+ - [ ] Ottimizzare ulteriormente il monitoraggio Git per repository grandi
+ - [ ] Considerare l'utilizzo di statuscolumn per gutter numerazione e segni
+ - [ ] Aggiungere indicatore di stato per modalità Macro recording
+ - [ ] Valutare migliori strategie di caching per prestazioni in file grandi
+===============================================================================================
+--]]
+
+
 local M = {}
 
 M.plugins = {
