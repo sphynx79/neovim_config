@@ -17,7 +17,7 @@ function config.load()
             -- • terafox
             -- • carbonfox
         -- • onenord
-    colorscheme = "nordfox",
+    colorscheme = "terafox",
     -- Whether the background is transparent
     -- • boolean
     transparent_background = false,
