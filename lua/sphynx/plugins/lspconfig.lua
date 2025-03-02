@@ -27,6 +27,7 @@ M.setup = {
 
 M.configs = {
     ["lspconfig"] = function()
+        local utils = require("sphynx.utils")
         local configs = require "lspconfig.configs"
         local util = require('lspconfig/util')
         local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
@@ -142,34 +143,21 @@ M.configs = {
                     client.server_capabilities.documentFormattingProvider = false
                 end
 
-                -- Mostra diagnostica al passaggio del cursore
-                local diagnostic_group = vim.api.nvim_create_augroup("LspDiagnosticFloat", { clear = true })
-                vim.api.nvim_create_autocmd("CursorHold", {
-                    group = diagnostic_group,
-                    buffer = bufnr,
-                    callback = function()
-                    vim.diagnostic.open_float({
-                        focus = false,
-                        scope = "cursor",
-                        border = "rounded",
-                    })
-                    end,
-                })
-
-                -- inlay hint
-                if client.supports_method("textDocument/inlayHint", { bufnr = bufnr }) then
-                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                end
                 -- code lens
                 if client.supports_method("textDocument/codeLens", { bufnr = bufnr }) then
-                vim.lsp.codelens.refresh({ bufnr = bufnr })
-                vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-                group = augroup("lsp_codelens"),
-                buffer = bufnr,
-                callback = function()
-                        vim.lsp.codelens.refresh({ bufnr = bufnr })
-                end,
-                })
+                    vim.lsp.codelens.refresh({ bufnr = bufnr })
+                    utils.define_augroups {
+                        _CodeLens = {
+                            {
+                                event = { "BufEnter", "InsertLeave" },
+                                opts = {
+                                    pattern = "*",
+                                    buffer = bufnr,
+                                    callback = function() vim.lsp.codelens.refresh({ bufnr = bufnr }) end,
+                                },
+                            },
+                        }
+                    }
                 end
 
                 print(string.format("LSP '%s' attivo", client.name))
@@ -241,7 +229,6 @@ M.configs = {
             ts_ls = {
                 detached = false;
             },
-
 
             lua_ls = {
                 capabilities = custom_capabilities(),
@@ -366,7 +353,6 @@ M.keybindings = function()
     end
 
     -- Funzione per attivare/disattivare hints
-    local hints_enabled = true
     local function toggle_hints()
         local current_buf = vim.api.nvim_get_current_buf()
         local is_enabled = vim.lsp.inlay_hint.is_enabled({bufnr=current_buf})
