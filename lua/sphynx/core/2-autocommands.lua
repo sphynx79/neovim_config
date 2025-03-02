@@ -69,16 +69,6 @@ utils.define_augroups {
             },
         },
     },
-    _treesitter = {
-        {
-            event = "FileType",
-            opts = {
-                pattern = {"ruby", "lua", "html", "javascript"},
-                command = [[setlocal foldmethod=expr | setlocal foldexpr=nvim_treesitter#foldexpr()]],
-                desc = "Set treesitter foldmethod",
-            },
-        },
-    },
     _options = {
         {
             event = "BufWritePost",

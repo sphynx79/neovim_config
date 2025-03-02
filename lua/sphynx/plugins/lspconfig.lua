@@ -25,115 +25,13 @@ M.setup = {
     end
 }
 
-
 M.configs = {
     ["lspconfig"] = function()
-
-
-
-
-        -- Custom on attach function.
-        local lsp_on_attach = function(client, bufnr)
-            vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-
-            if vim.g.lsp_handlers_enabled then
-                vim.lsp.handlers["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = 'rounded'})
-                vim.lsp.handlers["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = 'rounded', min_width = 80, max_width = 180 })
-            end
-
-            -- if client.server_capabilities.inlayHintProvider then
-            --     vim.notify("Inlay hint abilitato")
-            --     vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
-            -- end
-
-
-            -- DECOMMENTARE LE SEGUENTI LINEE PER USARE RUBY-LSP
-            -- _timers = {}
-            -- local function setup_diagnostics(client, buffer)
-            -- if require("vim.lsp.diagnostic")._enable then
-            --     return
-            -- end
-
-            -- local diagnostic_handler = function()
-            --     local params = vim.lsp.util.make_text_document_params(buffer)
-            --     client.request("textDocument/diagnostic", { textDocument = params }, function(err, result)
-            --     if err then
-            --         local err_msg = string.format("diagnostics error - %s", vim.inspect(err))
-            --         vim.lsp.log.error(err_msg)
-            --     end
-            --     local diagnostic_items = {}
-            --     if result then
-            --         diagnostic_items = result.items
-            --     end
-            --     vim.lsp.diagnostic.on_publish_diagnostics(
-            --         nil,
-            --         vim.tbl_extend("keep", params, { diagnostics = diagnostic_items }),
-            --         { client_id = client.id }
-            --     )
-            --     end)
-            -- end
-
-            -- diagnostic_handler() -- to request diagnostics on buffer when first attaching
-
-            -- vim.api.nvim_buf_attach(buffer, false, {
-            --     on_lines = function()
-            --     if _timers[buffer] then
-            --         vim.fn.timer_stop(_timers[buffer])
-            --     end
-            --     _timers[buffer] = vim.fn.timer_start(200, diagnostic_handler)
-            --     end,
-            --     on_detach = function()
-            --     if _timers[buffer] then
-            --         vim.fn.timer_stop(_timers[buffer])
-            --     end
-            --     end,
-            -- })
-            -- end
-
-            -- -- adds ShowRubyDeps command to show dependencies in the quickfix list.
-            -- -- add the `all` argument to show indirect dependencies as well
-            -- local function add_ruby_deps_command(client, bufnr)
-            --     vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps",
-            --                                         function(opts)
-
-            --         local params = vim.lsp.util.make_text_document_params()
-
-            --         local showAll = opts.args == "all"
-
-            --         client.request("rubyLsp/workspace/dependencies", params,
-            --                         function(error, result)
-            --             if error then
-            --                 print("Error showing deps: " .. error)
-            --                 return
-            --             end
-
-            --             local qf_list = {}
-            --             for _, item in ipairs(result) do
-            --                 if showAll or item.dependency then
-            --                     table.insert(qf_list, {
-            --                         text = string.format("%s (%s) - %s",
-            --                                             item.name,
-            --                                             item.version,
-            --                                             item.dependency),
-
-            --                         filename = item.path
-            --                     })
-            --                 end
-            --             end
-
-            --             vim.fn.setqflist(qf_list)
-            --             vim.cmd('copen')
-            --         end, bufnr)
-            --     end, {nargs = "?", complete = function()
-            --         return {"all"}
-            --     end})
-            -- end
-
-            -- setup_diagnostics(client, bufnr)
-            -- add_ruby_deps_command(client, bufnr)
-
-            -- vim.notify("LSP Avviato")
-        end
+        local configs = require "lspconfig.configs"
+        local util = require('lspconfig/util')
+        local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
+        local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+        configs["ahk2"] = { default_config = {} }
 
         -- Custom capabilities.
         local custom_capabilities = function()
@@ -175,167 +73,178 @@ M.configs = {
 
         -- Custom handlers diagnostic.
         local handlers_diagnostic = function()
+            local icons = require("sphynx.ui.icons")
+            local sign_config_tbl = {
+                active = true, -- Attiva o disattiva i segni
+                priority = 10, -- Priorità per i segni (più alto = più prioritario)
+                text = {},
+                texthl = {},
+                numhl = {},
+            }
+
+            for tpe, icon in pairs(icons.diagnostics) do
+                local hl = "DiagnosticSign" .. tpe
+                sign_config_tbl.text[vim.diagnostic.severity[string.upper(tpe)]] = icon
+                sign_config_tbl.texthl[vim.diagnostic.severity[string.upper(tpe)]] = hl
+                sign_config_tbl.numhl[vim.diagnostic.severity[string.upper(tpe)]] = hl
+            end
             -- Nuova API: usa vim.diagnostic.config invece di vim.lsp.with
             vim.diagnostic.config({
-                signs = {
-                    priority = 20,
-                    signs = false,
-                },
+                signs = sign_config_tbl,
                 underline = true,
                 severity_sort = true,
                 update_in_insert = false,
-                virtual_text = { prefix = "●", source = "always" },
-                -- virtual_text = {
-                --   spacing = 4,
-                --   prefix = '~',
-                --   severity_limit = 'Warning',
-                -- },
+                virtual_text = {
+                    prefix = "●",
+                    spacing = 4,
+                    source = "if_many",
+                    severity_limit = 'Warning'
+                },
+                -- Finestra fluttuante per diagnostica dettagliata
+                float = {
+                    source = "always", -- Mostra sempre la fonte nella finestra fluttuante
+                    border = "rounded", -- Tipo di bordo (rounded, single, double, etc.)
+                    header = "", -- Intestazione della finestra (vuoto = nessuna)
+                    prefix = "", -- Prefisso per ogni riga nella finestra
+                    title = "Diagnostica", -- Titolo della finestra fluttuante
+                    title_pos = "center", -- Posizione del titolo (left, center, right)
+                    focusable = false, -- Se la finestra può prendere il focus
+                    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                    scope = "cursor", -- Scope della diagnostica (line, cursor, buffer)
+                    max_width = 80, -- Larghezza massima
+                    max_height = 20, -- Altezza massima
+                    -- format = function(diagnostic) -- Funzione opzionale per formattare la diagnostica
+                    --   local code = diagnostic.code or (diagnostic.user_data and diagnostic.user_data.lsp.code)
+                    --   local code_str = code and string.format(" [%s]", code) or ""
+                    --   local severity = vim.diagnostic.severity[diagnostic.severity]
+                    --   return string.format("%s%s: %s", severity:sub(1, 1), code_str, diagnostic.message)
+                    -- end,
+                },
             })
-
-            local signs = { Error = " ", Warn = " ", Hint = " ", Info = "" }
-            for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-            end
         end
 
-        -- Chiamalo nel tuo setup
-        handlers_diagnostic()
+        local shared_settings = {
+            capabilities = custom_capabilities(),
 
-        local icons = require("sphynx.ui.icons")
-        local sign_config_tbl = {
-            text = {},
-            texthl = {},
-        }
-
-        for tpe, icon in pairs(icons.diagnostics) do
-            local hl = "DiagnosticSign" .. tpe
-            sign_config_tbl.text[vim.diagnostic.severity[string.upper(tpe)]] = icon
-            sign_config_tbl.texthl[vim.diagnostic.severity[string.upper(tpe)]] = "DiagnosticSign" .. tpe
-        end
-
-        vim.diagnostic.config({ signs = sign_config_tbl })
-
-        local nvim_lsp = require('lspconfig')
-        local util = require('lspconfig/util')
-        local capabilities = custom_capabilities()
-
-
-        nvim_lsp.solargraph.setup {
-            capabilities = capabilities,
-            cmd = {"bundle.bat", "exec", "solargraph", "stdio"},
-            autostart = false;
-            -- cmd = { "solargraph.bat", "stdio" },
-            on_attach = lsp_on_attach,
-            flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
-            root_dir = util.root_pattern("Gemfile", ".git"),
-            filetypes = {"ruby"},
-            settings = {
-                solargraph = {
-                    completion  = true,
-                    definitions = true,
-                    references = true,
-                    hover = true,
-                    diagnostics = true,
-                    autoformat = false,
-                    formatting = false,
-                    folding = false,
-                    useBundler = false
-                }
-            },
             handlers = {
                 ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
-            }
-        }
-
-        -- nvim_lsp.ruby_lsp.setup {
-        --     capabilities = capabilities,
-        --     autostart = true;
-        --     on_attach = lsp_on_attach,
-        --     flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
-        --     handlers = {
-        --         ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
-        --     }
-        -- }
-
-        nvim_lsp.vimls.setup {
-            capabilities = capabilities,
-            on_attach = lsp_on_attach,
-            detached = false;
-            flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
-            handlers = {
-                ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
-            }
-        }
-
-        nvim_lsp.html.setup {
-            capabilities = capabilities,
-            on_attach = lsp_on_attach,
-            detached = false;
-            flags = {debounce_did_change_notify = 150},
-            cmd = {'vscode-html-language-server.cmd', '--stdio'},
-            filetypes = {'eruby', 'html'},
-            handlers = {
-                ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
-            }
-        }
-
-        nvim_lsp.nimls.setup {
-            capabilities = capabilities,
-            detached = false;
-            cmd = { "cmd", "/c", "nimlsp.cmd" },
-            on_attach = lsp_on_attach,
-        }
-
-        nvim_lsp.ts_ls.setup {
-            capabilities = capabilities,
-            detached = false;
-            on_attach = lsp_on_attach,
-        }
-
-        local ahk2_configs = {
-            autostart = true,
-            cmd = {
-                "node",
-                vim.fn.expand("C:/Users/en27553/AppData/Local/nvim-data/lsp/vscode-autohotkey2-lsp/server/dist/server.js"),
-                "--stdio"
             },
-            filetypes = { "ahk", "autohotkey", "ah2" },
-            init_options = {
-                locale = "en-us",
-                InterpreterPath = "C:/APPL/AutoHotkey/v2/AutoHotkey64.exe",
-                -- InterpreterPath = "C:/APPL/AutoHotkey/AutoHotkey.exe",
-                -- Same as initializationOptions for Sublime Text4, convert json literal to lua dictionary literal
-            },
-            single_file_support = true,
-            flags = { debounce_text_changes = 500 },
-            capabilities = capabilities,
-            on_attach = lsp_on_attach,
+
+            flags = {
+                debounce_text_changes = 150,
+             },
+
+            on_attach = function(client, bufnr)
+                vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+
+                -- Disabilita il formatter incorporato per alcuni client
+                if client.name == "tsserver" then
+                    client.server_capabilities.documentFormattingProvider = false
+                end
+
+                -- Mostra diagnostica al passaggio del cursore
+                local diagnostic_group = vim.api.nvim_create_augroup("LspDiagnosticFloat", { clear = true })
+                vim.api.nvim_create_autocmd("CursorHold", {
+                    group = diagnostic_group,
+                    buffer = bufnr,
+                    callback = function()
+                    vim.diagnostic.open_float({
+                        focus = false,
+                        scope = "cursor",
+                        border = "rounded",
+                    })
+                    end,
+                })
+
+                -- inlay hint
+                if client.supports_method("textDocument/inlayHint", { bufnr = bufnr }) then
+                vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                end
+                -- code lens
+                if client.supports_method("textDocument/codeLens", { bufnr = bufnr }) then
+                vim.lsp.codelens.refresh({ bufnr = bufnr })
+                vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+                group = augroup("lsp_codelens"),
+                buffer = bufnr,
+                callback = function()
+                        vim.lsp.codelens.refresh({ bufnr = bufnr })
+                end,
+                })
+                end
+
+                print(string.format("LSP '%s' attivo", client.name))
+            end,
+
         }
-        local configs = require "lspconfig.configs"
-        configs["ahk2"] = { default_config = ahk2_configs }
-        nvim_lsp.ahk2.setup({
-            settings = {
-                solargraph = {
-                    completion  = true,
-                    definitions = true,
-                    references = true,
-                    hover = true,
-                    diagnostics = false,
-                    autoformat = false,
-                    formatting = false,
-                    folding = true,
-                }
+
+        local servers = {
+
+            solargraph = {
+                -- Configurazione specifica per solargraph
+                cmd = {"bundle.bat", "exec", "solargraph", "stdio"},
+                autostart = false;
+                -- cmd = { "solargraph.bat", "stdio" },
+                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                root_dir = util.root_pattern("Gemfile", ".git"),
+                filetypes = {"ruby", "rakefile", "rb", "erb"},
+                settings = {
+                    solargraph = {
+                        completion  = true,
+                        definitions = true,
+                        references = true,
+                        hover = true,
+                        diagnostics = true,
+                        autoformat = false,
+                        formatting = false,
+                        folding = false,
+                        useBundler = false
+                    }
+                },
             },
-        })
+
+            vimls = {
+                detached = false,
+                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                -- Configurazione specifica per vimls
+                init_options = {
+                        iskeyword = "@,48-57,_,192-255,-#",
+                        vimruntime = "",
+                        runtimepath = "",
+                        diagnostic = {
+                        enable = true,
+                    },
+                    indexes = {
+                        runtimepath = true,
+                        gap = 100,
+                        count = 3,
+                        projectRootPatterns = { "runtime", "nvim", ".git", "autoload", "plugin" },
+                    },
+                    suggest = {
+                        fromRuntimepath = true,
+                        fromVimruntime = true
+                    },
+                },
+            },
+
+            nimls = {
+                detached = false,
+                cmd = { "cmd", "/c", "nimlsp.cmd" },
+            },
+
+            html = {
+                detached = false,
+                flags = {debounce_did_change_notify = 150},
+                cmd = {'vscode-html-language-server.cmd', '--stdio'},
+                filetypes = {'eruby', 'html'},
+            },
+
+            ts_ls = {
+                detached = false;
+            },
 
 
-        local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
-        local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
-
-
-        local luadev_conf = {
-                capabilities = capabilities,
+            lua_ls = {
+                capabilities = custom_capabilities(),
                 on_attach = lsp_on_attach,
                 cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
                 autostart = true;
@@ -354,7 +263,7 @@ M.configs = {
                         diagnostics = {
                             -- Get the language server to recognize the `vim` global
                             globals = {'vim', 'nvim_config', 'sphynx'},
-                            disable = {"lowercase-global"}
+                            disable = {'lowercase-global', 'missing-fields' }
                         },
                         workspace = {
                             checkThirdParty = false,
@@ -371,9 +280,60 @@ M.configs = {
                             enable = false,
                         },
                     }
+                }
+            },
+
+            ahk2 = {
+                autostart = true,
+                cmd = {
+                    "node",
+                    vim.fn.expand("C:/Users/en27553/AppData/Local/nvim-data/lsp/vscode-autohotkey2-lsp/server/dist/server.js"),
+                    "--stdio"
+                },
+                filetypes = { "ahk", "autohotkey", "ah2" },
+                init_options = {
+                    locale = "en-us",
+                    InterpreterPath = "C:/APPL/AutoHotkey/v2/AutoHotkey64.exe",
+                    -- InterpreterPath = "C:/APPL/AutoHotkey/AutoHotkey.exe",
+                    -- Same as initializationOptions for Sublime Text4, convert json literal to lua dictionary literal
+                },
+                single_file_support = true,
+                flags = { debounce_text_changes = 500 },
             }
+
         }
-        nvim_lsp.lua_ls.setup(luadev_conf)
+
+        -- Configura ogni server
+        local lspconfig = require('lspconfig')
+        for server_name, server_config in pairs(servers) do
+            -- Unisci configurazioni condivise e specifiche
+            local config = vim.tbl_deep_extend("force", shared_settings, server_config)
+
+            -- Funzione di setup per callback aggiuntivi specifici del server
+            config.on_setup = server_config.on_setup
+
+            -- Salva la funzione on_attach originale
+            local original_on_attach = config.on_attach
+
+            -- Sovrascrivi on_attach per combinare generale e specifico
+            if server_config.on_attach then
+                config.on_attach = function(client, bufnr)
+                    original_on_attach(client, bufnr)
+                    server_config.on_attach(client, bufnr)
+                end
+            end
+
+            -- Rimuovi la funzione on_setup dalla configurazione LSP
+            config.on_setup = nil
+
+            -- Configura il server
+            lspconfig[server_name].setup(config)
+
+            -- Esegui callback personalizzati dopo il setup (se presenti)
+            if server_config.on_setup then
+                server_config.on_setup(lspconfig[server_name])
+            end
+        end
     end,
 }
 
@@ -382,12 +342,153 @@ M.keybindings = function()
     local wk = require("which-key")
     local prefix = "<leader>l"
 
+    -- Funzione per attivare/disattivare il testo virtuale
+    local virtual_text_enabled = true
+    local function toggle_virtual_text()
+        virtual_text_enabled = not virtual_text_enabled
+        vim.diagnostic.config({
+            virtual_text = virtual_text_enabled and {
+            prefix = '●',
+            source = "if_many",
+            } or false,
+        })
+        print("Virtual Text: " .. (virtual_text_enabled and "ON" or "OFF"))
+    end
+
+    -- Funzione per attivare/disattivare i segni
+    local signs_enabled = true
+    local function toggle_signs()
+        signs_enabled = not signs_enabled
+        vim.diagnostic.config({
+            signs = signs_enabled
+        })
+        print("Diagnostic Signs: " .. (signs_enabled and "ON" or "OFF"))
+    end
+
+    -- Funzione per attivare/disattivare hints
+    local hints_enabled = true
+    local function toggle_hints()
+        local current_buf = vim.api.nvim_get_current_buf()
+        local is_enabled = vim.lsp.inlay_hint.is_enabled({bufnr=current_buf})
+        vim.lsp.inlay_hint.enable(not is_enabled, { bufnr = current_buf })
+
+        print("Inlay Hints: " .. (not is_enabled and "ON" or "OFF"))
+    end
+
     wk.add({
         { prefix, group = "󰁨 LSP" },
-        { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "go definiton" },
-        { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "hover doc" },
+        { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go definiton" },
+        { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "Hover doc" },
+        { prefix .. "e", "<Cmd>lua vim.diagnostic.open_float()<CR>", desc = "Apri diagnostica flottante" },
+        { prefix .. "v", toggle_virtual_text, desc = "Toggle diagnostic virtual text" },
+        { prefix .. "s", toggle_signs, desc = "Toggle diagnostic signs" },
+        { prefix .. "i", toggle_hints, desc = "Toggle Inlay Hints" },
     }, mapping.opt_mappping)
 
 end
 
 return M
+
+-- nvim_lsp.ruby_lsp.setup {
+--     capabilities = capabilities,
+--     autostart = true;
+--     on_attach = lsp_on_attach,
+--     flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+--     handlers = {
+--         ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
+--     }
+-- }
+
+
+
+
+-- if client.server_capabilities.inlayHintProvider then
+--     vim.notify("Inlay hint abilitato")
+--     vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
+-- end
+
+
+-- DECOMMENTARE LE SEGUENTI LINEE PER USARE RUBY-LSP
+-- _timers = {}
+-- local function setup_diagnostics(client, buffer)
+-- if require("vim.lsp.diagnostic")._enable then
+--     return
+-- end
+
+-- local diagnostic_handler = function()
+--     local params = vim.lsp.util.make_text_document_params(buffer)
+--     client.request("textDocument/diagnostic", { textDocument = params }, function(err, result)
+--     if err then
+--         local err_msg = string.format("diagnostics error - %s", vim.inspect(err))
+--         vim.lsp.log.error(err_msg)
+--     end
+--     local diagnostic_items = {}
+--     if result then
+--         diagnostic_items = result.items
+--     end
+--     vim.lsp.diagnostic.on_publish_diagnostics(
+--         nil,
+--         vim.tbl_extend("keep", params, { diagnostics = diagnostic_items }),
+--         { client_id = client.id }
+--     )
+--     end)
+-- end
+
+-- diagnostic_handler() -- to request diagnostics on buffer when first attaching
+
+-- vim.api.nvim_buf_attach(buffer, false, {
+--     on_lines = function()
+--     if _timers[buffer] then
+--         vim.fn.timer_stop(_timers[buffer])
+--     end
+--     _timers[buffer] = vim.fn.timer_start(200, diagnostic_handler)
+--     end,
+--     on_detach = function()
+--     if _timers[buffer] then
+--         vim.fn.timer_stop(_timers[buffer])
+--     end
+--     end,
+-- })
+-- end
+
+-- -- adds ShowRubyDeps command to show dependencies in the quickfix list.
+-- -- add the `all` argument to show indirect dependencies as well
+-- local function add_ruby_deps_command(client, bufnr)
+--     vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps",
+--                                         function(opts)
+
+--         local params = vim.lsp.util.make_text_document_params()
+
+--         local showAll = opts.args == "all"
+
+--         client.request("rubyLsp/workspace/dependencies", params,
+--                         function(error, result)
+--             if error then
+--                 print("Error showing deps: " .. error)
+--                 return
+--             end
+
+--             local qf_list = {}
+--             for _, item in ipairs(result) do
+--                 if showAll or item.dependency then
+--                     table.insert(qf_list, {
+--                         text = string.format("%s (%s) - %s",
+--                                             item.name,
+--                                             item.version,
+--                                             item.dependency),
+
+--                         filename = item.path
+--                     })
+--                 end
+--             end
+
+--             vim.fn.setqflist(qf_list)
+--             vim.cmd('copen')
+--         end, bufnr)
+--     end, {nargs = "?", complete = function()
+--         return {"all"}
+--     end})
+-- end
+
+-- setup_diagnostics(client, bufnr)
+-- add_ruby_deps_command(client, bufnr)
