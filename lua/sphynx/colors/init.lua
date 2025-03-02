@@ -19,11 +19,8 @@ colors.get_color = function(colorscheme)
         vim.notify("Couldn't load colorscheme: " .. current_theme, vim.log.levels.ERROR)
         return require("sphynx.colors.palette.nightfox").colors  -- fallback sicuro
     end
-    
+
     return palette.colors
 end
 
 return colors
-
-
-

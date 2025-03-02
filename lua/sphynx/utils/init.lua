@@ -66,7 +66,7 @@
   end
 
   function utils.define_augroups(definitions)
-    -- Create autocommand groups basedsphynx.path on the passed definitions
+    -- Create autocommand groups
     for group_name, definition in pairs(definitions) do
       vim.api.nvim_create_augroup(group_name, {clear = true})
 

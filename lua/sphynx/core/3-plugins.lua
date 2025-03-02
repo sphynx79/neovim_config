@@ -25,7 +25,7 @@ local modules = {
         "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
         "heirline",             -- Ok - Statusline, Winbar
         "indent-blankline",     -- OK - Migliora indentazione mostrando linee visive
-        "devicons",
+        "devicons",             -- OK - Aggiunge icone colorate per i file
         "smoothcursor",
         "bqf",
         "smoothcursor",

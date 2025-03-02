@@ -1,3 +1,46 @@
+--[[
+===============================================================================================
+Plugin: nvim-web-devicons
+===============================================================================================
+Description: Aggiunge icone colorate per i file in Neovim, supportando vari tipi di file
+             e permettendo personalizzazioni avanzate di colori e simboli.
+Status: Active
+Author: kyazdani42
+Repository: https://github.com/kyazdani42/nvim-web-devicons
+Notes:
+ - Utilizza i colori definiti nel tema corrente tramite `require("sphynx.colors").get_color()`
+ - Configura override personalizzati per oltre 70 tipi di file comuni
+ - Supporta icone specifiche per file di configurazione popolari (.env, package.json, ecc.)
+ - Aggiunge icone speciali per file di test (test.js, spec.ts, ecc.)
+ - Include icone per file multimediali (png, jpg, mp3, mp4)
+ - Personalizza icone per file di configurazione di strumenti di sviluppo (Docker, Prettier, ecc.)
+ - Icone dedicate per file di build e dependency management (yarn.lock, .nvmrc, ecc.)
+ - Supporto per linguaggi di programmazione comuni con icone rappresentative (Lua, Python, JS, TS)
+
+Personalizzazioni notevoli:
+ - HTML: "" in colore arancione
+ - CSS/SCSS/SASS: "" in colore blu/rosa
+ - JavaScript: "" in colore giallo
+ - TypeScript: "ﯤ" in colore blu
+ - Python: "" in colore arancione
+ - Lua: "" in colore blu
+ - Markdown: "" in colore magenta
+ - File di configurazione Git: "" in colore arancione
+ - File Docker: "" in colore blu
+ - Package.json: "" in colore rosso
+
+Configurazione:
+ - Le icone sono usate in vari componenti UI come NvimTree, Telescope, bufferline, ecc.
+ - L'opzione `default = true` permette l'uso delle icone predefinite per file non esplicitamente definiti
+
+TODO:
+ - [ ] Aggiungere icone per altri linguaggi di programmazione (Rust, Go, ecc.)
+ - [ ] Personalizzare icone per file di configurazione CI/CD (GitHub Actions, GitLab CI)
+ - [ ] Valutare l'uso di font più moderni per alcune icone
+ - [ ] Aggiungere override per formati di documentazione (pdf, docx, ecc.)
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -6,10 +49,10 @@ M.plugins = {
     },
 }
 
-
 M.configs = {
     ["nvim-web-devicons"] = function()
         local colors = require("sphynx.colors").get_color()
+
         require("nvim-web-devicons").setup {
             override = {
                 html = {
