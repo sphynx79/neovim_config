@@ -315,6 +315,8 @@ local utils = require("sphynx.utils")
         -- setto il default foldlevel quando apro un file
         -- TODO: vedere se serve lasciarlo o toglierlo
         vim.opt.foldlevel = 1
+        vim.opt.foldexpr = "v:lua.require'sphynx.utils.folding'.foldexpr()"
+        vim.opt.foldmethod = "expr"
     --}}} Folding
 
     --{{{ Visualizzazione
@@ -487,6 +489,8 @@ local utils = require("sphynx.utils")
     vim.opt.splitkeep = "screen"
 
     vim.g.editorconfig = false
+
+    vim.opt.smoothscroll = true
 
     -- uso il plugin Filetype.nvim per velocizzare avvio @perfermance
     -- vim.g.did_load_filetypes = 1

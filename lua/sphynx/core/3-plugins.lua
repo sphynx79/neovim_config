@@ -127,7 +127,6 @@ local function setup_lazy()
         if vim.api.nvim_get_vvar "shell_error" ~= 0 then
             vim.api.nvim_err_writeln("Error cloning lazy.nvim repository...\n\n" .. output)
         end
-        local oldcmdheight = vim.opt.cmdheight:get()
         vim.opt.cmdheight = 1
         vim.cmd "redraw"
         vim.api.nvim_echo({ { "  Please wait while plugins are installed...", "Bold" } }, true, {})
