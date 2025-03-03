@@ -26,7 +26,7 @@ local modules = {
         "heirline",             -- Ok - Statusline, Winbar
         "indent-blankline",     -- OK - Migliora indentazione mostrando linee visive
         "devicons",             -- OK - Aggiunge icone colorate per i file
-        "smoothcursor",
+        "smoothcursor",         -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
         "bqf",
         "smoothcursor",
     --}}} UI
