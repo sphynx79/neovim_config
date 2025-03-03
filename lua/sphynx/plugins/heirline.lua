@@ -769,7 +769,6 @@ M.configs = {
                 },
             },
         })
-        -- vim.o.statuscolumn = require("heirline").eval_statuscolumn()
 
 
         vim.api.nvim_create_augroup("Heirline", { clear = true })
