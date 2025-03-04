@@ -82,7 +82,6 @@ M.close_buffer = function(bufnr)
   vim.cmd "redrawtabline"
 end
 
--- closes tab + all of its buffers
 M.closeAllBufs = function(include_cur_buf)
   local bufs = vim.t.bufs
 
@@ -95,7 +94,6 @@ M.closeAllBufs = function(include_cur_buf)
   end
 end
 
--- closes all other buffers right or left
 M.closeBufs_at_direction = function(x)
   local buf_i = buf_index(cur_buf())
 
