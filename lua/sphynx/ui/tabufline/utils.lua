@@ -1,6 +1,5 @@
 local M = {}
 local api = vim.api
-local fn = vim.fn
 local get_opt = api.nvim_get_option_value
 local strep = string.rep
 local cur_buf = api.nvim_get_current_buf

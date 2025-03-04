@@ -103,15 +103,15 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	local prefix = "<leader>g"
-		
+    local wk = require("which-key")
+    local prefix = "<leader>g"
+
     wk.add({
-		{ prefix, group = " Glance" },
-		{ prefix .. "d", "<Cmd>lua require('glance').open(\"definitions\")<CR>", desc = "definition" },
-		{ prefix .. "i", "<Cmd>lua require('glance').open(\"implementations\")<CR>", desc = "implementations" },
-		{ prefix .. "r", "<Cmd>lua require('glance').open(\"references\")<CR>", desc = "references" },
-		{ prefix .. "t", "<Cmd>lua require('glance').open(\"type_definitions\")<CR>", desc = "type_definitions" },
+        { prefix, group = " Glance" },
+        { prefix .. "d", "<Cmd>lua require('glance').open(\"definitions\")<CR>", desc = "definition" },
+        { prefix .. "i", "<Cmd>lua require('glance').open(\"implementations\")<CR>", desc = "implementations" },
+        { prefix .. "r", "<Cmd>lua require('glance').open(\"references\")<CR>", desc = "references" },
+        { prefix .. "t", "<Cmd>lua require('glance').open(\"type_definitions\")<CR>", desc = "type_definitions" },
     }, mapping.opt_mappping)
 end
 

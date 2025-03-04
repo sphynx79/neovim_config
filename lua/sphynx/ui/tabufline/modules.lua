@@ -11,6 +11,7 @@ local opts = sphynx.config.ui.tabufline
 
 local M = {}
 g.toggle_theme_icon = "   "
+g.TbTabsToggled = 0
 
 ------------------------------- btn actions functions -----------------------------------
 
@@ -79,8 +80,6 @@ M.buffers = function()
 
   return table.concat(buffers) .. txt("%=", "Fill") -- buffers + empty space
 end
-
-g.TbTabsToggled = 0
 
 M.tabs = function()
   local result, tabs = "", fn.tabpagenr "$"

@@ -10,7 +10,7 @@ M.plugins = {
 M.configs = {
     ["which_key"] = function()
         require('which-key').setup {
-            preset = "classic",
+            preset = "helix",
             debug = false,
             -- show a warning when issues were detected with your mappings
             notify = true,
@@ -30,6 +30,7 @@ M.configs = {
                 { "t", mode = "n" },
                 { "e", mode = "n" },
                 { "m", mode = "n" },
+                { "q", mode = "n" },
             },
             plugins = {
                 marks = false, -- shows a list of your marks on ' and `
@@ -70,6 +71,36 @@ M.configs = {
             disable = {
                 bt = {},
                 ft = { "TelescopePrompt" },
+            },
+            keys = {
+                Up = " ",
+                Down = " ",
+                Left = " ",
+                Right = " ",
+                C = "󰘴 ",
+                M = "󰘵 ",
+                D = "󰘳 ",
+                S = "󰘶 ",
+                CR = "󰌑 ",
+                Esc = "󱊷 ",
+                ScrollWheelDown = "󱕐 ",
+                ScrollWheelUp = "󱕑 ",
+                NL = "󰌑 ",
+                BS = "󰁮",
+                Space = "SPC",
+                Tab = "TAB",
+                F1 = "󱊫",
+                F2 = "󱊬",
+                F3 = "󱊭",
+                F4 = "󱊮",
+                F5 = "󱊯",
+                F6 = "󱊰",
+                F7 = "󱊱",
+                F8 = "󱊲",
+                F9 = "󱊳",
+                F10 = "󱊴",
+                F11 = "󱊵",
+                F12 = "󱊶",
             },
 
         }
