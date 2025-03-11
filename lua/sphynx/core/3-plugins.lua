@@ -31,7 +31,7 @@ local modules = {
     --}}} UI
 
     --{{{ MAPPING
-        "which-key",
+        "which-key",            -- OK - Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
     --}}} MAPPING
 
     --{{{ LSP

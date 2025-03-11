@@ -1,9 +1,60 @@
+--[[
+===============================================================================================
+Plugin: which-key.nvim
+===============================================================================================
+Description: Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
+             mentre digiti, aiutandoti a ricordare le tue mappature dei tasti in Neovim.
+Status: Active
+Author: folke
+Repository: https://github.com/folke/which-key.nvim
+Notes:
+ - Impostato con layout "helix" per un'interfaccia moderna
+ - Ritardo impostato a 500ms per evitare popup indesiderati durante la digitazione veloce
+ - Filtro per escludere mappature senza descrizione
+ - Trigger automatici in modalità normale, visual, operatore, selezione e terminale
+ - Trigger aggiuntivi per tasti singoli: w, b, t, e, m, q in modalità normale
+ - Plugin integrati disabilitati (marks, registers, spelling, presets)
+ - Finestra popup configurata con bordo "single" e non si sovrappone al cursore
+ - Layout centrato con spaziatura di 4 e larghezza minima di 20 caratteri
+ - Icone personalizzate per tasti speciali come Space → "SPC", Tab → "TAB"
+ - Icone per mappature disabilitate (mappings = false)
+
+Caratteristiche abilitate:
+ - Notifiche per problemi nelle mappature (notify = true)
+ - Finestra senza sovrapposizione al cursore (no_overlap = true)
+ - Visualizzazione centrata (align = "center")
+ - Tasti speciali con icone personalizzate (Space = "SPC", Tab = "TAB", ecc.)
+
+Caratteristiche disabilitate:
+ - Debug (debug = false)
+ - Plugin marks e registers
+ - Suggerimenti per spelling
+ - Preset per operators, motions, text_objects, windows, nav, z, g
+
+Da sapere:
+ - Viene caricato in lazy-loading con evento "VeryLazy"
+ - Viene nascosto nei tipi di file specificati in sphynx.config.excluded_filetypes
+
+Keymaps disponibili durante popup:
+ - <esc>   → Chiude il popup
+ - <bs>    → Torna al livello precedente
+ - <c-d>   → Scorre verso il basso
+ - <c-u>   → Scorre verso l'alto
+
+TODO:
+ - [ ] Valutare se attivare plugin integrati come marks o registers
+ - [ ] Considerare l'aggiunta del tasto leader come trigger (<leader>, mode = "nxsotv")
+ - [ ] Aggiungere opzioni di ordinamento (sort) e espansione (expand)
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
     ["which_key"] = {
         "folke/which-key.nvim",
         lazy = true,
+        event = "VeryLazy"
     },
 }
 
@@ -15,12 +66,12 @@ M.configs = {
             -- show a warning when issues were detected with your mappings
             notify = true,
             delay = function(ctx)
-                return ctx.plugin and 0 or 800
+                return ctx.plugin and 0 or 500
             end,
             filter = function(mapping)
                 -- example to exclude mappings without a description
                 -- -- return mapping.desc and mapping.desc ~= ""
-                return mapping.desc ~= ""
+                return mapping.desc and mapping.desc ~= ""
             end,
             triggers = {
                 { "<auto>", mode = "nxsot" },
@@ -52,6 +103,7 @@ M.configs = {
                 },
             },
             win = {
+                no_overlap = true,
                 row = -1,
                 border = "single",
                 padding = { 1, 2 },
@@ -63,14 +115,14 @@ M.configs = {
             },
             icons = {
                 breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-                separator = "", -- symbol used between a key and it's label
-                group = "+", -- symbol prepended to a group
+                separator = "",   -- symbol used between a key and it's label
+                group = "+",      -- symbol prepended to a group
                 ellipsis = "…",
                 mappings = false,
             },
             disable = {
                 bt = {},
-                ft = { "TelescopePrompt" },
+                ft = sphynx.config.excluded_filetypes,
             },
             keys = {
                 Up = " ",
