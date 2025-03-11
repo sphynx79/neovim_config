@@ -109,6 +109,7 @@ local modules = {
         "noice",
         "chatgpt",
         "grepper",
+        "nvim-pasta",
     -- --}}} MISC
 }
 

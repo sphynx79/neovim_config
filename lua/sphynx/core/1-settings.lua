@@ -297,6 +297,7 @@ local utils = require("sphynx.utils")
         -- Line break on 500 characters
         vim.opt.linebreak = true
         -- Insert indents automatically
+        vim.opt.autoindent = true
         vim.opt.smartindent = true
         -- Disable line wrap
         vim.opt.wrap = false
