@@ -286,7 +286,7 @@ M.configs = {
                     local buffer = vim.bo[self and self.bufnr or 0]
                     return string.upper(buffer.filetype)
                 end,
-                hl = { fg = "grey8" },
+                hl = { fg = "grey2" },
             },
         }
 
@@ -341,7 +341,7 @@ M.configs = {
                 return self.icon .. self.msg
             end,
 
-            hl = { fg = "bright_fg" },
+            hl = { fg = "grey2" },
 
             update = {'LspAttach', 'LspDetach', 'WinEnter'},
 
@@ -354,38 +354,6 @@ M.configs = {
             end,
             },
         }
-
-        -- local LspProgress = {
-
-        --     condition = conditions.lsp_attached,
-
-        --     static = {
-        --         msg = "no active lsp",
-        --         icon = " LSP: ",
-        --     },
-
-        --     init = function(self)
-        --         -- self.messages = vim.lsp.util.get_progress_messages()
-        --         self.buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        --         self.clients = vim.lsp.get_active_clients()
-        --     end,
-
-        --     provider = function(self)
-        --         if #self.messages == 0 then
-        --             return ""
-        --         end
-        --         local status = {}
-        --         for _, msg in pairs(self.messages) do
-        --             table.insert(status, " " .. (msg.percentage or 0) .. "%% " .. (msg.title or ""))
-        --         end
-        --         local spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-        --         local ms = vim.loop.hrtime() / 1000000
-        --         local frame = math.floor(ms / 120) % #spinners
-        --         return table.concat(status, " | ") .. " " .. spinners[frame + 1]
-        --     end,
-
-        --     hl = { fg = "bright_fg" },
-        -- }
 
         local Path =  {
             provider = function(self)
@@ -559,7 +527,7 @@ M.configs = {
         local StatusLines = {
             hl = function()
                 return {
-                    fg = "grey10",
+                    fg = "grey2",
                     bg = "bright_bg",
                 }
             end,
@@ -748,7 +716,7 @@ M.configs = {
                 -- Mappa i nomi dei colori che usi in Heirline ai tuoi colori personalizzati
                 colors = {
                     bright_bg = colors.grey13,
-                    bright_fg = colors.grey5,
+                    bright_fg = colors.grey1,
                     red = colors.red,
                     green = colors.green,
                     blue = colors.blue,
@@ -762,6 +730,7 @@ M.configs = {
                     bg = colors.bg,
                     bg1 = colors.bg1,
                     fg = colors.fg,
+                    grey2 = colors.grey2,
                     grey8 = colors.grey8,
                     grey10 = colors.grey10,
                     grey13 = colors.grey13,
@@ -780,7 +749,7 @@ M.configs = {
                 local updated_colors = require("sphynx.colors").get_color(args.match)
                 utils.on_colorscheme({
                     bright_bg = updated_colors.grey13,
-                    bright_fg = updated_colors.grey5,
+                    bright_fg = updated_colors.grey1,
                     red = updated_colors.red,
                     green = updated_colors.green,
                     blue = updated_colors.blue,
@@ -794,6 +763,7 @@ M.configs = {
                     bg = updated_colors.bg,
                     bg1 = updated_colors.bg1,
                     fg = updated_colors.fg,
+                    grey2 = colors.grey2,
                     grey8 = updated_colors.grey8,
                     grey10 = updated_colors.grey10,
                     grey13 = updated_colors.grey13,
