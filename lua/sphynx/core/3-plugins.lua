@@ -38,7 +38,7 @@ local modules = {
         "lspconfig",            -- OK - Configurazione del Language Server Protocol (LSP)
         "lazydev",              -- OK - Migliore esperienza di sviluppo Lua in Neovim
         "floating-tag-preview",
-        "lsp-smag",
+        "lsp-smag",             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
         "dd",
         "goto-preview",
         "glance",
