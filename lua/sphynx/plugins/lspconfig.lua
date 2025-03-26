@@ -190,6 +190,10 @@ M.configs = {
              },
 
             on_attach = function(client, bufnr)
+                if vim.bo[bufnr].buftype ~= "" or not vim.bo[bufnr].buflisted then
+                    -- è un buffer temporaneo, tipo preview → ignoriamo
+                    return
+                end
                 vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
                 -- Disabilita il formatter incorporato per alcuni client
@@ -214,7 +218,7 @@ M.configs = {
                     }
                 end
 
-                print(string.format("LSP '%s' attivo", client.name))
+                -- print(string.format("LSP '%s' attivo", client.name))
             end,
 
         }
@@ -228,6 +232,7 @@ M.configs = {
                 -- cmd = { "solargraph.bat", "stdio" },
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
                 root_dir = util.root_pattern("Gemfile", ".git"),
+                single_file_support = false,
                 filetypes = {"ruby", "rakefile", "rb", "erb"},
                 settings = {
                     solargraph = {
