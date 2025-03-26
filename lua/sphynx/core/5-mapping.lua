@@ -325,7 +325,6 @@ local mapping = {}
   require("which-key").add({
     { "t", group = " Tags" },
     { "t<Left>", "<C-T>", desc = "Go back from definition" },
-    { "t<Left>", "<C-T>", desc = "Go back from definition" },
     { "t<Right>", [[:tjump /<C-r>=expand("<cword>")<CR><CR>]], desc = "Jump to the definition" },
     { "tv", [[<CMD>vsp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition vsplit" },
     { "ts", [[<CMD>sp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition split" },

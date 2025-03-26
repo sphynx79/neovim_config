@@ -61,7 +61,6 @@ M.configs = {
                     auto_brackets = {
                         enabled = false,
                     },
-                    
                 },
 
                 list = {
