@@ -38,6 +38,7 @@ M.plugins = {
         "weilbith/nvim-lsp-smag",
         lazy = true,
         event = "LspAttach",
+        pin = true,
     },
 }
 
