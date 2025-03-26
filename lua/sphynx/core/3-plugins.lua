@@ -36,7 +36,7 @@ local modules = {
 
     --{{{ LSP
         "lspconfig",            -- OK - Configurazione del Language Server Protocol (LSP)
-        "lazydev",
+        "lazydev",              -- OK - Migliore esperienza di sviluppo Lua in Neovim
         "floating-tag-preview",
         "lsp-smag",
         "dd",
