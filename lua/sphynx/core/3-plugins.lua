@@ -35,7 +35,7 @@ local modules = {
     --}}} MAPPING
 
     --{{{ LSP
-        "lspconfig",
+        "lspconfig",            -- OK - Configurazione del Language Server Protocol (LSP)
         "lazydev",
         "floating-tag-preview",
         "lsp-smag",

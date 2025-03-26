@@ -1,3 +1,57 @@
+--[[
+===============================================================================================
+Plugin: lspconfig
+===============================================================================================
+Description: Configurazione del Language Server Protocol (LSP) per Neovim, che fornisce
+             funzionalità di IDE come completamento, diagnostica, definizioni e riferimenti.
+Status: Active
+Author: neovim
+Repository: https://github.com/neovim/nvim-lspconfig
+Notes:
+ - Configurato con impostazioni condivise per tutti i server LSP
+ - Integrazione con CMP o Blink per l'autocompletamento
+ - Diagnostica avanzata con icone e finestre di dialogo personalizzate
+ - Supporto per Code Lens con aggiornamento automatico
+ - Mappature personalizzate con integrazione which-key
+Server LSP attivi:
+ - solargraph: per Ruby, configurato con supporto Bundler
+ - vimls: per VimL, con indicizzazione e completamento avanzati
+ - nimls: per Nim, con configurazione base
+ - html: per HTML e ERB, con server da VS Code
+ - ts_ls: per TypeScript, con formattazione integrata disabilitata
+ - lua_ls: per Lua, con configurazione specifica per Neovim
+ - ahk2: per AutoHotkey v2, con percorso interprete personalizzato
+Caratteristiche abilitate:
+ - Completamento con supporto per snippet e documentazione
+ - Diagnostica in tempo reale con segni e testo virtuale
+ - Finestra di diagnostica fluttuante con formattazione personalizzata
+ - Code Lens con aggiornamento automatico
+Caratteristiche personalizzabili:
+ - Testo virtuale per diagnostica (attivabile/disattivabile)
+ - Segni di diagnostica (attivabili/disattivabili)
+ - Inlay hints (attivabili/disattivabili)
+Da sapere:
+ - Viene caricato in lazy-loading con specifici comandi e tipi di file
+ - Percorsi hardcoded per alcuni server (es. AutoHotkey)
+ - Supporto per più backend di completamento (cmp o blink)
+Keymaps disponibili:
+ - <leader>ld → Vai alla definizione
+ - <leader>lk → Mostra documentazione al passaggio del mouse
+ - <leader>le → Apri finestra diagnostica fluttuante
+ - <leader>lv → Attiva/disattiva testo virtuale diagnostica
+ - <leader>ls → Attiva/disattiva segni diagnostica
+ - <leader>li → Attiva/disattiva inlay hints
+TODO:
+ - [ ] Aggiungere keybinding per code actions (<leader>la)
+ - [ ] Aggiungere keybinding per riferimenti (<leader>lr)
+ - [ ] Evitare percorsi hardcoded per server come AutoHotkey
+ - [ ] Migliorare gestione errori per server non disponibili
+ - [ ] Espandere configurazione per TypeScript
+ - [ ] Aggiungere supporto per organizzazione import
+ - [ ] Ottimizzare performance con pattern di file specifici
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -232,7 +286,6 @@ M.configs = {
 
             lua_ls = {
                 capabilities = custom_capabilities(),
-                on_attach = lsp_on_attach,
                 cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
                 autostart = true;
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
