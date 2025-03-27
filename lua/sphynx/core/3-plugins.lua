@@ -39,7 +39,7 @@ local modules = {
         "lazydev",              -- OK - Migliore esperienza di sviluppo Lua in Neovim
         "floating-tag-preview", -- OK - Visualizza i tag in una floating window vicino al cursore
         "lsp-smag",             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
-        "dd",
+        "dd",                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
         "goto-preview",
         "glance",
         -- "lsp_signature",
