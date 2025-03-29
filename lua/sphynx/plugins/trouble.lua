@@ -208,18 +208,17 @@ M.configs = {
 }
 
 M.keybindings = function()
-    local mapping = require("sphynx.core.5-mapping")
-    require("which-key").register({
-        k = {
-            name = " Trouble",
-            t = {[[<Cmd>Trouble diagnostics toggle filter.buf=0<CR>]], "Buffer Diagnostics "},
-            w = {[[<Cmd>Trouble diagnostics toggle<cr>]], "workspace diagnostics"},
-            d = {[[<Cmd>Trouble symbols toggle focus=false<CR>]], "Symbols"},
-            l = {[[<Cmd>Trouble loclist toggle<cr>]], "Location List"},
-            q = {[[<Cmd>Trouble qflist toggle<CR>]], "Quickfix List"},
-            r = {[[<Cmd>Trouble lsp toggle focus=false win.position=right<CR>]] ,"LSP Definitions / references / ..."},
-        },
-    }, mapping.opt_plugin)
+    local wk = require("which-key")
+
+    wk.add({
+        { "<leader>k", group = " Trouble" },
+        { "<leader>kt", [[<Cmd>Trouble diagnostics toggle filter.buf=0<CR>]], desc = "Buffer Diagnostics" },
+        { "<leader>kw", [[<Cmd>Trouble diagnostics toggle<cr>]], desc = "workspace diagnostics" },
+        { "<leader>kd", [[<Cmd>Trouble symbols toggle focus=false<CR>]], desc = "Symbols" },
+        { "<leader>kl", [[<Cmd>Trouble loclist toggle<cr>]], desc = "Location List" },
+        { "<leader>kq", [[<Cmd>Trouble qflist toggle<CR>]], desc = "Quickfix List" },
+        { "<leader>kr", [[<Cmd>Trouble lsp toggle focus=false win.position=right<CR>]], desc = "LSP Definitions / references / ..." },
+    })
 end
 
 return M

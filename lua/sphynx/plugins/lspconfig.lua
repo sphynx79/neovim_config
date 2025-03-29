@@ -228,7 +228,7 @@ M.configs = {
             solargraph = {
                 -- Configurazione specifica per solargraph
                 cmd = {"bundle.bat", "exec", "solargraph", "stdio"},
-                autostart = false;
+                autostart = true;
                 -- cmd = { "solargraph.bat", "stdio" },
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
                 root_dir = util.root_pattern("Gemfile", ".git"),

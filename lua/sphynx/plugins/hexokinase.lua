@@ -22,7 +22,6 @@ M.setup = {
 }
 
 M.keybindings = function()
-    local mapping = require("sphynx.core.5-mapping")
     local wk = require("which-key")
 
     wk.add({
