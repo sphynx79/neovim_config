@@ -31,7 +31,7 @@ utils.define_augroups {
             opts = {
                 pattern = "*",
                 callback = function() vim.highlight.on_yank({higroup="IncSearch", timeout=1000, on_visual=true}) end,
-                desc = " Highlight on yank",
+                desc = "Highlight on yank",
             },
         },
         {
