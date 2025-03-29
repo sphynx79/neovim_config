@@ -25,7 +25,7 @@ M.keybindings = function()
     mapping.register({
         {
             mode = { "n"},
-            lhs = "ì",
+            lhs = "~",
             rhs = [[<Cmd>lua require('tsht').nodes()<CR>]],
             options = {silent = true },
             description = "treesitter node selection",
