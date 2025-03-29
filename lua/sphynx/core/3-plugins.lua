@@ -28,6 +28,7 @@ local modules = {
         "devicons",             -- OK - Aggiunge icone colorate per i file
         "smoothcursor",         -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
         "bqf",                  -- OK - Migliorare la finestra quickfix
+        "rainbow-delimiters",   -- OK - Mostra le parentesi colorate
     --}}} UI
 
     --{{{ MAPPING
@@ -46,11 +47,11 @@ local modules = {
     --}}} LSP
 
     --{{{ COMPLETION
+        "blink",
+        "autopair",
         -- "luasnip",
         -- "cmp",
         -- "cmp-cmdline",
-        "blink",
-        "autopair",
     --}}} COMPLETION
 
     --{{{ DEBUG
@@ -67,26 +68,39 @@ local modules = {
         -- "nim",
     --}}} LANGUAGE
 
-    --{{{ FILE BROWSER
+    --{{{ FILE BROWSER AND NAVIGATION
         "nvim-tree",
         "telescope",
+        "cybu",                 --Switch buffer con Tab come windows
+        "nvim-window-picker",
+        "maximizer",
+        "workspace",
+        "matchup",
+        "hop",
+        "marks",
+        -- "window",
+        -- "windowswap",
+        -- "scope",
         -- "clap",
-    --}}} FILE BROWSER
+    --}}} FILE BROWSER AND NAVIGATION
+
+    --{{{ SEARCH
+        "hlslens",
+        "grepper",
+    --}}} SEARCH
+
+    --{{{ EDITING
+        "comment",
+        "spaceless",
+        "treehopper",           --mi permette con "~" di selezionare attraverso hop i nodi di treesitter
+    --}}} EDITING
 
     -- {{{ MISC
         "treesitter",
-        "rainbow-delimiters",   -- mostra le parentesi in modalità rainbow
-        "maximizer",
-        "comment",
+        "noice",
         "hexokinase",
-        "hop",
-        "treehopper",           --mi permette con "ì" di selezionare attraverso hop i nodi di treesitter
-        "spaceless",
-        "hlslens",
-        "matchup",
         -- --"faster",
         -- --"focus",
-        "marks",
         "neoformat",
         "neoterm",
         "neoscroll",
@@ -95,19 +109,10 @@ local modules = {
         -- "tabular",
         -- "todo-comments",
         "trouble",
-        -- -- "window",
-        "nvim-window-picker",
-        -- "windowswap",
-        -- -- -- "scope",
-        "workspace",
-        -- "spectre",
         -- "vimade",
         -- "symbols-outline",
         -- "vista",
-        "cybu",                 --Switch buffer con Tab come windows
-        "noice",
         "chatgpt",
-        "grepper",
         "nvim-pasta",
     -- --}}} MISC
 }

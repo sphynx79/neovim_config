@@ -30,7 +30,7 @@ M.configs = {
         local picker = require('window-picker')
         picker.setup({
             autoselect_one = true,
-            hint = 'statusline-winbar',
+            hint = 'floating-big-letter',
             include_current = false,
             -- whether to show 'Pick window:' prompt
             show_prompt = false,
