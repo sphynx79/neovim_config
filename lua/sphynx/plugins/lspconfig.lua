@@ -143,7 +143,7 @@ M.configs = {
                 sign_config_tbl.texthl[vim.diagnostic.severity[string.upper(tpe)]] = hl
                 sign_config_tbl.numhl[vim.diagnostic.severity[string.upper(tpe)]] = hl
             end
-            -- Nuova API: usa vim.diagnostic.config invece di vim.lsp.with
+
             vim.diagnostic.config({
                 signs = sign_config_tbl,
                 underline = true,

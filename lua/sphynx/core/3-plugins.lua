@@ -40,11 +40,10 @@ local modules = {
         "floating-tag-preview", -- OK - Visualizza i tag in una floating window vicino al cursore
         "lsp-smag",             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
         "dd",                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
-        "goto-preview",
+        "goto-preview",         -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
         "glance",
         -- "lsp_signature",
     --}}} LSP
-
 
     --{{{ COMPLETION
         -- "luasnip",
