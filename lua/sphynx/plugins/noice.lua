@@ -22,6 +22,7 @@ M.setup = {
 M.configs = {
     ["noice"] = function()
         vim.opt.lazyredraw = false
+        vim.notify = require("notify")
         local enable_conceal = true          -- Hide command text if true
 
         local ignore_msg = function (kind, msg)
@@ -43,8 +44,22 @@ M.configs = {
                     ["vim.lsp.util.stylize_markdown"] = true,
                     ["cmp.entry.get_documentation"] = true,
                 },
-                progress = { enabled = false },
+                progress = {
+                    enabled = true,
+                    view = "mini", -- oppure "notify", "compact", "virtualtext"
+                    throttle = 1000 / 30,
+                },
                 signature = { enabled = true }, -- if used lspsaga or lsp_signature set disable
+                hover = {
+                    enabled = true,
+                    opts = {
+                        border = "double",
+                        size = {
+                            max_width = 170,
+                            max_height = 120,
+                        },
+                    },
+                }
             },
 
             cmdline = {
@@ -65,11 +80,9 @@ M.configs = {
                 command_palette = true, -- position the cmdline and popupmenu together
                 long_message_to_split = true, -- long messages will be sent to a split
                 inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                lsp_doc_border = false, -- add a border to hover docs and signature help
             },
 
             views = {
-                -- https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#display-the-cmdline-and-popupmenu-together
                 cmdline_popup = {
                     relative = "editor",
                     position = {
@@ -93,11 +106,16 @@ M.configs = {
                     border = { style = "rounded", padding = { 0, 1 } },
                     win_options = { winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" } },
                 },
+                mini = {
+                    win_options = {
+                        winblend = 20,
+                    },
+                },
             },
 
             routes = {
-                ignore_msg("search_count", nil), -- https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#hide-search-virtual-text
-                ignore_msg("", "written"), -- https://github.com/folke/noice.nvim/wiki/Configuration-Recipes#hide-written-messages-1
+                ignore_msg("search_count", nil),
+                ignore_msg("", "written"),
                 ignore_msg("", "update"),
                 ignore_msg("", "modifica"),
                 ignore_msg("emsg", "E433: No tags file"),
