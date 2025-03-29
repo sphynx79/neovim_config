@@ -41,7 +41,7 @@ local modules = {
         "lsp-smag",             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
         "dd",                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
         "goto-preview",         -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
-        "glance",
+        "glance",               -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
         -- "lsp_signature",
     --}}} LSP
 
@@ -94,7 +94,7 @@ local modules = {
         "sorround",
         -- "tabular",
         -- "todo-comments",
-        -- "trouble",
+        "trouble",
         -- -- "window",
         "nvim-window-picker",
         -- "windowswap",

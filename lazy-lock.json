@@ -8,7 +8,7 @@
   "dap-virtual-text": { "branch": "master", "commit": "df66808cd78b5a97576bbaeee95ed5ca385a9750" },
   "dd": { "branch": "main", "commit": "4ab78f8c9759db3416ad155d5859c91e7bf3f427" },
   "foldsigns": { "branch": "main", "commit": "c36c2cc8122caf2a5bb05096097ea8e684233a34" },
-  "glance.nvim": { "branch": "master", "commit": "583dc1a6a3f86247d6ca4923b8961e0c27fd1c8c" },
+  "glance.nvim": { "branch": "master", "commit": "cb19b86349cbe634eec0ea768b9a27fdd6d24f34" },
   "goto-preview": { "branch": "main", "commit": "cd49bcf6a853512fce46f035fe95469e5b2d26c7" },
   "heirline.nvim": { "branch": "master", "commit": "af3f441ea10f96105e1af14cd37bf213533812d2" },
   "hlslens": { "branch": "main", "commit": "e22f8448b571b56d6140427e27e02406bcf4e059" },

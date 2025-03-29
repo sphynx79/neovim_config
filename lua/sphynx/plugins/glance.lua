@@ -1,19 +1,35 @@
--- NOTE:
--- DESCRIZIONE:
--- Anteprima per la navigazione e la modifica delle tue posizioni LSP in un unico luogo, ispirata alla funzione peek preview di vscode.
--- MAPPING:
--- <g-d> => definition
--- <g-d> => reference
--- <g-t> => type_definitions
--- <g-i> => implementations
--- OSSERVAZIONI:
--- Quando si apre la preview la posso trattare come una finestra normale
--- Quindi la posso massimizare con [wM]
--- Spostare con [wm<Left>,wm<Right>,wm<Top>,wm<Down>]
--- Oppure posso usare le map di default di vim [<Ctrl-w>H, <Ctrl-w>L, <Ctrl-w>J, <Ctrl-w>K]
--- Alla fine la posso chiudere con tc
--- LINK:
--- https://github.com/DNLHC/glance.nvim
+--[[
+===============================================================================================
+Plugin: glance.nvim
+===============================================================================================
+Description: Fornisce una finestra di preview stile VSCode per esplorare definizioni, riferimenti,
+             implementazioni e type definitions via LSP senza perdere il contesto attuale.
+Status: Active
+Author: dnlhc
+Repository: https://github.com/dnlhc/glance.nvim
+Notes:
+ - Mi permettere di modificare il codice nella finstra di preview che si apre
+ - Preview integrata o flottante a seconda della larghezza della finestra (auto-detect)
+ - Usa highlight disabilitato per evitare distrazioni visive nella preview
+ - Focus automatico sulla preview al momento dell'apertura (hook `after_open`)
+ - Winbar abilitato nella preview
+ - Indent guides attive nella lista
+Keymaps:
+ - <leader>gd          → Jump to definition
+ - <leader>gi          → Jump to implementation
+ - <leader>gr          → Jump to references
+ - <leader>gt          → Jump to type definitions
+ - <C-p>               → Focus preview dalla lista
+ - <C-l>               → Focus lista dalla preview
+ - <Tab>/<S-Tab>       → Naviga tra i risultati
+ - <PageUp/PageDown>   → Scrolla la preview
+ - v / s / t           → Apri risultato in vsplit / split / tab
+ - q / <Esc> / Q       → Chiudi glance
+TODO:
+ - [ ] Aggiungere supporto per metodi LSP custom specifici di certi linguaggi
+ - [ ] Integrare con trouble.nvim per la gestione alternativa della quickfix list
+===============================================================================================
+--]]
 
 local M = {}
 
@@ -36,68 +52,80 @@ M.configs = {
         local actions = glance.actions
 
         glance.setup({
-        height = 18, -- Height of the window
-        zindex = 45,
-        preview_win_opts = { -- Configure preview window options
-            cursorline = true,
-            number = true,
-            wrap = true,
-        },
-        border = {
-            enable = false, -- Show window borders. Only horizontal borders allowed
-            top_char = '―',
-            bottom_char = '―',
-        },
-        list = {
-            position = 'right', -- Position of the list window 'left'|'right'
-            width = 0.33, -- 33% width relative to the active window, min 0.1, max 0.5
-        },
-        theme = { -- This feature might not work properly in nvim-0.7.2
-            enable = true, -- Will generate colors for the plugin based on your current colorscheme
-            mode = 'auto', -- 'brighten'|'darken'|'auto', 'auto' will set mode based on the brightness of your colorscheme
-        },
-        mappings = {
+            height = 24,
+            zindex = 45,
+            preserve_win_context = true,
+            detached = function(winid)
+                return vim.api.nvim_win_get_width(winid) < 100
+            end,
+            preview_win_opts = {
+                cursorline = true,
+                number = true,
+                wrap = true,
+            },
+            border = {
+                enable = true,
+                top_char = '―',
+                bottom_char = '―',
+            },
             list = {
-            ['j'] = actions.next, -- Bring the cursor to the next item in the list
-            ['k'] = actions.previous, -- Bring the cursor to the previous item in the list
-            ['<Down>'] = actions.next,
-            ['<Up>'] = actions.previous,
-            ['<Tab>'] = actions.next_location, -- Bring the cursor to the next location skipping groups in the list
-            ['<S-Tab>'] = actions.previous_location, -- Bring the cursor to the previous location skipping groups in the list
-            ['<C-u>'] = actions.preview_scroll_win(5),
-            ['<C-d>'] = actions.preview_scroll_win(-5),
-            ['v'] = actions.jump_vsplit,
-            ['s'] = actions.jump_split,
-            ['t'] = actions.jump_tab,
-            ['<CR>'] = actions.jump,
-            ['o'] = actions.jump,
-            ['<leader>l'] = actions.enter_win('preview'), -- Focus preview window
-            ['q'] = actions.close,
-            ['Q'] = actions.close,
-            ['<Esc>'] = actions.close,
-            -- ['<Esc>'] = false -- disable a mapping
+                position = 'right',
+                width = 0.33,
             },
-            preview = {
-            ['Q'] = actions.close,
-            ['<Tab>'] = actions.next_location,
-            ['<S-Tab>'] = actions.previous_location,
-            ['<leader>l'] = actions.enter_win('list'), -- Focus list window
+            theme = {
+                enable = true,
+                mode = 'auto',
             },
-        },
-        hooks = {},
-        folds = {
-            fold_closed = '󰅂',
-            fold_open = '󰅀',
-            folded = true, -- Automatically fold list on startup
-        },
-        indent_lines = {
-            enable = true,
-            icon = '│',
-        },
-        winbar = {
-            enable = true, -- Available strating from nvim-0.8+
-        },
+            mappings = {
+                list = {
+                    ['<Down>'] = actions.next,
+                    ['<Up>'] = actions.previous,
+                    ['<Tab>'] = actions.next_location,
+                    ['<S-Tab>'] = actions.previous_location,
+                    ['<PageDown>'] = actions.preview_scroll_win(5),
+                    ['<PageUp>'] = actions.preview_scroll_win(-5),
+                    ['v'] = actions.jump_vsplit,
+                    ['s'] = actions.jump_split,
+                    ['t'] = actions.jump_tab,
+                    ['<CR>'] = actions.jump,
+                    ['o'] = actions.jump,
+                    ['<C-p>'] = actions.enter_win('preview'),
+                    ['q'] = actions.close,
+                    ['Q'] = actions.close,
+                    ['<Esc>'] = actions.close,
+                },
+                preview = {
+                    ['<Tab>'] = actions.next_location,
+                    ['<S-Tab>'] = actions.previous_location,
+                    ['<C-l>'] = actions.enter_win('list'),
+                    ['q'] = actions.close,
+                    ['Q'] = actions.close,
+                    ['<Esc>'] = actions.close,
+                },
+            },
+            folds = {
+                fold_closed = '󰅂',
+                fold_open = '󰅀',
+                folded = true,
+            },
+            indent_lines = {
+                enable = true,
+                icon = '│',
+            },
+            winbar = {
+                enable = true,
+            },
+            hooks = {
+                after_open = function(results, open, jump, method)
+                    -- Focalizza la preview appena si apre
+                    vim.defer_fn(function()
+                        actions.enter_win("preview")()
+                    end, 50)
+                end
+            },
+            use_trouble_qf = false,
         })
+        vim.api.nvim_set_hl(0, 'GlancePreviewMatch', {})
     end,
 }
 
@@ -115,7 +143,4 @@ M.keybindings = function()
     }, mapping.opt_mappping)
 end
 
-
 return M
-
-

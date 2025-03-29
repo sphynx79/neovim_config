@@ -438,7 +438,7 @@ local utils = require("sphynx.utils")
 
     if vim.g.nvy then
         -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDraft"
-        vim.opt.guifont = "FiraCode Nerd Font:h8:cANSI:qDraft"
+        vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
         -- vim.opt.guifont = "JetBrainsMonoNL Nerd Font Mono:h9:cANSI:qDraft"
         -- vim.opt.guifont = "JetBrainsMono Nerd Font:h9:cANSI:qDraft"
         -- vim.opt.guifont = "MonaspiceNE Nerd Font:h9:cANSI:qDRAFT"
