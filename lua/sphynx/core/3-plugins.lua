@@ -47,7 +47,7 @@ local modules = {
     --}}} LSP
 
     --{{{ COMPLETION
-        "blink",
+        "blink",                -- OK - Autocompletamento asincrono
         "autopair",
         -- "luasnip",
         -- "cmp",
