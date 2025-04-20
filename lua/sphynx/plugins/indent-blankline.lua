@@ -81,6 +81,7 @@ M.configs = {
             vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#4A5264" })
             vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#3F4656" })
             vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#333946" })
+            vim.api.nvim_set_hl(0, "IndentBlanklineContextChar", { fg = "#ff8349" })
         end)
 
         require("ibl").setup {
