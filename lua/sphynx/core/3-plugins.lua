@@ -63,7 +63,7 @@ local modules = {
 
     --{{{ LANGUAGE
         "ruby-interpolation",     -- OK - Aggiunge l'interpolazione delle stringhe Ruby
-        "markdown-preview",
+        "markdown-preview",       -- OK - Anteprima live nel browser per i file Markdown
         "markdown",
         -- "nim",
     --}}} LANGUAGE
