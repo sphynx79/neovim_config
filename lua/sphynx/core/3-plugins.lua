@@ -48,7 +48,7 @@ local modules = {
 
     --{{{ COMPLETION
         "blink",                -- OK - Autocompletamento asincrono
-        "autopair",
+        "autopair",             -- OK - Inserimento automatico e la gestione di coppie di caratteri
         -- "luasnip",
         -- "cmp",
         -- "cmp-cmdline",
@@ -62,7 +62,7 @@ local modules = {
     --}}} DEBUG
 
     --{{{ LANGUAGE
-        "ruby-interpolation",
+        "ruby-interpolation",     -- OK - Aggiunge l'interpolazione delle stringhe Ruby
         "markdown-preview",
         "markdown",
         -- "nim",

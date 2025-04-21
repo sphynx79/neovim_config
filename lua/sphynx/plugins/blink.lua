@@ -212,7 +212,7 @@ M.configs = {
                 accept = {
                     create_undo_point = true,
                     auto_brackets = {
-                        enabled = false,
+                        enabled = true,
                     },
                 },
 
