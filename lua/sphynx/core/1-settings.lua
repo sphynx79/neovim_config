@@ -191,6 +191,8 @@ local utils = require("sphynx.utils")
         vim.opt.scrolloff = 4
         -- Columns of context
         vim.opt.sidescrolloff = 8
+        -- Jump 5 lines when running out of the screen
+        vim.opt.scrolljump = 5
         -- Round indent
         vim.opt.shiftround = true
         -- List of words that change the behavior of the |jumplist|
