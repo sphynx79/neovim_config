@@ -6,6 +6,7 @@
 	    vba = "vb",
         cmd = "dosbatch",
         nim = "nim",
+        sh = "bash"
 	  },
 	  -- filename = {
 	  --   [".foorc"] = "foorc",
