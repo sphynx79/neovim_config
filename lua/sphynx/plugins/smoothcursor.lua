@@ -98,8 +98,9 @@ M.configs = {
             intervals = 35,            -- tick interval
             priority = 10,             -- set marker priority
             timeout = 1000,            -- timout for animation
-            threshold = 3,             -- animate if threshold lines jump
-            disable_float_win = true, -- disable on float window
+            threshold = 10,            -- animate if threshold lines jump
+            disable_float_win = true,  -- disable on float window
+            max_threshold = 200,       -- If you move more than this many lines, don't animate
             enabled_filetypes = nil,   -- example: { "lua", "vim" }
             disabled_filetypes = { "TelescopePrompt", "NvimTree", "dashboard", "lazy" },
         })
