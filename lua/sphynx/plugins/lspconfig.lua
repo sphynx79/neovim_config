@@ -209,7 +209,7 @@ M.configs = {
                             {
                                 event = { "BufEnter", "InsertLeave" },
                                 opts = {
-                                    pattern = "*",
+                                    -- pattern = "*",
                                     buffer = bufnr,
                                     callback = function() vim.lsp.codelens.refresh({ bufnr = bufnr }) end,
                                 },
@@ -228,7 +228,7 @@ M.configs = {
             solargraph = {
                 -- Configurazione specifica per solargraph
                 cmd = {"bundle.bat", "exec", "solargraph", "stdio"},
-                autostart = true;
+                autostart = true,
                 -- cmd = { "solargraph.bat", "stdio" },
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
                 root_dir = util.root_pattern("Gemfile", ".git"),
@@ -292,7 +292,7 @@ M.configs = {
             lua_ls = {
                 capabilities = custom_capabilities(),
                 cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-                autostart = true;
+                autostart = true,
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
                 handlers = {
                     ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
@@ -303,20 +303,22 @@ M.configs = {
                             -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                             version = 'LuaJIT',
                             -- Setup your lua path
-                            path = vim.split(package.path, ';')
+                            path = {
+                                vim.split(package.path, ';'),
+                                'lua/?.lua',
+                                'lua/?/init.lua',
+                            }
                         },
                         diagnostics = {
                             -- Get the language server to recognize the `vim` global
                             globals = {'vim', 'nvim_config', 'sphynx'},
-                            disable = {'lowercase-global', 'missing-fields' }
+                            disable = {'lowercase-global', 'missing-fields'},
+                            unusedLocalExclude = { "_*"}
                         },
                         workspace = {
                             checkThirdParty = false,
                             -- Make the server aware of Neovim runtime files
-                            library = {
-                                [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                                [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-                            },
+                            library =  vim.api.nvim_get_runtime_file("", true),
                             -- adjust these two values if your performance is not optimal
                             maxPreload = 2000,
                             preloadFileSize = 1000
