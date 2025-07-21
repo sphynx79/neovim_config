@@ -19,7 +19,8 @@ local modules = {
     --}}} CORE
 
     --{{{ UI
-        "scrollview",           -- OK - Barra di scorrimento
+        "satellite",
+        -- "scrollview",           -- OK - Barra di scorrimento
         "pretty-fold",          -- OK - Migliora il testo visualizzato nel folding
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
         "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
