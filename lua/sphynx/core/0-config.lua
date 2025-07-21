@@ -17,7 +17,7 @@ function config.load()
             -- • terafox
             -- • carbonfox
         -- • onenord
-    colorscheme = "terafox",
+    colorscheme = "nordfox",
     -- Whether the background is transparent
     -- • boolean
     transparent_background = false,
@@ -56,6 +56,7 @@ function config.load()
         'quickfix',
         'gitcommit',
         'fugitive',
+        'GrepperSide',
     },
     -- Plugin utilizzato per autocompletem
         -- cmp
