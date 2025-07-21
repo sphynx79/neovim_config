@@ -120,7 +120,7 @@ local modules = {
 
 -- Install Lazy if not found
 local function setup_lazy()
-    if not vim.loop.fs_stat(sphynx.path.plugin_lazy_folder) then
+    if not vim.uv.fs_stat(sphynx.path.plugin_lazy_folder) then
         local output = vim.fn.system({
             "git",
             "clone",
