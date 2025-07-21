@@ -63,7 +63,7 @@
   "vim-hexokinase": { "branch": "master", "commit": "62324b43ea858e268fb70665f7d012ae67690f43" },
   "vim-illuminate": { "branch": "master", "commit": "19cb21f513fc2b02f0c66be70107741e837516a1" },
   "vim-markdown": { "branch": "master", "commit": "8f6cb3a6ca4e3b6bcda0730145a0b700f3481b51" },
-  "vim-matchup": { "branch": "master", "commit": "aca23ce53ebfe34e02c4fe07e29e9133a2026481" },
+  "vim-matchup": { "branch": "master", "commit": "81313f17443df6974cafa094de52df32b860e1b7" },
   "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" },
   "workspace.vim": { "branch": "master", "commit": "0d2c955233423fd0ca0bec5eeb0ef6432b4344a2" }
 }
