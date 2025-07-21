@@ -84,6 +84,7 @@ M.plugins = {
     },
 }
 
+
 M.configs = {
     ["blink"] = function()
         require("blink.cmp").setup({
@@ -92,10 +93,11 @@ M.configs = {
                     local node = vim.treesitter.get_node()
                     if node and node:type():find("comment") then return 3 end
                     if node and node:type():find("string") then return 2 end
-                    return (ctx.line:find(" ") == nil) and 3 or 1
+                    if ctx.mode == 'cmdline' and string.find(ctx.line, ' ') == nil then return 2 end
+                    return (ctx.line:find(" ") == nil) and 4 or 3
                 end,
-                ---@diagnostic disable-next-line: unused-local
-                default = function(ctx)
+
+                default = function(_ctx)
                     local node = vim.treesitter.get_node()
                     local type = node and node:type() or ""
 
@@ -132,12 +134,19 @@ M.configs = {
                         score_offset = 100,
                     },
                     buffer = {
+                        module = 'blink.cmp.sources.buffer',
+                        score_offset = -3,
                         opts = {
-                        get_bufnrs = function()
-                            return vim.tbl_filter(function(bufnr)
-                            return vim.bo[bufnr].buftype == ''
-                            end, vim.api.nvim_list_bufs())
-                        end
+                            -- default to all visible buffers
+                            get_bufnrs = function()
+                                return vim
+                                .iter(vim.api.nvim_list_wins())
+                                :map(function(win) return vim.api.nvim_win_get_buf(win) end)
+                                :filter(function(buf) return vim.bo[buf].buftype ~= 'nofile' end)
+                                :totable()
+                            end,
+                            -- buffers when searching with `/` or `?`
+                            get_search_bufnrs = function() return { vim.api.nvim_get_current_buf() } end,
                         }
                     },
                 },
@@ -146,7 +155,6 @@ M.configs = {
             enabled = function()
                 if sphynx.config.excluded_filetypes[vim.bo.filetype] then return false end
                 if vim.bo.buftype == "prompt" then return false end
-                ---@diagnostic disable-next-line: undefined-field
                 return vim.b.completion ~= false
             end,
 
@@ -189,24 +197,6 @@ M.configs = {
                     show_on_trigger_character = true,
                 },
 
-                -- transform_items = function(items, ctx)
-                --     local ignore = {
-                --     ["if"] = true,
-                --     ["else"] = true,
-                --     ["then"] = true,
-                --     ["end"] = true,
-                --     ["do"] = true,
-                --     }
-
-                --     local filtered = {}
-                --     for _, item in ipairs(items) do
-                --     if not ignore[item.label] then
-                --         table.insert(filtered, item)
-                --     end
-                --     end
-                --     return filtered
-                -- end,
-
                 -- Disable auto brackets
                 -- NOTE: some LSPs may add auto brackets themselves anyway
                 accept = {
@@ -218,7 +208,7 @@ M.configs = {
 
                 list = {
                     selection = {
-                        preselect = function(ctx)
+                        preselect = function(_ctx)
                             return not require('blink.cmp').snippet_active({ direction = 1 })
                         end,
                         auto_insert = false
@@ -226,9 +216,10 @@ M.configs = {
                 },
 
                 menu = {
-                    auto_show = function(ctx)
-                        return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-                    end,
+                    -- auto_show = function(ctx)
+                    --     return ctx.mode ~= "cmdline" or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+                    -- end,
+                    auto_show = false,
 
                     border = "single",
 
@@ -283,9 +274,6 @@ M.configs = {
                 ghost_text = { enabled = true },
             },
 
-
-
-
             -- Experimental signature help support
             signature = {
                 enabled = true,
@@ -295,39 +283,55 @@ M.configs = {
             },
 
             keymap = {
-                -- set to 'none' to disable the 'default' preset
-                preset = 'enter',
+                ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+                ['<CR>'] = { 'accept', 'fallback' },
+
+                ['<Tab>'] = { 'snippet_forward', 'fallback' },
+                ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+                ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
 
                 ['<Up>'] = { 'select_prev', 'fallback' },
                 ['<Down>'] = { 'select_next', 'fallback' },
 
-                -- disable a keymap from the preset
-                ['<C-e>'] = {},
-                ['<Esc>'] = {'hide', 'fallback' },
-
                 ['<PageUp>'] = { 'scroll_documentation_up', 'fallback' },
                 ['<PageDown>'] = { 'scroll_documentation_down', 'fallback' },
 
-                -- show with a list of providers
-                -- ['<C-space>'] = { function(cmp) cmp.show({ providers = { 'snippets' } }) end },
+                ['<Esc>'] = {'hide', 'fallback'  },
 
-                -- control whether the next command will be run when using a function
-                -- ['<C-n>'] = {
-                --     function(cmp)
-                --     if some_condition then return end -- runs the next command
-                --     return true -- doesn't run the next command
-                --     end,
-                --     'select_next'
-                -- },
             },
 
             cmdline = {
+                -- ignores cmdline completions when executing shell commands
                 enabled = true,
+                completion = {
+                    menu = { auto_show = false },
+                    ghost_text = { enabled = true }
+                },
+                -- sources = function()
+                --     local type = vim.fn.getcmdtype()
+                --     -- Search forward and backward
+                --     if type == '/' or type == '?' then return { 'buffer' } end
+                --     -- Commands
+                --     if type == ':' or type == '@' then return { 'cmdline' } end
+                --     return {}
+                -- end,
                 keymap = {
-                    preset = 'super-tab',
-                    -- OPTIONAL: sets <CR> to accept the item and run the command immediately
-                    -- use `select_accept_and_enter` to accept the item or the first item if none are selected
-                    ['<CR>'] = { 'accept_and_enter', 'fallback' },
+                    -- preset = 'cmdline',
+                    ['<Tab>'] = { 'show_and_insert', 'select_next' },
+                    ['<S-Tab>'] = { 'show_and_insert', 'select_prev' },
+
+                    ['<C-space>'] = { 'show', 'fallback' },
+
+                    -- ['<C-n>'] = { 'select_next', 'fallback' },
+                    -- ['<C-p>'] = { 'select_prev', 'fallback' },
+                    ['<Up>'] = { 'select_prev', 'fallback' },
+                    ['<Down>'] = { 'select_next', 'fallback' },
+                    -- ['<Right>'] = { 'select_next', 'fallback' },
+                    -- ['<Left>'] = { 'select_prev', 'fallback' },
+
+                    ['<C-y>'] = { 'select_and_accept' },
+                    ['<C-e>'] = { 'hide' },
                 }
             },
 
