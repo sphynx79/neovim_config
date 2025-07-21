@@ -5,7 +5,7 @@
   "bqf": { "branch": "main", "commit": "dd17c73912487dccb372deff85d4262d2b89bc2b" },
   "cybu.nvim": { "branch": "main", "commit": "576712593eb92f8c1d6d4bea9e003be485a64382" },
   "dap": { "branch": "master", "commit": "5dd4d50f2e6a2eaf9e57fad023d294ef371bda35" },
-  "dap-virtual-text": { "branch": "master", "commit": "df66808cd78b5a97576bbaeee95ed5ca385a9750" },
+  "dap-virtual-text": { "branch": "master", "commit": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6" },
   "dd": { "branch": "main", "commit": "4ab78f8c9759db3416ad155d5859c91e7bf3f427" },
   "foldsigns": { "branch": "main", "commit": "c36c2cc8122caf2a5bb05096097ea8e684233a34" },
   "fzf": { "branch": "master", "commit": "ead302981cc9d9219e58c1517921e9f2d68a6b6e" },
