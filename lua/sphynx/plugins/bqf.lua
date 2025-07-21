@@ -121,7 +121,10 @@ M.plugins = {
         "kevinhwang91/nvim-bqf",
         lazy = true,
         name = "bqf",
-        ft = {"qf"}
+        ft = {"qf"},
+        dependencies = {
+            'junegunn/fzf'
+        },
     }
 }
 
