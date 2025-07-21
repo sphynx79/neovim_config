@@ -337,7 +337,7 @@ local utils = require("sphynx.utils")
   -- Use proper syntax highlighting in code blocks
   local fences = {
     "lua",
-    -- "vim",
+    "vim",
     "json",
     "typescript",
     "javascript",
