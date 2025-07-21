@@ -80,21 +80,21 @@ M.keybindings = function()
       })
     end
 
-    require("which-key").add({
-        { "m", group = " Marks" },
-        { "m<Down>", [[<Plug>(Marks-next)]], desc = "go next" },
-        { "m<Up>", [[<Plug>(Marks-prev)]], desc = "go prev" },
-        { "m,", [[<Plug>(Marks-setnext)]], desc = "set next available" },
-        { "m.", [[<Plug>(Marks-deleteline)]], desc = "del current line marks" },
-        { "m-", [[<Cmd>MarksQFListBuf<CR>]], desc = "list buffer marks" },
-        { "mb", group = "bookmarks" },
-        { "mb<Up>", [[<Plug>(Marks-prev-bookmark)]], desc = "go to prev bookmark same group" },
-        { "mb<Down>", [[<Plug>(Marks-next-bookmark)]], desc = "go to next bookmark same group" },
-        { "mb0", [[<Plug>(Marks-set-bookmark0)]], desc = "set bookmarks group0" },
-        { "mb1", [[<Plug>(Marks-set-bookmark1)]], desc = "set bookmarks group1" },
-        { "mb2", [[<Plug>(Marks-set-bookmark2)]], desc = "set bookmarks group2" },
-        { "mbd", [[<Plug>(Marks-delete-bookmark)]], desc = "delete bookmark line" },
-    })
+    -- require("which-key").add({
+    --     { "m", group = " Marks" },
+    --     { "m<Down>", [[<Plug>(Marks-next)]], desc = "go next" },
+    --     { "m<Up>", [[<Plug>(Marks-prev)]], desc = "go prev" },
+    --     { "m,", [[<Plug>(Marks-setnext)]], desc = "set next available" },
+    --     { "m.", [[<Plug>(Marks-deleteline)]], desc = "del current line marks" },
+    --     { "m-", [[<Cmd>MarksQFListBuf<CR>]], desc = "list buffer marks" },
+    --     { "mb", group = "bookmarks" },
+    --     { "mb<Up>", [[<Plug>(Marks-prev-bookmark)]], desc = "go to prev bookmark same group" },
+    --     { "mb<Down>", [[<Plug>(Marks-next-bookmark)]], desc = "go to next bookmark same group" },
+    --     { "mb0", [[<Plug>(Marks-set-bookmark0)]], desc = "set bookmarks group0" },
+    --     { "mb1", [[<Plug>(Marks-set-bookmark1)]], desc = "set bookmarks group1" },
+    --     { "mb2", [[<Plug>(Marks-set-bookmark2)]], desc = "set bookmarks group2" },
+    --     { "mbd", [[<Plug>(Marks-delete-bookmark)]], desc = "delete bookmark line" },
+    -- })
 end
 
 return M
