@@ -445,9 +445,10 @@ local utils = require("sphynx.utils")
     end
 
     if vim.g.neovide then
-        vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDRAFT"
+        -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDRAFT"
+        vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
         -- vim.opt.guifont = "MonaspiceNE Nerd Font:h9"
-        vim.opt.linespace = -1
+        vim.opt.linespace = 1
         vim.g.neovide_scroll_animation_length = 0
         vim.g.neovide_refresh_rate = 120
         vim.g.neovide_cursor_antialiasing = true
@@ -456,6 +457,13 @@ local utils = require("sphynx.utils")
         vim.g.neovide_cursor_animate_command_line = false
         vim.g.neovide_cursor_vfx_mode = ""
         vim.g.neovide_unlink_border_highlights = true
+        vim.g.neovide_padding_top = 10
+        vim.g.neovide_padding_bottom = 10
+        vim.g.neovide_padding_right = 10
+        vim.g.neovide_padding_left = 10
+        vim.g.neovide_window_blurred = false
+        vim.g.neovide_opacity = 1
+        vim.g.neovide_normal_opacity = 1
         cmd("imap <M-Esc> [")
         cmd("imap <M-C-]> ]")
         -- Helper function for transparency formatting
