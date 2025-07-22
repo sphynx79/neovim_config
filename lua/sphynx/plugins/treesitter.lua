@@ -2,7 +2,7 @@ local M = {}
 
 local ts_filetypes = {
     "vim",
-    "norg",
+    -- "norg",
     "bash",
     "c",
     "cmake",
@@ -57,7 +57,7 @@ M.setup = {
 
 M.configs = {
     ["nvim-treesitter"] = function()
-        -- require 'nvim-treesitter.install'.compilers = { "zig" }
+        --require 'nvim-treesitter.install'.compilers = { "zig" }
         -- require 'nvim-treesitter.install'.prefer_git = false
         require('nvim-treesitter.configs').setup {
             ensure_installed = ts_filetypes,
