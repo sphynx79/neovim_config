@@ -387,33 +387,61 @@ local utils = require("sphynx.utils")
     --{{{ Python3
         -- vim.g.loaded_python3_provider = 0
         if not (vim.g.loaded_python3_provider) then
-            local python3_host_prog = vim.fn.expand('C:/APPL/Python/python')
-            if (vim.fn.filereadable(vim.fn.fnameescape(python3_host_prog .. ".exe"))) == 1 then
-                vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
-                vim.opt.pyxversion = 3
-            else
-                local msg = "\'Devi installare python3!\'"
-                if vim.g.loaded_python3_provider then
-                    vim.g.nvim_del_var("python3_host_prog")
-                end
-                cmd('echohl WarningMsg | echomsg "=> "' .. msg .. '| echohl None')
+          local python_executable = 'python'
+          local which_command
+          local python3_host_prog
+          local msg = "\'Devi installare python3!\'"
+
+          if is_windows() then
+            which_command = 'where'
+          else
+            which_command = 'which'
+          end
+
+          -- Esegui il comando which/where per trovare il percorso completo di Python
+          local handle = io.popen(which_command .. ' ' .. python_executable)
+
+          if handle then
+
+              local result = handle:read("*l")
+              handle:close()
+
+              -- Verifica che il risultato sia valido
+              if result and result ~= "" and vim.fn.filereadable(vim.fn.fnameescape(result)) == 1 then
+                python3_host_prog = result
+              end
+
+              if (vim.fn.filereadable(vim.fn.fnameescape(python3_host_prog))) == 1 then
+                  vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
+                  vim.opt.pyxversion = 3
+              else
+                  if vim.g.loaded_python3_provider then
+                      vim.g.nvim_del_var("python3_host_prog")
+                  end
+                  cmd('echohl WarningMsg | echomsg "=> "' .. msg .. '| echohl None')
+              end
+          else
+            if vim.g.loaded_python3_provider then
+                vim.g.nvim_del_var("python3_host_prog")
             end
+            cmd('echohl WarningMsg | echomsg "=> "' .. msg .. '| echohl None')
+          end
+
+
         end
     --}}} Python3
 
     --{{{ Ruby
         vim.g.loaded_ruby_provider = 0
         if not (vim.g.loaded_ruby_provider) then
-            local ruby_host_prog = vim.fn.expand('C:/Ruby3/bin/neovim-ruby-host')
-            if (vim.fn.filereadable(vim.fn.fnameescape(ruby_host_prog))) == 1 then
-                vim.g.ruby_host_prog = vim.fn.fnameescape(ruby_host_prog)
-            else
-                local msg = "\'Gemma neovim non installata!\'"
-                if vim.g.ruby_host_prog then
-                    vim.g.nvim_del_var("ruby_host_prog")
-                end
-                cmd('echohl WarningMsg | echomsg "=> "' .. msg .. '| echohl None')
-            end
+          if vim.fn.executable('neovim-ruby-host') == 1 then
+            vim.g.ruby_host_prog = vim.fn.exepath('neovim-ruby-host')
+          else
+            vim.notify("Gemma neovim-ruby-host non trovata nel tuo PATH.",
+              vim.log.levels.WARN,
+              { title = "Ruby Provider" }
+            )
+          end
         end
     --}}} Ruby
 
