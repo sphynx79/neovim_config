@@ -84,8 +84,6 @@ M.configs = {
         local utils = require("sphynx.utils")
         local configs = require "lspconfig.configs"
         local util = require('lspconfig/util')
-        local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
-        local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
         configs["ahk2"] = { default_config = {} }
 
         -- Custom capabilities.
@@ -178,6 +176,24 @@ M.configs = {
             })
         end
 
+        local lua_ls_cmd = function ()
+            if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
+                local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
+                local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+                return {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}
+            end
+
+            return nil
+        end
+
+        local solargraph_ls_cmd = function ()
+            if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
+                return {"bundle.bat", "exec", "solargraph", "stdio"}
+            end
+
+            return nil
+        end
+
         local shared_settings = {
             capabilities = custom_capabilities(),
 
@@ -209,7 +225,6 @@ M.configs = {
                             {
                                 event = { "BufEnter", "InsertLeave" },
                                 opts = {
-                                    -- pattern = "*",
                                     buffer = bufnr,
                                     callback = function() vim.lsp.codelens.refresh({ bufnr = bufnr }) end,
                                 },
@@ -227,7 +242,7 @@ M.configs = {
 
             solargraph = {
                 -- Configurazione specifica per solargraph
-                cmd = {"bundle.bat", "exec", "solargraph", "stdio"},
+                cmd = solargraph_ls_cmd(),
                 autostart = true,
                 -- cmd = { "solargraph.bat", "stdio" },
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
@@ -291,8 +306,8 @@ M.configs = {
 
             lua_ls = {
                 capabilities = custom_capabilities(),
-                cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-                autostart = true,
+                cmd = lua_ls_cmd(),
+                autostart = true;
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
                 handlers = {
                     ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
