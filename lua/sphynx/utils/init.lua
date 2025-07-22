@@ -62,7 +62,7 @@
   local fn = vim.fn
 
   function utils.join_path(...)
-    return table.concat(vim.tbl_flatten({ ... }), "/")
+    return table.concat(vim.iter({...}):flatten():totable(), "/")
   end
 
   function utils.define_augroups(definitions)
