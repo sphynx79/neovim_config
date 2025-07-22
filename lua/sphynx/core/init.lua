@@ -58,3 +58,7 @@ end, {})
 
 -- Mappatura rapida per toggleare il wrap
 vim.keymap.set('n', '<leader>w', ':ToggleWrap<CR>', { noremap = true, silent = true })
+
+if (vim.fn.has("unix") == 1) then
+    require("sphynx.utils.dragopen")
+end
