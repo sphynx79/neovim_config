@@ -20,8 +20,8 @@ local modules = {
 
     --{{{ UI
         "satellite",
-        -- "scrollview",           -- OK - Barra di scorrimento
-        "pretty-fold",          -- OK - Migliora il testo visualizzato nel folding
+        -- "scrollview",        -- OK - Barra di scorrimento
+        "ufo",
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
         "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
         "heirline",             -- Ok - Statusline, Winbar

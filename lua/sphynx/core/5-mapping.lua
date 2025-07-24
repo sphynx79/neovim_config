@@ -150,9 +150,8 @@ local mapping = {}
     { "z#", desc = "Set fold level to .N" },
     { "zf", '<CMD>lua require("sphynx.utils").toggle_fold()<CR>', desc = "Toggle foldclose automactly" },
     { "zh", "zfat", desc = "Html folding" },
-    { "zz", group = "+ Fold-Unfold all" },
-    { "zz<Down>", "zR", desc = "Unfold all" },
-    { "zz<Up>", "zM", desc = "Fold all" },
+    -- { "zz<Down>", "zR", desc = "Unfold all" },
+    -- { "zz<Up>", "zM", desc = "Fold all" },
   })
 
   for i = 0, 10 do
