@@ -2,33 +2,35 @@ local M = {}
 
 M.plugins = {
     ["maximizer"] = {
-        "eduardomillans/maximizer.nvim",
+        "declancm/maximize.nvim",
         lazy = true,
-        keys = {"wM"},
-        pin = true,
     },
+}
+
+M.setup = {
+    ["maximizer"] = function()
+        M.keybindings()
+    end
 }
 
 M.configs = {
     ["maximizer"] = function()
-        require("maximizer").setup({
-            status = {
-                enable = false, -- nil or false to disable
-                text = "Maximizer is active!",
-                blend = 10,
-                position = {
-                    top = true,
-                    left = false,
-                },
-            },
-            -- toggle keymap
-            keymap = {
-                enable = true, -- nil or false to disable
-                modes = { "n" },
-                rhs = "wM"
+        require('maximize').setup({
+            plugins = {
+                aerial = { enable = false }, -- enable aerial.nvim integration
+                dapui = { enable = false },  -- enable nvim-dap-ui integration
+                tree = { enable = true },   -- enable nvim-tree.lua integration
             }
         })
     end,
 }
+
+M.keybindings = function()
+    require("which-key").add({
+        { "w", group = "󰆏 Window" },
+        { "wM", [[<CMD>lua require('maximize').toggle()<CR>]], desc = "Maximize [maximize.nvim]"},
+    })
+
+end
 
 return M
