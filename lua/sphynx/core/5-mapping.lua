@@ -211,7 +211,6 @@ local mapping = {}
   require("which-key").add({
     { "w", group = "󰆏 Window" },
     { "wc", "<C-W>c", desc = "Close current window" },
-    { "wM", desc = "Maximize" },
     { "w<Up>", "<C-W>k", desc = "Focus to window Up" },
     { "w<Down>", "<C-W>j", desc = "Focus to window Down" },
     { "w<Left>", "<C-W>h", desc = "Focus to window Left" },
