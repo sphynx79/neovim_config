@@ -69,6 +69,8 @@ M.plugins = {
             "vim",
             "lua",
             "ruby",
+            "bash",
+            "sh"
         },
     },
 }
@@ -96,7 +98,7 @@ M.configs = {
             capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
             capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
             capabilities.textDocument.completion.completionItem.snippetSupport = true
-            capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+            -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
             capabilities.textDocument.completion.completionItem.snippetSupport = true;
             capabilities.textDocument.completion.completionItem.resolveSupport = {
                 properties = {
@@ -361,8 +363,27 @@ M.configs = {
                 },
                 single_file_support = true,
                 flags = { debounce_text_changes = 500 },
-            }
+            },
 
+            bashls = {
+                cmd = { 'bash-language-server', 'start' },
+                autostart = true,
+                single_file_support = false,
+                settings = {
+                    bashIde = {
+                        -- Glob pattern for finding and parsing shell script files in the workspace.
+                        -- Used by the background analysis features across files.
+
+                        -- Prevent recursive scanning which will cause issues when opening a file
+                        -- directly in the home directory (e.g. ~/foo.sh).
+                        --
+                        -- Default upstream pattern is "**/*@(.sh|.inc|.bash|.command)".
+                        globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command)',
+                    },
+                },
+                filetypes = { 'bash', 'sh' },
+                root_markers = { '.git' },
+            }
         }
 
         -- Configura ogni server
@@ -441,6 +462,7 @@ M.keybindings = function()
         { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go definiton" },
         { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "Hover doc" },
         { prefix .. "e", "<Cmd>lua vim.diagnostic.open_float()<CR>", desc = "Apri diagnostica flottante" },
+        { prefix .. "f", "<Cmd>lua vim.lsp.buf.format({ async = true })<CR>", desc = "Format file" },
         { prefix .. "v", toggle_virtual_text, desc = "Toggle diagnostic virtual text" },
         { prefix .. "s", toggle_signs, desc = "Toggle diagnostic signs" },
         { prefix .. "i", toggle_hints, desc = "Toggle Inlay Hints" },
