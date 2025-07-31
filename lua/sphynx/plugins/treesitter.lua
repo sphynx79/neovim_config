@@ -34,6 +34,7 @@ local ts_filetypes = {
     "yaml",
     "json",
     "markdown",
+    "hyprlang"
 }
 
 M.plugins = {

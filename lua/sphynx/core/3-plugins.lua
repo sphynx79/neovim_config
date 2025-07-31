@@ -99,7 +99,7 @@ local modules = {
     -- {{{ MISC
         "treesitter",
         "noice",
-        "hexokinase",
+        "color",
         -- --"faster",
         -- --"focus",
         "neoformat",
