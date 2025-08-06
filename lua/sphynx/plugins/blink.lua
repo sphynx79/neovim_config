@@ -271,7 +271,7 @@ M.configs = {
                     },
                 },
                 -- Display a preview of the selected item on the current line
-                ghost_text = { enabled = true },
+                ghost_text = { enabled = false },
             },
 
             -- Experimental signature help support
@@ -306,7 +306,7 @@ M.configs = {
                 enabled = true,
                 completion = {
                     menu = { auto_show = false },
-                    ghost_text = { enabled = true }
+                    ghost_text = { enabled = false }
                 },
                 -- sources = function()
                 --     local type = vim.fn.getcmdtype()
