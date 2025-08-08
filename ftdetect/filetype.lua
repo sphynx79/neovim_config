@@ -8,6 +8,10 @@
         nim = "nim",
         sh = "bash"
 	  },
+	  pattern = {
+	    [".*/zsh/functions/.*"] = "zsh",
+	    [".*/%.config/zsh/functions/.*"] = "zsh",
+	  },
 	  -- filename = {
 	  --   [".foorc"] = "foorc",
 	  -- },

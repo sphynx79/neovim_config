@@ -366,7 +366,7 @@ local utils = require("sphynx.utils")
 --}}} Markdown
 
 --{{{ Abbreviation
-    cmd([[ab todo # @TODO:]])
+    -- cmd([[ab todo # @TODO:]])
     cmd([[ab <silent> bp binding.pry<C-o>]])
     cmd([[cnoreabbrev LS LspStart]])
     cmd([[cnoreabbrev LAS Lazy show]])
