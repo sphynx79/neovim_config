@@ -74,15 +74,16 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	
-    require("which-key").register({
-        x = {
-            name = " Todo",
-            q = {[[<Cmd>TodoQuickFix<CR>]], "todo quickfix"},
-            x = {[[<Cmd>TodoTrouble<CR>]], "todo trouble"},
-            t = {[[<Cmd>TodoTelescope<CR>]], "todo telescope"}
-        },
-    }, mapping.opt_plugin)
+    local wk = require("which-key")
+    local prefix = "<leader>x"
+
+    wk.add({
+        -- Gruppo principale Todo-comment
+        { prefix, group = " Todo" },
+        { prefix .. "q", [[<Cmd>TodoQuickFix<CR>]], desc = "todo quickfix" },
+        { prefix .. "x", [[<Cmd>TodoTrouble<CR>]], desc = "todo trouble" },
+        { prefix .. "t", [[<Cmd>TodoTelescope<CR>]], desc = "todo telescope"},
+    }, mapping.opt_mappping )
 end
 
 

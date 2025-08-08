@@ -108,7 +108,7 @@ local modules = {
         "neoclip",
         "sorround",
         -- "tabular",
-        -- "todo-comments",
+        "todo-comments",
         "trouble",
         -- "vimade",
         -- "symbols-outline",
