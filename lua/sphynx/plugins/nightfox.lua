@@ -55,7 +55,7 @@ M.configs = {
             all = {
                 -- TabLine
                 TbiFill                     = { fg = palette.fg, bg = palette.grey13 },
-                TbBufOn                     = { fg = palette.grey4, bg = palette.bg },
+                TbBufOn                     = { fg = palette.grey4, bg = palette.bg, style = "bold" },
                 TbBufOff                    = { fg = palette.grey9, bg = palette.grey13 },
                 TbBufOnModified             = { fg = palette.green, bg = palette.bg },
                 TbBufOffModified            = { fg = palette.red, bg = palette.grey13 },
@@ -125,7 +125,7 @@ M.configs = {
                 SmoothCursorBlue6           = { fg = "#0A0F14" },
                 -- TabLine
                 TbiFill                     = { fg = "#c7cdd9", bg = "#262E38" },
-                TbBufOn                     = { fg = "#d9dce3", bg = "#232831" },
+                TbBufOn                     = { fg = "#d9dce3", bg = "#232831", style = "bold" },
                 TbBufOff                    = { fg = "#74819a", bg = "#262E38" },
                 TbBufOnModified             = { fg = "#a3be8c", bg = "#232831" },
                 TbBufOffModified            = { fg = "#bf616a", bg = "#262E38" },
@@ -142,7 +142,7 @@ M.configs = {
             terafox = {
                 -- TabLine
                 TbiFill                     = { fg = "#eaeeee", bg = "#7aa4a1" },
-                TbBufOn                     = { fg = "#d9dce3", bg = "#152528" },
+                TbBufOn                     = { fg = "#d9dce3", bg = "#152528", style = "bold" },
                 TbBufOnModified             = { fg = "#7aa4a1", bg = "#152528" },
                 TbBufOnClose                = { fg = "#e85c51", bg = "#152528" },
                 TbBufOff                    = { fg = "#586768", bg = "#0F2022" },
@@ -167,7 +167,7 @@ M.configs = {
             nightfox = {
                 -- TabLine
                 TbiFill                     = { fg = "#d6d6d7", bg = "#101C29" },
-                TbBufOn                     = { fg = "#A9ADB4", bg = "#131a24" },
+                TbBufOn                     = { fg = "#A9ADB4", bg = "#131a24", style = "bold" },
                 TbBufOff                    = { fg = "#343C48", bg = "#101C29" },
                 TbBufOnModified             = { fg = "#81b29a", bg = "#131a24" },
                 TbBufOffModified            = { fg = "#c94f6d", bg = "#101C29" },
@@ -192,7 +192,7 @@ M.configs = {
             carbonfox = {
                 -- TabLine
                 TbiFill                     = { fg = "#d6d6d7", bg = "#0C0C0C" },
-                TbBufOn                     = { fg = "#d9dce3", bg = "#131a24" },
+                TbBufOn                     = { fg = "#d9dce3", bg = "#131a24", style = "bold" },
                 TbBufOff                    = { fg = "#74819a", bg = "#0C0C0C" },
                 TbBufOnModified             = { fg = "#81b29a", bg = "#131a24" },
                 TbBufOffModified            = { fg = "#c94f6d", bg = "#0C0C0C" },

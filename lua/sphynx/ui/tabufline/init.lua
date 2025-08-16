@@ -36,14 +36,6 @@ M.prev = function()
   set_buf((curbufIndex == 1 and bufs[#bufs]) or bufs[curbufIndex - 1])
 end
 
-M.close_buffer_and_window = function()
-  local win = vim.api.nvim_get_current_win()
-  M.close_buffer()
-  if #vim.api.nvim_tabpage_list_wins(0) > 1 then
-    vim.api.nvim_win_close(win, false)
-  end
-end
-
 M.close_buffer = function(bufnr)
   bufnr = bufnr or cur_buf()
 
@@ -66,8 +58,12 @@ M.close_buffer = function(bufnr)
       -- handle unlisted
     elseif not vim.bo.buflisted then
       local tmpbufnr = vim.t.bufs[1]
-      api.nvim_set_current_win(vim.fn.bufwinid(bufnr))
-      api.nvim_set_current_buf(tmpbufnr)
+      if tmpbufnr then
+        local winid = vim.fn.bufwinid(tmpbufnr)
+        winid = winid ~= -1 and winid or 0
+        api.nvim_set_current_win(winid)
+        api.nvim_set_current_buf(tmpbufnr)
+      end
       vim.cmd("bw" .. bufnr)
       return
     else
@@ -82,6 +78,7 @@ M.close_buffer = function(bufnr)
   vim.cmd "redrawtabline"
 end
 
+-- closes tab + all of its buffers
 M.closeAllBufs = function(include_cur_buf)
   local bufs = vim.t.bufs
 
@@ -94,6 +91,7 @@ M.closeAllBufs = function(include_cur_buf)
   end
 end
 
+-- closes all other buffers right or left
 M.closeBufs_at_direction = function(x)
   local buf_i = buf_index(cur_buf())
 
