@@ -5,6 +5,7 @@ function M.foldtext()
   return vim.api.nvim_buf_get_lines(0, vim.v.lnum - 1, vim.v.lnum, false)[1]
 end
 
+-- TODO: Uso il plugin Ufo, se il plugin funziona rimuovere questo modulo
 -- optimized treesitter foldexpr for Neovim >= 0.10.0
 function M.foldexpr()
   local buf = vim.api.nvim_get_current_buf()

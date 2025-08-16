@@ -54,7 +54,6 @@
 --}}} Modeline and Notes
 
 local cmd = vim.cmd
-local utils = require("sphynx.utils")
 
 --{{{ Identify platform
     local is_osx = function()
@@ -313,13 +312,13 @@ local utils = require("sphynx.utils")
         -- rimuove i caratteri ----- dopo il fold
         vim.opt.fillchars =  "fold: "
         -- fare l'unfold automatico
-        -- TODO: vedere se serve lasciarlo o toglierlo
         vim.opt.foldopen:append('insert')
         -- setto il default foldlevel quando apro un file
         -- TODO: vedere se serve lasciarlo o toglierlo
-        vim.opt.foldlevel = 1
-        vim.opt.foldexpr = "v:lua.require'sphynx.utils.folding'.foldexpr()"
-        vim.opt.foldmethod = "expr"
+        vim.opt.foldlevel = 99
+        -- TODO: Uso il plugin Ufo se funziona corretamente rimuovere queste due righe
+        -- vim.opt.foldexpr = "v:lua.require'sphynx.utils.folding'.foldexpr()"
+        -- vim.opt.foldmethod = "expr"
     --}}} Folding
 
     --{{{ Visualizzazione
@@ -453,19 +452,6 @@ local utils = require("sphynx.utils")
 
 --{{{ Other Gui
 
-    if vim.g.nvui then
-      -- Configure through vim commands
-      vim.opt.guifont = "DejaVuSansM Nerd Font:h10:cANSI:qDRAFT"
-      -- vim.opt.guifont = "CaskaydiaCove NF:h10:cANSI:qDRAFT"
-      cmd [[NvuiFrameless v:true]]
-      cmd [[NvuiCursorAnimationDuration 0.08]]
-      cmd [[NvuiSnapshotLimit 6]]
-      cmd [[NvuiCmdCenterYPos 0.5]]
-      cmd [[NvuiCmdTopPos 0.5]]
-      cmd [[NvuiCmdFontSize 12]]
-      cmd [[NvuiCmdBigFontScaleFactor 1]]
-    end
-
     if vim.g.nvy then
         -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDraft"
         vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
@@ -513,6 +499,12 @@ local utils = require("sphynx.utils")
     end
 --}}} Other Gui
 
+--{{{ Linux
+    if (vim.fn.has("unix") == 1) then
+      require("sphynx.utils.dragopen").setup()
+    end
+--}}} Linux
+
 --{{{ Test
     -- This is a sequence of letters which describes how automatic formatting is to be done
     -- TAG:[#comment #format] Ho disabilitato che mi crea la riga commentata automaticamente, se viglio aggiungerla devo aggiungere la "o"
@@ -531,8 +523,23 @@ local utils = require("sphynx.utils")
 
     vim.opt.smoothscroll = true
 
-    -- uso il plugin Filetype.nvim per velocizzare avvio @perfermance
-    -- vim.g.did_load_filetypes = 1
+    -- Configurazione base per il wrapping
+    vim.opt.wrap = true                -- Abilita il wrapping
+    vim.opt.linebreak = true           -- Wrap alle parole invece che ai caratteri
+    vim.opt.breakindent = true         -- Mantiene l'indentazione nel wrap
+    vim.opt.display = "lastline"       -- Mostra il più possibile dell'ultima linea
+    vim.opt.textwidth = 0              -- Disabilita la formattazione automatica
+    vim.opt.wrapmargin = 0             -- Disabilita il margine di wrapping
+
+    -- Crea comandi utili per gestire il wrapping
+    vim.api.nvim_create_user_command('ToggleWrap', function()
+        vim.opt_local.wrap = not vim.opt_local.wrap:get()
+        print("Wrap è " .. (vim.opt_local.wrap:get() and "attivo" or "disattivo"))
+    end, {})
+
+    -- Mappatura rapida per toggleare il wrap
+    vim.keymap.set('n', '<leader>w', ':ToggleWrap<CR>', { noremap = true, silent = true })
+
 --}}} Test
 
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- TreeSitter folding
