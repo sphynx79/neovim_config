@@ -239,8 +239,8 @@ local mapping = {}
 --{{{ Buffer
   require("which-key").add({
     { "b", group = " Buffers" },
-    { "bC", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer_and_window()<CR>]], desc = "Close buffer and window [tabufline]"},
-    { "bc", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer()<CR>]], desc = "Close buffer and keep window  [tabufline]"},
+    -- { "bC", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer_and_window()<CR>]], desc = "Close buffer and window [tabufline]"},
+    -- { "bc", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer()<CR>]], desc = "Close buffer and keep window  [tabufline]"},
     { "bx", [[<CMD>lua require("sphynx.ui.tabufline").closeAllBufs()<CR>]], desc = "Close all buffers [tabufline]"},
     -- { "bC", [[<CMD>bd<CR>]], desc = "Close buffer and window" },
     -- { "bX", [[<CMD>bufdo bd<CR>]], desc = "Close all buffers" },

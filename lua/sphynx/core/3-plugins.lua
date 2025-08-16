@@ -115,6 +115,7 @@ local modules = {
         -- "vista",
         "chatgpt",
         "nvim-pasta",
+        "sayonara"
     -- --}}} MISC
 }
 
