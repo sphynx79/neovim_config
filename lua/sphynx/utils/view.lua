@@ -1,4 +1,3 @@
--- In un file separato, es: lua/sphynx/utils/view.lua
 local M = {}
 
 -- Impostazioni per view e session
