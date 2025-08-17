@@ -285,6 +285,7 @@ local mapping = {}
       options = { silent = true },
       description = "Copia parola @variabile o se mi (trova) al centro della parola",
     },
+
     -- TODO: vedere se usare plugin surround.nvim| Surround.vim | vim-sandwich
     -- TODO: per ora queste funzioni le ho disabilitate mi davano problemi con visual selection copiare su i registri
     -- {
@@ -316,6 +317,19 @@ local mapping = {}
     --   description = "Mette singolo  apice esul testo selezionato",
     -- },
 
+  })
+--}}} Editing
+
+--{{{ Editing
+  mapping.register({
+    -- TODO: vedere se lo devo fare solo per ruby
+    {
+      mode = { "i", "n" },
+      lhs = "<C-a>",
+      rhs = "<Esc>ggVG",
+      options = { silent = true },
+      description = "Select all buffer",
+    },
   })
 --}}} Editing
 
