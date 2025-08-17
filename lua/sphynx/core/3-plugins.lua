@@ -75,7 +75,7 @@ local modules = {
         "cybu",                 --Switch buffer con Tab come windows
         "nvim-window-picker",
         "maximizer",
-        "workspace",
+        -- "workspace",
         "matchup",
         "hop",
         "marks",
