@@ -54,6 +54,41 @@ local function available_space()
   return vim.o.columns - modules.width
 end
 
+-- Helper function to get workspace name with fallback
+-- local function get_ws_name(tabnr)
+--   local name = vim.t[tabnr].WSName
+--   if name and name ~= "" then
+--     -- Truncate long names to keep UI clean
+--     if #name > 12 then
+--       return name:sub(1, 10) .. ".."
+--     end
+--     return name
+--   end
+--   -- Fallback to number if no name set
+--   return tostring(vim.t[tabnr].WS or tabnr)
+-- end
+
+local function get_ws_name(tabnr)
+  -- Check if tab exists before accessing it
+  local tabs_count = fn.tabpagenr("$")
+  if tabnr > tabs_count then
+    return tostring(tabnr)
+  end
+
+  -- Use gettabvar which accepts tab number directly
+  local name = fn.gettabvar(tabnr, "WSName")
+  if name and name ~= "" then
+    -- Truncate long names to keep UI clean
+    if #name > 12 then
+      return name:sub(1, 10) .. ".."
+    end
+    return name
+  end
+  -- Fallback to workspace ID or tab number if no name set
+  local ws_id = fn.gettabvar(tabnr, "WS")
+  return tostring(ws_id ~= "" and ws_id or tabnr)
+end
+
 ------------------------------------- modules -----------------------------------------
 
 M.treeOffset = function()
@@ -89,7 +124,8 @@ M.tabs = function()
   if tabs > 1 then
     for nr = 1, tabs, 1 do
       local tab_hl = "TabO" .. (nr == fn.tabpagenr() and "n" or "ff")
-      result = result .. btn(" " .. nr .. " ", tab_hl, "GotoTab", nr)
+      local ws_name = get_ws_name(nr)
+      result = result .. btn(" " .. ws_name .. " ", tab_hl, "GotoTab", nr)
     end
 
     local new_tabtn = btn(" 󰐕 ", "TabNewBtn", "NewTab")
