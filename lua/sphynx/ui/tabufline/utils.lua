@@ -33,10 +33,11 @@ local function new_hl(group1, group2)
 end
 
 local function gen_unique_name(name, index)
-  for i2, nr2 in ipairs(vim.t.bufs) do
+  local bufs = M.get_listed_bufs()
+  for i2, nr2 in ipairs(bufs) do
     local filepath = filename(buf_name(nr2))
     if index ~= i2 and filepath == name then
-      return vim.fn.fnamemodify(buf_name(vim.t.bufs[index]), ":h:t") .. "/" .. name
+      return vim.fn.fnamemodify(buf_name(bufs[index]), ":h:t") .. "/" .. name
     end
   end
 end
@@ -87,6 +88,12 @@ M.style_buf = function(nr, i, w)
   name = txt(name .. close_btn, "BufO" .. (is_curbuf and "n" or "ff"))
 
   return name
+end
+
+M.get_listed_bufs = function ()
+  return vim.tbl_filter(function(bufnr)
+    return vim.bo[bufnr].buflisted and api.nvim_buf_is_valid(bufnr)
+  end, api.nvim_list_bufs())
 end
 
 return M

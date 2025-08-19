@@ -13,7 +13,6 @@ M.configs = {
         local palette = require("sphynx.colors.palette.onenord").colors
         local ok, onenord = pcall(require, "onenord")
         if not ok then
-            print('ciao')
             return
         end
 
