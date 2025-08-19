@@ -21,18 +21,18 @@ M.configs = {
         local utils = require("sphynx.utils")
         -- if you are using session (ex. startify) close all tabs before exist,
         -- otherwise opened buffers are not restored.
-        utils.define_augroups {
-            _workspace = {
-                {
-                    event = "VimLeavePre",
-                    opts = {
-                        pattern = "*",
-                        command = [[silent! tabo]],
-                        nested = true,
-                    },
-                },
-            }
-        }
+        -- utils.define_augroups {
+        --     _workspace = {
+        --         {
+        --             event = "VimLeavePre",
+        --             opts = {
+        --                 pattern = "*",
+        --                 command = [[silent! tabo]],
+        --                 nested = true,
+        --             },
+        --         },
+        --     }
+        -- }
     end,
 }
 
@@ -47,6 +47,7 @@ M.keybindings = function()
         { "<leader>" .. prefix .. "p", [[<Cmd>echo WS_Line()<CR>]], desc = "Print the tab status [Workspace]" },
         { "<leader>" .. prefix .. "<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left [Workspace]" },
         { "<leader>" .. prefix .. "<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right [Workspace]" },
+        { "<leader>" .. prefix .. "r", [[<Cmd>TabRename<CR>]], desc = "Rename current Tab [ui/tabbufline/lazyload]" },
         { "<leader>" .. prefix .. "n", [[<Cmd>tabnew<CR>]], desc = "Tab new [Workspace]" },
         { "<leader>" .. prefix .. "#", desc = "New tab or move exist tab .N [Workspace]" },
         { "<leader>" .. prefix .. "m", group = "󰆾 Move" },

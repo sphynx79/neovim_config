@@ -6,6 +6,7 @@ local txt = require("sphynx.ui.tabufline.utils").txt
 local btn = require("sphynx.ui.tabufline.utils").btn
 local strep = string.rep
 local style_buf = require("sphynx.ui.tabufline.utils").style_buf
+local get_listed_bufs = require("sphynx.ui.tabufline.utils").get_listed_bufs
 local cur_buf = api.nvim_get_current_buf
 local opts = sphynx.config.ui.tabufline
 
@@ -21,7 +22,7 @@ vim.cmd [[
   endfunction]]
 
 vim.cmd [[
-  function! TbKillBuf(bufnr,b,c,d) 
+  function! TbKillBuf(bufnr,b,c,d)
     call luaeval('require("sphynx.ui.tabufline").close_buffer(_A)', a:bufnr)
   endfunction]]
 
@@ -54,39 +55,18 @@ local function available_space()
   return vim.o.columns - modules.width
 end
 
--- Helper function to get workspace name with fallback
--- local function get_ws_name(tabnr)
---   local name = vim.t[tabnr].WSName
---   if name and name ~= "" then
---     -- Truncate long names to keep UI clean
---     if #name > 12 then
---       return name:sub(1, 10) .. ".."
---     end
---     return name
---   end
---   -- Fallback to number if no name set
---   return tostring(vim.t[tabnr].WS or tabnr)
--- end
+-- Get tab display name with truncation if needed
+local function get_tab_display_name(tabnr)
+  local tabufline_module = require("sphynx.ui.tabufline")
+  local name = tabufline_module.get_tab_name(tabnr)
 
-local function get_ws_name(tabnr)
-  -- Check if tab exists before accessing it
-  local tabs_count = fn.tabpagenr("$")
-  if tabnr > tabs_count then
-    return tostring(tabnr)
+  -- Truncate long names to keep tabline readable
+  local max_len = 15
+  if #name > max_len then
+    name = string.sub(name, 1, max_len - 2) .. ".."
   end
 
-  -- Use gettabvar which accepts tab number directly
-  local name = fn.gettabvar(tabnr, "WSName")
-  if name and name ~= "" then
-    -- Truncate long names to keep UI clean
-    if #name > 12 then
-      return name:sub(1, 10) .. ".."
-    end
-    return name
-  end
-  -- Fallback to workspace ID or tab number if no name set
-  local ws_id = fn.gettabvar(tabnr, "WS")
-  return tostring(ws_id ~= "" and ws_id or tabnr)
+  return name
 end
 
 ------------------------------------- modules -----------------------------------------
@@ -98,16 +78,15 @@ end
 
 M.buffers = function()
   local buffers = {}
-  local has_current = false -- have we seen current buffer yet?
+  local has_current = false
 
-  vim.t.bufs = vim.tbl_filter(vim.api.nvim_buf_is_valid, vim.t.bufs)
+  local bufs = get_listed_bufs()
 
-  for i, nr in ipairs(vim.t.bufs) do
+  for i, nr in ipairs(bufs) do
     if ((#buffers + 1) * opts.bufwidth) > available_space() then
       if has_current then
         break
       end
-
       table.remove(buffers, 1)
     end
 
@@ -115,7 +94,7 @@ M.buffers = function()
     table.insert(buffers, style_buf(nr, i, opts.bufwidth))
   end
 
-  return table.concat(buffers) .. txt("%=", "Fill") -- buffers + empty space
+  return table.concat(buffers) .. txt("%=", "Fill")
 end
 
 M.tabs = function()
@@ -124,8 +103,11 @@ M.tabs = function()
   if tabs > 1 then
     for nr = 1, tabs, 1 do
       local tab_hl = "TabO" .. (nr == fn.tabpagenr() and "n" or "ff")
-      local ws_name = get_ws_name(nr)
-      result = result .. btn(" " .. ws_name .. " ", tab_hl, "GotoTab", nr)
+      local tab_name = get_tab_display_name(nr)
+
+      -- Make tab clickable for both navigation and renaming
+      local tab_btn = btn(" " .. tab_name .. " ", tab_hl, "GotoTab", nr)
+      result = result .. tab_btn
     end
 
     local new_tabtn = btn(" 󰐕 ", "TabNewBtn", "NewTab")
