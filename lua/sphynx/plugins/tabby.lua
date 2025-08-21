@@ -16,23 +16,35 @@ M.configs = {
         local api = require('tabby.module.api')
         -- local win_name = require('tabby.feature.win_name')
         -- local getBufOpt = vim.api.nvim_set_option_value
+        local colors = require("sphynx.colors").get_color()
 
         local theme = {
-            fill = 'TabLineFill',
+            fill = { bg = colors.grey11 },
+            TabLineLogo = { fg = colors.cyan, bg = colors.grey13 },
+            TabLineWinCur = { fg = colors.blue, bg = colors.bg1 },
+            TabLineWinSepCur = { fg = colors.blue, bg = colors.bg1 },
+            TabLineWin = { fg = colors.grey1, bg = colors.grey11 },
+            TabLineWinSep = { fg = colors.grey10, bg = colors.grey11 },
+            TabLineBufCurModified = { fg = colors.yellow, bg = colors.bg1 },
+            TabLineBufModified = { fg = colors.yellow, bg = colors.grey11 },
             -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
             head = 'TabLine',
-            current_tab = {fg = '#22262F', bg = '#7B99B8', style='bold' },
-            tab = {fg = '#bbc2d0', bg = '#6F7B93'},
+            current_tab = { fg = '#22262F', bg = '#7B99B8', style = 'bold' },
+            tab = { fg = '#bbc2d0', bg = '#6F7B93' },
             current_buf = 'TabLineSel',
             buf = { fg = '#787e87', bg = '#3b4252' },
             separator = { fg = '#787e87', bg = '#3b4252' },
+            TabLineTab = { fg = colors.grey9, bg = colors.bg },
+            TabLineTabCur = { fg = colors.bg, bg = colors.grey9 },
+            TabLineTabSepCur = { fg = colors.grey9, bg = colors.bg },
         }
 
         local function createLogo(line)
             return {
-                { '  ', hl = { fg = '#8fbcbb', bg = '#3b4252' } },
-                -- { '│', hl = theme.separator },
-                line.sep('', theme.head, theme.fill),
+                { '  ', hl = theme. TabLineLogo  },
+                { '', hl = theme. TabLineLogo },
+                -- line.sep('', theme.head, theme.fill),
+                -- line.sep('│', theme.head, theme.logo ),
             }
         end
 
@@ -49,18 +61,38 @@ M.configs = {
         end
 
         -- Funzione per renderizzare un singolo buffer
-        local function renderBuffer(buf, i, count)
-            local hl = buf.is_current() and theme.current_buf or theme.buf
+        local function renderBuffer(buf, i, count, line)
+            local hl, pre
+            local preSym = '▌'
+            local preSym_cur = '▏'
+
+
+
+            if buf.is_current() then
+                hl = theme.TabLineWinCur
+                pre = { preSym .. ' ', hl = theme.abLineWinSepCur }
+            else
+                hl = theme.TabLineWin
+                pre = { preSym_cur .. ' ', hl =  theme.TabLineWinSep }
+            end
+
+            local icon = buf.file_icon()
+            if icon then
+                icon = icon .. ' '
+            else
+                icon = ''
+            end
+
+
             return {
-                buf.is_current() and '' or '',
-                buf.file_icon(),
-                ' ',
+                pre,
+                icon,
                 buf.name(),
-                buf.is_changed() and ' ●' or '',
-                -- Aggiungi separatore solo se non è l'ultimo buffer
-                i < count and ' │' or '',
+                {
+                    buf.is_changed() and '● ' or '  ',
+                    hl = buf.is_current() and theme.TabLineBufCurModified or theme.TabLineBufModified,
+                },
                 hl = hl,
-                margin = ' ',
             }
         end
 
@@ -72,7 +104,7 @@ M.configs = {
             if tab.in_jump_mode() then
                 prefix = '[' .. tab.jump_key() .. '] ' -- [a] in jump mode
             else
-                prefix = '' -- spazio per allineamento
+                prefix = ''                            -- spazio per allineamento
             end
 
             return {
@@ -81,7 +113,7 @@ M.configs = {
                 tab.is_current() and '' or '', -- spazio extra per current
                 tab.close_btn('×'),
                 -- i < count and '│' or '',
-                 i < count and '  ' or '',
+                i < count and '  ' or '',
                 hl = hl,
                 margin = ' ',
             }
@@ -139,7 +171,6 @@ M.configs = {
 
                     -- Tab section
                     show_tabs and line.tabs().foreach(renderTab) or '',
-                    -- line.tabs().foreach(renderTab),
 
                     -- Tail
                     show_tabs and createTabSection(line) or '',
@@ -174,6 +205,7 @@ M.configs = {
                 })
             end,
         })
+
         -- === KEYBINDINGS ===
         local opts = { noremap = true, silent = true }
 
