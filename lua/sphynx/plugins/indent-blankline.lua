@@ -93,7 +93,7 @@ M.configs = {
             },
 
             indent = {
-                char = "│",
+                char =  '▏',
                 tab_char = "→",
                 highlight = highlight,
             },
