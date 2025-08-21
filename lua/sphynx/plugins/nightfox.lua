@@ -70,6 +70,7 @@ M.configs = {
                 TbCloseAllBufsBtn           = { fg = palette.red, bg = palette.grey13, style = "bold" },
                 -- IndentBlankline
                 IndentBlanklineContextChar  = { fg = palette.orange },
+                VirtColumn                  = { fg = palette.grey12 },
             },
             nordfox = {
                 -- Normal                      = { fg = palette.fg, bg = palette.bg1 },

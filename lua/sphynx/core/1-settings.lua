@@ -221,7 +221,8 @@ local cmd = vim.cmd
         vim.opt.showmode = false
         -- set 5 lines to the cursor - when moving vertically using j/k
         vim.opt.so = 5
-        -- Setta per ogni buffer l'opzione hidden di default, questo mi permette di passare in maniera più pratica tra i buffer(ved. usr_22: nascondere i buffer)
+        -- Setta per ogni buffer l'opzione hidden di default, questo mi permette di passare in
+        -- maniera più pratica tra i buffer(ved. usr_22: nascondere i buffer)
         vim.opt.hidden = true
         -- show line number
         vim.opt.number = true
@@ -243,7 +244,8 @@ local cmd = vim.cmd
         vim.opt.winblend = 5
         -- Maximum number of entries in a popup
         vim.opt.pumheight = 10
-        -- Always show the signcolumn, se metto "number" al posto di "yes" mostra i sign nella colonna dei numer
+        -- Always show the signcolumn, se metto "number" al posto di "yes"
+        -- mostra i sign nella colonna dei numer
         vim.opt.signcolumn = "yes"
     --}}} UI Setting
 
