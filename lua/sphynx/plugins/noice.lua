@@ -103,11 +103,10 @@ M.configs = {
                 opts = { skip = true },
             },
 
-            -- Show recording messages
             {
-                view = 'mini',
-                filter = { event = 'msg_showmode', any = { { find = 'recording' }, { find = '记录' } } },
+                filter = { event = "msg_show", find = "lsp_signature? handler RPC" }, opts = { skip = true }
             },
+
             ignore_msg("search_count", nil),
             ignore_msg("", "written"),
             ignore_msg("", "update"),
@@ -132,7 +131,7 @@ M.configs = {
                     view = 'lsp-view',
                     throttle = 1000 / 30,
                 },
-                signature = { enabled = true }, -- if used lspsaga or lsp_signature set disable
+                signature = { enabled = false }, -- if used lspsaga or lsp_signature set disable
                 hover = {
                     enabled = true,
                     opts = {
@@ -166,10 +165,10 @@ M.configs = {
             },
 
             cmdline = {
-                -- view = "cmdline_popup",                 -- The kind of popup used for :
-                view = "cmdline_popup",    -- The kind of popup used for :
-                enabled = true,      -- enables the Noice cmdline UI
-                view_search = false, -- view for search count messages. Set to `false` to disable
+                view = "cmdline_popup", -- The kind of popup used for :
+                -- view = "cmdline",    -- The kind of popup used for :
+                enabled = true,         -- enables the Noice cmdline UI
+                view_search = false,    -- view for search count messages. Set to `false` to disable
                 -- view = 'cmdline_popup',
                 format = {
                     cmdline = { conceal = enable_conceal, pattern = "^:", icon = ">", lang = "vim" },
@@ -207,10 +206,10 @@ M.configs = {
             },
 
             presets = {
-                bottom_search = true,          -- use a classic bottom cmdline for search
-                command_palette = false,       -- position the cmdline and popupmenu together
-                long_message_to_split = false, -- long messages will be sent to a split
-                inc_rename = false,            -- enables an input dialog for inc-rename.nvim
+                bottom_search = true,         -- use a classic bottom cmdline for search
+                command_palette = false,      -- position the cmdline and popupmenu together
+                long_message_to_split = true, -- long messages will be sent to a split
+                inc_rename = false,           -- enables an input dialog for inc-rename.nvim
             },
 
             views = {
@@ -226,17 +225,45 @@ M.configs = {
                         height = "auto",
                     },
                     border = {
-                        style = "rounded",
-                        padding = { 0, 1 },
+                        -- style = "rounded",
+                        style = sphynx.config.border_style,
+                        padding = { 0, 0 },
                     },
+                    win_options = {
+                        winblend = 6,
+                        winhighlight = {
+                            Normal      = "NoiceCmdlinePopup",
+                            FloatBorder = "NoiceCmdlinePopupBorder",
+                            FloatTitle  = "NoiceCmdlinePopupTitle",
+                        },
+                    },
+                },
+                cmdline_popupmenu = {
+                    view = "popupmenu",
+                    zindex = 200,
                 },
                 popupmenu = {
                     relative = "editor",
+                    enabled = true,
                     backend = 'nui',
                     position = { row = 8, col = "50%" },
                     size = { width = 60, height = 10 },
                     border = { style = "rounded", padding = { 0, 1 } },
-                    win_options = { winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" } },
+                    win_options = {
+                        winblend = 60,
+                        winhighlight = {
+                            Normal      = "NoicePopupmenu",
+                            FloatBorder = "NoicePopupmenuBorder",
+                            CursorLine  = "NoicePopupmenuSelected",
+                            PmenuMatch  = "NoicePopupmenuMatch",
+                        },
+                    },
+                    -- win_options = {
+                    --     winhighlight = {
+                    --         Normal = "Normal",
+                    --         FloatBorder = "DiagnosticInfo"
+                    --     }
+                    -- },
                 },
                 mini = {
                     reverse = false,
@@ -259,49 +286,49 @@ M.configs = {
                     },
                     win_options = { winblend = 0 },
                 },
-                ['cmdline'] = {
-                    backend = 'mini',
-                    relative = 'editor',
-                    align = 'message-left',
-                    timeout = 100,
-                    reverse = true,
-                    text = {
-                        top = " Command ",
-                        top_align = "center", -- "left" | "center" | "right"
-                    },
-                    position = { row = -2, col = 0 },
-                    -- size = 'auto',
-                    size = {
-                        height = 'auto',
-                        width = "100%",
-                    },
-                    max_height = 2,
-                    zindex = 60,
+                -- ['cmdline'] = {
+                --     backend = 'mini',
+                --     relative = 'editor',
+                --     align = 'message-left',
+                --     timeout = 100,
+                --     reverse = true,
+                --     text = {
+                --         top = " Command ",
+                --         top_align = "center", -- "left" | "center" | "right"
+                --     },
+                --     position = { row = -2, col = 0 },
+                --     -- size = 'auto',
+                --     size = {
+                --         height = 'auto',
+                --         width = "100%",
+                --     },
+                --     max_height = 2,
+                --     zindex = 60,
 
-                    border = {
-                        style = "solid",
-                        -- style = {
-                        --     { '╭', 'NoiceCmdlineBorder' },
-                        --     { '─', 'NoiceCmdlineBorder' },
-                        --     { '╮', 'NoiceCmdlineBorder' },
-                        --     { '╯', 'NoiceCmdlineBorder' },
-                        --     { '─', 'NoiceCmdlineBorder' },
-                        --     { '╰', 'NoiceCmdlineBorder' },
-                        --     { '│', 'NoiceCmdlineBorder' },
-                        -- },
-                        padding = { left = 0, right = 1 },
-                    },
+                --     border = {
+                --         style = "solid",
+                --         -- style = {
+                --         --     { '╭', 'NoiceCmdlineBorder' },
+                --         --     { '─', 'NoiceCmdlineBorder' },
+                --         --     { '╮', 'NoiceCmdlineBorder' },
+                --         --     { '╯', 'NoiceCmdlineBorder' },
+                --         --     { '─', 'NoiceCmdlineBorder' },
+                --         --     { '╰', 'NoiceCmdlineBorder' },
+                --         --     { '│', 'NoiceCmdlineBorder' },
+                --         -- },
+                --         padding = { left = 0, right = 1 },
+                --     },
 
-                    win_options = {
-                        winblend = 6,
-                        winhighlight = {
-                            Normal = "NoiceCmdline", -- sfondo/fg del contenuto
-                            -- FloatBorder = "NoiceCmdlinePopupBorder", -- colore del bordo
-                            IncSearch = '',
-                            Search = ''
-                        },
-                    },
-                },
+                --     win_options = {
+                --         winblend = 6,
+                --         winhighlight = {
+                --             Normal = "NoiceCmdline", -- sfondo/fg del contenuto
+                --             -- FloatBorder = "NoiceCmdlinePopupBorder", -- colore del bordo
+                --             IncSearch = '',
+                --             Search = ''
+                --         },
+                --     },
+                -- },
 
                 ['lsp-view'] = {
                     backend = 'mini',

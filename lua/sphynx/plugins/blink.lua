@@ -221,9 +221,11 @@ M.configs = {
                     -- end,
                     auto_show = false,
 
-                    border = "single",
+                    border = sphynx.config.border_style,
+                    winblend = 6,
 
                     draw = {
+                        align_to = 'cursor',
                         columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
                         components = {
                             kind_icon = {
@@ -267,7 +269,7 @@ M.configs = {
                     auto_show = true,
                     auto_show_delay_ms = 500,
                     window = {
-                        border = "single",
+                        border = sphynx.config.border_style,
                     },
                 },
                 -- Display a preview of the selected item on the current line
@@ -278,7 +280,7 @@ M.configs = {
             signature = {
                 enabled = true,
                 window = {
-                    border = "single",
+                    border =  sphynx.config.border_style,
                 },
             },
 

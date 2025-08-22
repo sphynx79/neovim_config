@@ -42,4 +42,12 @@ M.colors = {
     grey19    = "#020203",
 }
 
+local nord0 = "#2E3440" -- bg scuro
+local nord1 = "#3B4252"
+local nord2 = "#434C5E"
+local nord3 = "#4C566A" -- tipico per i bordi
+local snow1 = "#E5E9F0" -- fg chiaro
+local frost2 = "#88C0D0" -- accento azzurro
+local aur_y = "#EBCB8B" -- giallo (per /? opzionale)
+
 return M
