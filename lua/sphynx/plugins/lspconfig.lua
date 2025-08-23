@@ -91,7 +91,7 @@ M.configs = {
         -- Custom capabilities.
         local custom_capabilities = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.textDocument.did_save = false
+            capabilities.textDocument.hover = { contentFormat = { "markdown", "plaintext" } }
             capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
             capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
             capabilities.textDocument.completion.completionItem.preselectSupport = true
@@ -100,6 +100,11 @@ M.configs = {
             capabilities.textDocument.completion.completionItem.snippetSupport = true
             -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
             capabilities.textDocument.completion.completionItem.snippetSupport = true;
+            capabilities.textDocument.signatureHelp.signatureInformation =
+                vim.tbl_deep_extend("force",
+                    capabilities.textDocument.signatureHelp.signatureInformation or {},
+                    { documentationFormat = { "markdown", "plaintext" } }
+                )
             capabilities.textDocument.completion.completionItem.resolveSupport = {
                 properties = {
                     "documentation",
@@ -259,7 +264,7 @@ M.configs = {
                         hover = true,
                         diagnostics = true,
                         autoformat = false,
-                        formatting = false,
+                        formatting = true,
                         folding = false,
                         useBundler = false
                     }

@@ -44,6 +44,7 @@ local modules = {
         "dd",                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
         "goto-preview",         -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
         "glance",               -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
+        -- "lspsaga",
         -- "lsp_signature",
     --}}} LSP
 
