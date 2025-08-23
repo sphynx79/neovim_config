@@ -71,6 +71,7 @@ M.configs = {
                 -- IndentBlankline
                 IndentBlanklineContextChar  = { fg = palette.orange },
                 VirtColumn                  = { fg = palette.grey12 },
+                -- Noice
                 NoiceCmdlinePopup           = { fg = palette.grey3, bg = palette.bg1 },
                 NoiceCmdlinePopupBorder     = { fg = palette.cyan, bg = palette.bg1 },
                 NordCmdlineBorder           = { fg = palette.cyan, bg = palette.bg1 },
@@ -82,6 +83,9 @@ M.configs = {
                 NoicePopupmenuMatch         = { fg = palette.cyan, style = 'bold' },
                 NoiceScrollbar              = { fg = palette.grey8, bg = palette.bg1 },
                 NoiceScrollbarThumb         = { fg = palette.grey12, bg = palette.grey12 },
+                NoicePopup                  = { fg = palette.grey3, bg = palette.bg1 },
+                NoicePopupBorder            = { fg = palette.cyan, bg = palette.bg1 },
+                -- Blink
                 BlinkCmpMenu                = { fg = palette.grey3, bg = palette.bg1 },
                 BlinkCmpMenuBorder          = { fg = palette.cyan, bg = palette.bg1 },
                 BlinkCmpMenuSelection       = { fg = palette.grey3, bg = palette.grey12, style = 'bold' },

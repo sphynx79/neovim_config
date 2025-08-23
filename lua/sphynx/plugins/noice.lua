@@ -123,7 +123,8 @@ M.configs = {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
-                    ["cmp.entry.get_documentation"] = true,
+                    -- Da Abilitare se uso cmp
+                    -- ["cmp.entry.get_documentation"] = true,
                 },
                 progress = {
                     enabled = true,
@@ -135,7 +136,6 @@ M.configs = {
                 hover = {
                     enabled = true,
                     opts = {
-                        border = "double",
                         size = {
                             max_width = 170,
                             max_height = 120,
@@ -330,6 +330,19 @@ M.configs = {
                 --     },
                 -- },
 
+                hover = {
+                    border = {
+                        style = sphynx.config.border_style,
+                        padding = { 0, 1 }
+                    },
+                    win_options = {
+                        winhighlight = {
+                            Normal = "NoicePopup",
+                            FloatBorder = "NoicePopupBorder"
+                        },
+                    },
+                },
+
                 ['lsp-view'] = {
                     backend = 'mini',
                     reverse = true,
@@ -347,11 +360,11 @@ M.configs = {
 
                     border = {
                         text = { top = ' LSP Progress ', top_align = 'right', bottom = '' },
-                        style = { { ' ', 'NoiceLSP' } },
+                        style = sphynx.config.border_style,
                         padding = { top = 0, bottom = 0, left = 1, right = 0 },
                     },
 
-                    win_options = { winblend = 0, winhighlight = { Normal = 'NoiceLSP' } },
+                    win_options = { winblend = 6, winhighlight = { Normal = 'NoiceLSP' } },
                 },
             },
 
