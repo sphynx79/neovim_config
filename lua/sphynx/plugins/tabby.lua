@@ -8,6 +8,12 @@ M.plugins = {
     },
 }
 
+M.setup = {
+    ["tabby"] = function()
+        M.keybindings()
+    end,
+}
+
 M.configs = {
     ["tabby"] = function()
         vim.o.showtabline = 2
@@ -41,8 +47,8 @@ M.configs = {
 
         local function createLogo(line)
             return {
-                { '  ', hl = theme. TabLineLogo  },
-                { '', hl = theme. TabLineLogo },
+                { '  ', hl = theme.TabLineLogo },
+                { '', hl = theme.TabLineLogo },
                 -- line.sep('', theme.head, theme.fill),
                 -- line.sep('│', theme.head, theme.logo ),
             }
@@ -73,7 +79,7 @@ M.configs = {
                 pre = { preSym .. ' ', hl = theme.abLineWinSepCur }
             else
                 hl = theme.TabLineWin
-                pre = { preSym_cur .. ' ', hl =  theme.TabLineWinSep }
+                pre = { preSym_cur .. ' ', hl = theme.TabLineWinSep }
             end
 
             local icon = buf.file_icon()
@@ -206,54 +212,6 @@ M.configs = {
             end,
         })
 
-        -- === KEYBINDINGS ===
-        local opts = { noremap = true, silent = true }
-
-        -- Tab navigation con Alt
-        for i = 1, 9 do
-            vim.keymap.set('n', '<A-' .. i .. '>', i .. 'gt', opts)
-        end
-
-        -- Tab management
-        local tab_keys = {
-            ['<leader>tn'] = ':tabnew<CR>',
-            ['<leader>tc'] = ':tabclose<CR>',
-            ['<leader>to'] = ':tabonly<CR>',
-            ['<leader>th'] = ':tabprevious<CR>',
-            ['<leader>tl'] = ':tabnext<CR>',
-            ['<leader>t<'] = ':-tabmove<CR>',
-            ['<leader>t>'] = ':+tabmove<CR>',
-            ['<leader>tj'] = ':Tabby jump_to_tab<CR>',
-            ['<leader>tw'] = ':Tabby pick_window<CR>',
-        }
-
-        for key, cmd in pairs(tab_keys) do
-            vim.keymap.set('n', key, cmd, opts)
-        end
-
-        -- Rinomina tab con funzione interattiva
-        vim.keymap.set('n', '<leader>tr', function()
-            vim.ui.input({ prompt = 'Nome tab: ' }, function(name)
-                if name and name ~= '' then
-                    vim.cmd('Tabby rename_tab ' .. name)
-                end
-            end)
-        end, { desc = 'Rinomina tab' })
-
-        -- Buffer navigation
-        local buf_keys = {
-            ['<leader>bp'] = ':bprevious<CR>',
-            ['<leader>bn'] = ':bnext<CR>',
-            ['<leader>bd'] = ':bdelete<CR>',
-        }
-
-        for key, cmd in pairs(buf_keys) do
-            vim.keymap.set('n', key, cmd, opts)
-        end
-
-        -- Buffer picker veloce
-        vim.keymap.set('n', '<leader>bb', ':buffer ', { noremap = true })
-
         -- Settings
         vim.o.showtabline = 2
         vim.opt.sessionoptions:append({ 'tabpages', 'globals' })
@@ -273,5 +231,43 @@ M.configs = {
         end, {})
     end,
 }
+
+M.keybindings = function()
+    local mapping = require("sphynx.core.5-mapping")
+    local wk = require("which-key")
+    local prefix = "w"
+
+    local function rename_tab()
+        vim.ui.input({ prompt = 'Nome tab: ' }, function(name)
+            if name and name ~= '' then
+                vim.cmd('Tabby rename_tab ' .. name)
+            end
+        end)
+    end
+
+    wk.add({
+        { "<leader>" .. prefix, group = "  Workspace" },
+        { "<leader>" .. prefix .. "r", rename_tab, desc = "Rinomina tab [Tabby]" },
+        { "<leader>" .. prefix .. "n", [[<Cmd>tabnew<CR>]], desc = "Tab new [Tabby]" },
+        { "<leader>" .. prefix .. "j", [[<Cmd>Tabby jump_to_tab<CR>]], desc = "Jump to Tab [Tabby]" },
+        { "<leader>" .. prefix .. "w", [[<Cmd>Tabby pick_window<CR>]], desc = "Pick window tab [Tabby]" },
+        { "<leader>" .. prefix .. "<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left [Tabby]" },
+        { "<leader>" .. prefix .. "<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right [Tabby]" },
+        { "<leader>" .. prefix .. "c", group = " Close [Tabby]" },
+        { "<leader>" .. prefix .. "c" .. "c", [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], desc = "Close current tab [utils=>init.lua]" },
+        { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
+        { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
+        { "<leader>" .. prefix .. "m" .. "<Left>", [[<Cmd>:-tabmove<CR>]], desc = "Move tab left [Tabby]" },
+        { "<leader>" .. prefix .. "m" .. "<Right>", [[<Cmd>:+tabmove<CR>]], desc = "Move tab right [Tabby]" },
+    }, mapping.opt_mappping)
+
+    -- Close tab .N
+    for i = 1, 10 do
+        wk.add({
+            { "<leader>" .. prefix .. "c" .. tostring(i),  [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]], hidden = true },
+        }, mapping.opt_mappping)
+    end
+
+end
 
 return M

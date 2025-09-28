@@ -253,12 +253,7 @@ local mapping = {}
 --}}} Buffer
 
 --{{{ Tab-Workspace
-  require("which-key").add({
-    { "e", group = "󰓫 Workspace" },
-    { "e<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left" },
-    { "e<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right" },
-    { "en", [[<Cmd>tabnew<CR>]], desc = "Tab new" },
-  })
+--
 --}}} Tab-Workspace
 
 --{{{ Editing

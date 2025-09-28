@@ -52,12 +52,12 @@ M.keybindings = function()
         { "<leader>" .. prefix .. "#", desc = "New tab or move exist tab .N [Workspace]" },
         { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
         { "<leader>" .. prefix .. "m" .. "#", desc = "Move buffer to tab .N [Workspace]" },
-        { "<leader>" .. prefix .. "c", group = " Close" },
+        { "<leader>" .. prefix .. "c", group = " Close [Workspace]" },
         { "<leader>" .. prefix .. "c" .. "c", [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], desc = "Close current tab [utils=>init.lua]" },
         { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
     }, mapping.opt_mappping)
 
-    -- New tab .N
+    -- New or go to if exist tab .N
     for i = 1, 10 do
         wk.add({
             { "<leader>" .. prefix .. tostring(i),  [[<Cmd>WS ]] .. tostring(i) .. [[<CR>]], hidden = true },
