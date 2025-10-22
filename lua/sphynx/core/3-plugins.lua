@@ -19,7 +19,7 @@ local modules = {
     --}}} CORE
 
     --{{{ UI
-        "satellite",
+        -- "satellite",
         -- "scrollview",        -- OK - Barra di scorrimento
         "ufo",
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
@@ -114,6 +114,7 @@ local modules = {
         -- "vimade",
         -- "symbols-outline",
         -- "vista",
+        "aerial",
         "chatgpt",
         "nvim-pasta",
         "sayonara",
