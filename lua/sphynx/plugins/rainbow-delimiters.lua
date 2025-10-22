@@ -31,13 +31,13 @@ M.plugins = {
 
 M.configs = {
     ["rainbow-delimiters"] = function()
-        local rainbow_delimiters = require 'rainbow-delimiters'
         require 'rainbow-delimiters.setup'.setup {
             strategy = {
-                [''] = rainbow_delimiters.strategy['global'],
+                [''] = 'rainbow-delimiters.strategy.global',
             },
             query = {
-                [''] = 'rainbow-parens',
+                [''] = 'rainbow-delimiters',
+                lua = 'rainbow-blocks',
             },
             highlight = {
                 'RainbowDelimiterRed',
