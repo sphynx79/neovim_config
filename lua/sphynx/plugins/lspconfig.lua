@@ -8,6 +8,7 @@ Status: Active
 Author: neovim
 Repository: https://github.com/neovim/nvim-lspconfig
 Notes:
+ - Migrato alla nuova API vim.lsp.config/vim.lsp.enable (Neovim 0.11+)
  - Configurato con impostazioni condivise per tutti i server LSP
  - Integrazione con CMP o Blink per l'autocompletamento
  - Diagnostica avanzata con icone e finestre di dialogo personalizzate
@@ -31,7 +32,7 @@ Caratteristiche personalizzabili:
  - Segni di diagnostica (attivabili/disattivabili)
  - Inlay hints (attivabili/disattivabili)
 Da sapere:
- - Viene caricato in lazy-loading con specifici comandi e tipi di file
+ - Usa la nuova API nativa vim.lsp.config() invece di require('lspconfig').setup()
  - Percorsi hardcoded per alcuni server (es. AutoHotkey)
  - Supporto per più backend di completamento (cmp o blink)
 Keymaps disponibili:
@@ -84,9 +85,6 @@ M.setup = {
 M.configs = {
     ["lspconfig"] = function()
         local utils = require("sphynx.utils")
-        local configs = require "lspconfig.configs"
-        local util = require('lspconfig/util')
-        configs["ahk2"] = { default_config = {} }
 
         -- Custom capabilities.
         local custom_capabilities = function()
@@ -225,7 +223,7 @@ M.configs = {
                 end
 
                 -- code lens
-                if client.supports_method("textDocument/codeLens", { bufnr = bufnr }) then
+                if client:supports_method("textDocument/codeLens", { bufnr = bufnr }) then
                     vim.lsp.codelens.refresh({ bufnr = bufnr })
                     utils.define_augroups {
                         _CodeLens = {
@@ -253,7 +251,7 @@ M.configs = {
                 autostart = true,
                 -- cmd = { "solargraph.bat", "stdio" },
                 flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
-                root_dir = util.root_pattern("Gemfile", ".git"),
+                root_markers = { "Gemfile", ".git" },
                 single_file_support = false,
                 filetypes = {"ruby", "rakefile", "rb", "erb"},
                 settings = {
@@ -391,14 +389,10 @@ M.configs = {
             }
         }
 
-        -- Configura ogni server
-        local lspconfig = require('lspconfig')
+        -- Configura ogni server usando la nuova API vim.lsp.config
         for server_name, server_config in pairs(servers) do
             -- Unisci configurazioni condivise e specifiche
             local config = vim.tbl_deep_extend("force", shared_settings, server_config)
-
-            -- Funzione di setup per callback aggiuntivi specifici del server
-            config.on_setup = server_config.on_setup
 
             -- Salva la funzione on_attach originale
             local original_on_attach = config.on_attach
@@ -411,16 +405,14 @@ M.configs = {
                 end
             end
 
-            -- Rimuovi la funzione on_setup dalla configurazione LSP
+            -- Rimuovi campi non compatibili con vim.lsp.config
             config.on_setup = nil
 
-            -- Configura il server
-            lspconfig[server_name].setup(config)
-
-            -- Esegui callback personalizzati dopo il setup (se presenti)
-            if server_config.on_setup then
-                server_config.on_setup(lspconfig[server_name])
-            end
+            -- Configura il server con la nuova API
+            vim.lsp.config(server_name, config)
+            
+            -- Abilita il server per i suoi filetypes
+            vim.lsp.enable(server_name)
         end
     end,
 }
