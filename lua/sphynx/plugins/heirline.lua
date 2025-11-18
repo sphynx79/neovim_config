@@ -355,32 +355,72 @@ M.configs = {
             },
         }
 
-        local Path =  {
-            provider = function(self)
-                self.icon = " " .. " "
-                self.path = vim.fn.fnamemodify(vim.fn.expand('%:h'), ':p:~:.')
+        local Path = {
+            -- inizializzazione del componente
+            init = function(self)
+                local bufname = vim.fn.expand('%')
+
+                if bufname == '' then
+                    -- buffer senza nome
+                    self.path = '[No Name]'
+                    self.filename = self.path
+                    self.icon, self.icon_color = "", nil
+                    return
+                end
+
+                -- percorso completo (con ~, relativo alla cwd se applicabile)
+                self.path = vim.fn.fnamemodify(bufname, ':p:~:.')
+                -- solo il nome del file (senza path)
+                self.filename = vim.fn.fnamemodify(self.path, ':t')
+
+                -- estensione
+                local extension = vim.fn.fnamemodify(self.filename, ':e')
+
+                -- icona + colore da nvim-web-devicons
+                local ok, devicons = pcall(require, "nvim-web-devicons")
+                if ok then
+                    self.icon, self.icon_color = devicons.get_icon_color(
+                        self.filename,
+                        extension,
+                        { default = true }
+                    )
+                else
+                    -- fallback se devicons non è disponibile
+                    self.icon, self.icon_color = "", nil
+                end
             end,
-            hl = { fg = "blue", bold = true },
+
+            -- highlight dell'icona (se vuoi che l’icona sia colorata)
+            hl = function(self)
+                if self.icon_color then
+                    return { fg = self.icon_color, bold = true }
+                else
+                    return { fg = "blue", bold = true }
+                end
+            end,
 
             flexible = 1,
 
             {
-                -- evaluates to the full-lenth path
+                -- path completo
                 provider = function(self)
-                    local trail = self.path:sub(-1) == sep and "" or sep
-                    return self.icon .. self.path .. trail .." "
+                    local icon = self.icon and (" " .. self.icon .. " ") or " "
+                    -- se vuoi lo slash finale SOLO su directory:
+                    local trail = vim.fn.isdirectory(self.path) == 1 and "/" or ""
+                    return icon .. self.path .. trail .. " "
                 end,
             },
             {
-                -- evaluates to the shortened path
+                -- path abbreviato
                 provider = function(self)
+                    local icon = self.icon and (" " .. self.icon .. " ") or " "
                     local path = vim.fn.pathshorten(self.path)
-                    local trail = self.path:sub(-1) == sep and "" or sep
-                    return self.icon .. path .. trail .. " "
+                    local trail = vim.fn.isdirectory(self.path) == 1 and "/" or ""
+                    return icon .. path .. trail .. " "
                 end,
             },
             {
-                -- evaluates to "", hiding the component
+                -- nascosto
                 provider = "",
             },
         }
