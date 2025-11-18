@@ -69,6 +69,9 @@ M.configs = {
                 -- finestra NvimTree: usiamo la sua larghezza come padding
                 if ft == 'NvimTree' then
                     nvimtree_width = api.nvim_win_get_width(win) - logo_width
+                    if nvimtree_width < 0 then
+                        nvimtree_width = 0
+                    end
                 else
                     -- se c'è almeno una finestra "normale", la segniamo
                     local bt = api.nvim_get_option_value('buftype', { buf = buf })
@@ -109,7 +112,7 @@ M.configs = {
 
             if buf.is_current() then
                 hl = theme.TabLineWinCur
-                pre = { preSym .. ' ', hl = theme.abLineWinSepCur }
+                pre = { preSym .. ' ', hl = theme.TabLineWinSepCur }
             else
                 hl = theme.TabLineWin
                 pre = { preSym_cur .. ' ', hl = theme.TabLineWinSep }
@@ -309,7 +312,11 @@ M.keybindings = function()
     -- Close tab .N
     for i = 1, 10 do
         wk.add({
-            { "<leader>" .. prefix .. "c" .. tostring(i),  [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]], hidden = true },
+            {
+                "<leader>" .. prefix .. "c" .. tostring(i),
+                [[<Cmd>WS ]] .. tostring(i) .. [[ | lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
+                hidden = true
+            },
         }, mapping.opt_mappping)
     end
 
