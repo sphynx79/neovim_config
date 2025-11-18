@@ -19,7 +19,6 @@ M.configs = {
         vim.o.showtabline = 2
         -- if conf.alwaysShow then vim.o.showtabline = 2 end
 
-        local api = require('tabby.module.api')
         -- local win_name = require('tabby.feature.win_name')
         -- local getBufOpt = vim.api.nvim_set_option_value
         local colors = require("sphynx.colors").get_color()
@@ -27,13 +26,13 @@ M.configs = {
         local theme = {
             fill = { bg = colors.grey11 },
             TabLineLogo = { fg = colors.cyan, bg = colors.grey13 },
+            TabLineaPadding = { bg = colors.grey13 },
             TabLineWinCur = { fg = colors.blue, bg = colors.bg1 },
             TabLineWinSepCur = { fg = colors.blue, bg = colors.bg1 },
             TabLineWin = { fg = colors.grey1, bg = colors.grey11 },
             TabLineWinSep = { fg = colors.grey10, bg = colors.grey11 },
             TabLineBufCurModified = { fg = colors.yellow, bg = colors.bg1 },
             TabLineBufModified = { fg = colors.yellow, bg = colors.grey11 },
-            -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
             head = 'TabLine',
             current_tab = { fg = '#22262F', bg = '#7B99B8', style = 'bold' },
             tab = { fg = '#bbc2d0', bg = '#6F7B93' },
@@ -54,6 +53,40 @@ M.configs = {
             }
         end
 
+        local function get_nvimtree_padding()
+            local api = vim.api
+            local current_tab = api.nvim_get_current_tabpage()
+            local wins = api.nvim_tabpage_list_wins(current_tab)
+            local logo_width = 3       -- 1 spazio + icona + 1 spazio
+
+            local nvimtree_width = 0
+            local has_normal_window = false
+
+            for _, win in ipairs(wins) do
+                local buf = api.nvim_win_get_buf(win)
+                local ft = api.nvim_get_option_value('filetype', { buf = buf })
+
+                -- finestra NvimTree: usiamo la sua larghezza come padding
+                if ft == 'NvimTree' then
+                    nvimtree_width = api.nvim_win_get_width(win) - logo_width
+                else
+                    -- se c'è almeno una finestra "normale", la segniamo
+                    local bt = api.nvim_get_option_value('buftype', { buf = buf })
+                    if bt == '' then
+                        has_normal_window = true
+                    end
+                end
+            end
+
+            -- Se vuoi padding SOLO quando è aperto solo NvimTree (nessuna finestra "normale"):
+            -- if nvimtree_width > 0 and not has_normal_window then
+            --     return nvimtree_width
+            -- end
+            -- return 0
+
+            -- Versione semplice: metti padding ogni volta che NvimTree è aperto
+            return nvimtree_width
+        end
 
         local function filterBuffers(buf)
             local name = buf.name()
@@ -162,10 +195,22 @@ M.configs = {
                 local tab_count = vim.fn.tabpagenr('$')
                 local show_tabs = tab_count > 1
 
+                -- calcola padding dinamico in base a NvimTree
+                local nvimtree_padding = get_nvimtree_padding()
+                local padding_node = ''
+
+                if nvimtree_padding > 0 then
+                    -- puoi ridurre/scala­re il padding se ti sembra troppo
+                    padding_node = { string.rep(' ', nvimtree_padding), hl = theme.TabLineaPadding }
+                end
+
                 return {
 
                     -- Header/Logo
                     createLogo(line),
+
+                    -- Padding a sinistra quando NvimTree è aperto
+                    padding_node,
 
                     -- Buffer section con filtro
                     line.bufs()
