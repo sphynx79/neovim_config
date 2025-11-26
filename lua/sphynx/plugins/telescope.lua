@@ -359,6 +359,11 @@ M.keybindings = function()
     }, mapping.opt_mappping)
 
     wk.add({
+        { "t", group = " Tags" },
+        { "tS", [[<CMD>Telescope tagstack<CR>]], desc = "Tags stack [Telescope]" },
+    })
+
+    wk.add({
         { "<leader>" .. prefix, group = " Telescope" },
         { "<leader>" .. prefix .. "f", [[<Cmd>lua require("sphynx.plugins.telescope").project_files()<CR>]], desc = "find files" },
         { "<leader>" .. prefix .. "s", [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], desc = "search in current buffer" },

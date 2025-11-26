@@ -335,7 +335,6 @@ local mapping = {}
     { "t<Right>", [[:tjump /<C-r>=expand("<cword>")<CR><CR>]], desc = "Jump to the definition" },
     { "tv", [[<CMD>vsp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition vsplit" },
     { "ts", [[<CMD>sp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition split" },
-    { "tS", [[<CMD>tags <CR>]], desc = "Tags stack" },
   })
 --}}} Ctags
 
