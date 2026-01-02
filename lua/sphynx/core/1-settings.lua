@@ -251,11 +251,11 @@ local cmd = vim.cmd
 
     --{{{ Increase Perfomance
         -- migliora le performance di neovim
-        cmd([[syntax sync maxlines=3000]])
-        cmd([[syntax sync minlines=10]])
+        cmd([[syntax sync maxlines=10000]])
+        cmd([[syntax sync minlines=100]])
         vim.opt.cursorcolumn = false
         vim.opt.cursorline = false
-        vim.opt.synmaxcol = 2500
+        vim.opt.synmaxcol = 370
         -- Don't redraw while executing macros (good performance config)
         vim.opt.lazyredraw = true
         vim.opt.ruler = false
