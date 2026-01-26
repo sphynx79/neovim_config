@@ -12,7 +12,7 @@ colors.init = function(theme)
 end
 
 colors.get_color = function(colorscheme)
-    local current_theme = colorscheme or sphynx.config.colorscheme
+    local current_theme = colorscheme or vim.g.colors_name or sphynx.config.colorscheme
 
     local ok, palette = pcall(require, "sphynx.colors.palette." .. current_theme)
     if not ok then
@@ -21,6 +21,33 @@ colors.get_color = function(colorscheme)
     end
 
     return palette.colors
+end
+
+-- Ricarica il tema e tutti i componenti UI
+colors.reload = function(theme)
+    theme = theme or vim.g.colors_name
+
+    -- Aggiorna la config
+    sphynx.config.colorscheme = theme
+    colors.current.theme = theme
+
+    -- Ri-esegui il setup di nightfox per aggiornare gli highlight groups
+    local nightfox_plugin = require("sphynx.plugins.nightfox")
+    if nightfox_plugin.configs and nightfox_plugin.configs["nightfox"] then
+        nightfox_plugin.configs["nightfox"]()
+    end
+
+    -- Applica il colorscheme
+    vim.cmd("colorscheme " .. theme)
+
+    -- Ricarica tabby per aggiornare i colori della tabline
+    local tabby_plugin = require("sphynx.plugins.tabby")
+    if tabby_plugin.configs and tabby_plugin.configs["tabby"] then
+        tabby_plugin.configs["tabby"]()
+    end
+
+    -- Forza il redraw della tabline
+    vim.cmd("redrawtabline")
 end
 
 return colors
