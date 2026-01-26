@@ -72,7 +72,7 @@ M.configs = {
 
             indent = {
                 enable = true,
-                disable = { "python", "hyprlang" },
+                disable = { "python" },
             },
             matchup = {
                 enable = true,              -- mandatory, false will disable the whole extension
