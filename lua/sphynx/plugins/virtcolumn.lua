@@ -2,9 +2,11 @@ local M = {}
 
 M.plugins = {
     ["virtcolumn"] = {
-        "lukas-reineke/virt-column.nvim",
+        "sphynx79/virt-column.nvim",
         lazy = true,
         event = "BufReadPost",
+        pin = true,
+        commit = "7c12ad40adbb7ebcecbe72942c42837b66fe5985",
     },
 }
 
@@ -19,4 +21,3 @@ M.configs = {
 }
 
 return M
-
