@@ -4,11 +4,19 @@ local colors = {}
 colors.current = {
     theme = nil,
 }
+local function apply_colorscheme(theme)
+    local ok = pcall(vim.cmd, "colorscheme " .. theme)
+    return ok
+end
+
 -- if theme given, load given theme, otherwise load config theme
 colors.init = function(theme)
     -- Se theme è passato, usa quello, altrimenti usa la configurazione di default
     colors.current.theme = theme or sphynx.config.colorscheme
-    vim.cmd("colorscheme " .. colors.current.theme)
+    if not apply_colorscheme(colors.current.theme) then
+        colors.current.theme = "habamax"
+        apply_colorscheme(colors.current.theme)
+    end
 end
 
 colors.get_color = function(colorscheme)
@@ -32,16 +40,20 @@ colors.reload = function(theme)
     colors.current.theme = theme
 
     -- Ri-esegui il setup di nightfox per aggiornare gli highlight groups
-    local nightfox_plugin = require("sphynx.plugins.nightfox")
+    local nightfox_ok, nightfox_plugin = pcall(require, "sphynx.plugins.nightfox")
     if nightfox_plugin.configs and nightfox_plugin.configs["nightfox"] then
         nightfox_plugin.configs["nightfox"]()
     end
 
     -- Applica il colorscheme
-    vim.cmd("colorscheme " .. theme)
+    if not apply_colorscheme(theme) then
+        vim.notify("Couldn't load colorscheme: " .. theme .. ", fallback to habamax", vim.log.levels.WARN)
+        colors.current.theme = "habamax"
+        apply_colorscheme("habamax")
+    end
 
     -- Ricarica tabby per aggiornare i colori della tabline
-    local tabby_plugin = require("sphynx.plugins.tabby")
+    local tabby_ok, tabby_plugin = pcall(require, "sphynx.plugins.tabby")
     if tabby_plugin.configs and tabby_plugin.configs["tabby"] then
         tabby_plugin.configs["tabby"]()
     end

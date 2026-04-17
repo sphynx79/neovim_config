@@ -207,9 +207,9 @@ Plugin_setup = (function ()
     lazy.setup(read_plugin_config(), {
         root = sphynx.path.plugin_folder,
         lockfile = sphynx.path.nvim_config .. "/lazy-lock.json", -- lockfile generated after running update.
-		-- leave nil when passing the spec as the first argument to setup()
-		spec = nil, ---@type LazySpec
-		local_spec = true, -- load project specific .lazy.lua spec files. They will be added at the end of the spec.
+        -- leave nil when passing the spec as the first argument to setup()
+        spec = nil, ---@type LazySpec
+        local_spec = true, -- load project specific .lazy.lua spec files. They will be added at the end of the spec.
         defaults = {
             lazy = true,
         },
@@ -217,6 +217,7 @@ Plugin_setup = (function ()
         diff = {
             cmd = "git",
         },
+        install = { colorscheme = { "nordfox" } },
         git = {
             -- defaults for the `Lazy log` command
             -- log = { "-10" }, -- show the last 10 commits
@@ -249,10 +250,10 @@ Plugin_setup = (function ()
             hererocks = nil,
         },
         performance = {
-		    cache = {
-				enabled = true,
-			},
-			reset_packpath = true,
+            cache = {
+                enabled = true,
+            },
+            reset_packpath = true,
             rtp = {
                 reset = true,
                 paths = {
@@ -294,12 +295,12 @@ Plugin_setup = (function ()
                 },
             },
         },
-		-- lazy can generate helptags from the headings in markdown readme files,
-		-- so :help works even for plugins that don't have vim docs.
-		-- when the readme opens with :help it will be correctly displayed as markdown
-		readme = {
-			enabled = false,
-		},
+        -- lazy can generate helptags from the headings in markdown readme files,
+        -- so :help works even for plugins that don't have vim docs.
+        -- when the readme opens with :help it will be correctly displayed as markdown
+        readme = {
+            enabled = false,
+        },
         change_detection = {
             -- automatically check for config file changes and reload the ui
             enabled = false,
