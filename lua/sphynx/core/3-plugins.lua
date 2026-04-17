@@ -99,6 +99,7 @@ local modules = {
 
     -- {{{ MISC
         "treesitter",
+        "treesitter-textobjects",  -- OK - mi permette di selezionare metodi o classi usando treesitter
         "noice",
         "color",
         -- --"faster",

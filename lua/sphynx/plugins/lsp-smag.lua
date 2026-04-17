@@ -35,10 +35,11 @@ local M = {}
 
 M.plugins = {
     ["lsp_smag"] = {
-        "weilbith/nvim-lsp-smag",
+        "sphynx79/nvim-lsp-smag",
         lazy = true,
         event = "LspAttach",
         pin = true,
+        commit = "38c52b6937cd8a1a49ba1b95530ad82c632e0ea9"
     },
 }
 

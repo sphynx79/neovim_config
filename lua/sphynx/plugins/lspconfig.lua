@@ -224,18 +224,7 @@ M.configs = {
 
                 -- code lens
                 if client:supports_method("textDocument/codeLens", { bufnr = bufnr }) then
-                    vim.lsp.codelens.refresh({ bufnr = bufnr })
-                    utils.define_augroups {
-                        _CodeLens = {
-                            {
-                                event = { "BufEnter", "InsertLeave" },
-                                opts = {
-                                    buffer = bufnr,
-                                    callback = function() vim.lsp.codelens.refresh({ bufnr = bufnr }) end,
-                                },
-                            },
-                        }
-                    }
+                    vim.lsp.codelens.enable(true, { bufnr = bufnr })
                 end
 
                 -- print(string.format("LSP '%s' attivo", client.name))
@@ -268,6 +257,14 @@ M.configs = {
                     }
                 },
             },
+
+            -- ruby_lsp = {
+            --     autostart = true;
+            --     flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+            --     handlers = {
+            --         ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
+            --     }
+            -- },
 
             vimls = {
                 detached = false,
@@ -410,7 +407,7 @@ M.configs = {
 
             -- Configura il server con la nuova API
             vim.lsp.config(server_name, config)
-            
+
             -- Abilita il server per i suoi filetypes
             vim.lsp.enable(server_name)
         end

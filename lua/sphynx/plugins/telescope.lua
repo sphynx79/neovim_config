@@ -2,7 +2,7 @@ local M = {}
 
 M.plugins = {
     ["telescope"] = {
-        "nvim-telescope/telescope.nvim",
+        "nvim-telescope/telescope.nvim",version = '*',
         lazy = true,
         cmd = { "Telescope", "SearchSession" },
         -- wants = {

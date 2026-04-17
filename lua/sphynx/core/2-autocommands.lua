@@ -30,7 +30,7 @@ utils.define_augroups {
             event = "TextYankPost",
             opts = {
                 pattern = "*",
-                callback = function() vim.highlight.on_yank({higroup="IncSearch", timeout=1000, on_visual=true}) end,
+                callback = function() vim.hl.on_yank({higroup="IncSearch", timeout=1000, on_visual=true}) end,
                 desc = "Highlight on yank",
             },
         },
