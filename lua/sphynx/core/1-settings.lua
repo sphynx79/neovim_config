@@ -464,7 +464,7 @@ local cmd = vim.cmd
 
     if vim.g.neovide then
         -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDRAFT"
-        vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
+        -- vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
         -- vim.opt.guifont = "MonaspiceNE Nerd Font:h9"
         vim.opt.linespace = 1
         vim.g.neovide_scroll_animation_length = 0
@@ -482,6 +482,9 @@ local cmd = vim.cmd
         vim.g.neovide_window_blurred = false
         vim.g.neovide_opacity = 1
         vim.g.neovide_normal_opacity = 1
+        vim.g.neovide_pixel_geometry = "RGBH"
+        vim.g.neovide_text_gamma = 0.0
+        vim.g.neovide_text_contrast = 0.5
         cmd("imap <M-Esc> [")
         cmd("imap <M-C-]> ]")
         -- Helper function for transparency formatting
