@@ -224,7 +224,7 @@ M.configs = {
 
                 -- code lens
                 if client:supports_method("textDocument/codeLens", { bufnr = bufnr }) then
-                    vim.lsp.codelens.enable(true, { bufnr = bufnr })
+                    vim.lsp.codelens.enable(false, { bufnr = bufnr })
                 end
 
                 -- print(string.format("LSP '%s' attivo", client.name))
