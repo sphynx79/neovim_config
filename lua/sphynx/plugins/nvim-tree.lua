@@ -146,7 +146,8 @@ M.configs = {
                 custom = { ".git", "node_modules", ".cargo", "\\.cache" },
             },
             git = {
-                enable = false,
+                enable = true,
+                timeout = 500,
             },
             diagnostics = {
                 enable = false,
@@ -154,6 +155,7 @@ M.configs = {
             },
             renderer = {
                 add_trailing = true,
+                highlight_git = "icon",
                 root_folder_label = false,
                 highlight_opened_files = "none",
                 indent_markers = {
@@ -163,6 +165,7 @@ M.configs = {
             view = {
                 side = 'left',
                 width = 30,
+                signcolumn = "yes",
                 -- mappings = {
                 --     list = {
                 --         { key = "?", action = "toggle_help" }
