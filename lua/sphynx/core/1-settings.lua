@@ -325,9 +325,9 @@ local cmd = vim.cmd
 
     --{{{ Visualizzazione
         -- Hide * markup for bold and italic
-        vim.opt.conceallevel = 2
+        vim.opt.conceallevel = 0
         -- Hide * markup for bold and italic
-        vim.opt.concealcursor = "n"
+        vim.opt.concealcursor = ""
         -- Show some invisible characters (tabs...
         -- TODO: vedere se lasciarlo
         vim.opt.list = true
@@ -338,32 +338,33 @@ local cmd = vim.cmd
 
 --{{{ Markdown
   -- Use proper syntax highlighting in code blocks
-  local fences = {
-    "lua",
-    "vim",
-    "json",
-    "typescript",
-    "javascript",
-    "js=javascript",
-    "ts=typescript",
-    "shell=sh",
-    "python",
-    "sh",
-    "console=sh",
-    "go",
-    "ruby",
-    "html",
-  }
-  vim.g.markdown_fenced_languages = fences
+  -- local fences = {
+  --   "lua",
+  --   "vim",
+  --   "json",
+  --   "typescript",
+  --   "javascript",
+  --   "js=javascript",
+  --   "ts=typescript",
+  --   "shell=sh",
+  --   "python",
+  --   "sh",
+  --   "console=sh",
+  --   "go",
+  --   "ruby",
+  --   "html",
+  -- }
+  -- vim.g.markdown_fenced_languages = fences
 
-  -- plasticboy/vim-markdown
-  vim.g.vim_markdown_folding_level = 10
-  vim.g.vim_markdown_fenced_languages = fences
-  vim.g.vim_markdown_folding_style_pythonic = 1
-  vim.g.vim_markdown_conceal_code_blocks = 0
-  vim.g.vim_markdown_folding_style_pythonic = 1
-  vim.g.vim_markdown_frontmatter = 1
-  vim.g.vim_markdown_strikethrough = 1
+  -- -- plasticboy/vim-markdown
+  -- vim.g.vim_markdown_folding_level = 10
+  -- vim.g.vim_markdown_fenced_languages = fences
+  -- vim.g.vim_markdown_folding_style_pythonic = 1
+  -- vim.g.vim_markdown_conceal_code_blocks = 0
+  -- vim.g.vim_markdown_conceal = 0
+  -- vim.g.vim_markdown_folding_style_pythonic = 1
+  -- vim.g.vim_markdown_frontmatter = 1
+  -- vim.g.vim_markdown_strikethrough = 1
 --}}} Markdown
 
 --{{{ Abbreviation

@@ -26,7 +26,7 @@ M.configs = {
         require('ufo').setup({
             provider_selector = function(_, ft)
                 if ft == "markdown" or ft == "rst" then
-                    return { "indent" } -- prose files: simpler, faster
+                    return { "treesitter", "indent" } -- prose files: simpler, faster
                 end
                 return { "treesitter", "indent" }
             end,
