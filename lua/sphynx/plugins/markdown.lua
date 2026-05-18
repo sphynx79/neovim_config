@@ -31,7 +31,7 @@ local M = {}
 
 M.plugins = {
     ["markdown"] = {
-        "plasticboy/vim-markdown",
+        "preservim/vim-markdown",
         branch = 'master',
         dependencies = "godlygeek/tabular",
         ft = "markdown",
