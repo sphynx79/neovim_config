@@ -15,45 +15,58 @@ Notes:
     - Ruby/ERB, Python: 'lsp', 'path', 'buffer', 'snippets'.
     - Markdown/Text: 'buffer', 'path'.
     - Altri: 'lsp', 'path', 'buffer'.
- - Lunghezza minima dinamica per attivazione automatica:
+ - Lunghezza minima dinamica per attivazione automatica (min_keyword_length):
     - Commenti: 3 caratteri.
     - Stringhe: 2 caratteri.
-    - Inizio linea senza spazi: 3 caratteri.
-    - Altrimenti: 1 carattere.
- - Fuzzy matching personalizzato: Priorità ai match esatti, seguito da 'score' e 'sort_text'.
+    - Cmdline senza spazi: 2 caratteri.
+    - Inizio linea senza spazi: 4 caratteri.
+    - Altrimenti: 3 caratteri.
+ - Fuzzy matching personalizzato: Priorità ai match esatti, seguito da 'exact', 'score' e 'sort_text'.
  - Disabilitazione condizionale: Escluso per tipi di file in `sphynx.config.excluded_filetypes`,
    buffer di tipo 'prompt', o se `vim.b.completion` è `false`.
  - Aspetto personalizzato:
     - Icone da `lspkind` e `nvim-web-devicons` (per i percorsi).
-    - Bordi singoli per menu e documentazione.
+    - Bordi di menu, documentazione e signature da `sphynx.config.border_style`.
+    - Menu con winblend = 6 e allineamento al cursore.
     - Variante Nerd Font 'normal'.
  - Funzionalità aggiuntive:
-    - Ghost text (preview inline) abilitato.
+    - Ghost text (preview inline) disabilitato.
     - Signature help abilitato.
-    - Auto-brackets disabilitato.
-    - Completamento nella riga di comando abilitato (preset 'super-tab').
- - Attivazione automatica:
-    - Quando si digita una parola chiave (`show_on_keyword`).
-    - Quando si digita un carattere trigger (es. `.`, `:`, etc. - `show_on_trigger_character`).
- - Documentazione: Mostrata automaticamente dopo 500ms di pausa sulla selezione.
+    - Auto-brackets abilitato.
+    - Completamento nella riga di comando abilitato (keymap custom, vedi sotto — nessun preset).
+ - Menu di completamento: `auto_show = false`. Nonostante `show_on_keyword`/
+   `show_on_trigger_character` siano `true`, il menu NON si apre da solo: va aperto con <C-Space>.
+ - Documentazione: Mostrata automaticamente dopo 500ms di pausa sulla selezione,
+   con highlight Treesitter.
 
 Dependencies:
-  - lspkind.nvim: Per icone di tipo LSP.
-  - nvim-web-devicons: Per icone specifiche dei file nei percorsi.
+  - lspkind.nvim: Per icone di tipo LSP (dichiarata in M.plugins).
+  - nvim-web-devicons: Per icone specifiche dei file nei percorsi (usata via require,
+    non dichiarata: si assume caricata dal plugin 'devicons').
   - (Optional) lazydev.nvim: Per integrazione con LazyDev nei file Lua.
   - (Implicit) vim-treesitter: Utilizzato per determinare il contesto (commento, stringa)
     per `min_keyword_length`.
 
-Keymaps:
- - <Up>      → Seleziona elemento precedente nella lista di completamento.
- - <Down>    → Seleziona elemento successivo nella lista di completamento.
- - <C-Space> → Forza l'apertura del menu di completamento se non visibile.
- - <C-e>     → Disabilitato (era 'close')
- - <Esc>     → Nascondi la lista di completamento.
+Keymaps (completamento normale):
+ - <C-Space> → show + toggle documentazione (apre il menu se non visibile).
+ - <CR>      → Accetta la selezione (altrimenti fallback).
+ - <Tab>     → snippet_forward (altrimenti fallback).
+ - <S-Tab>   → snippet_backward (altrimenti fallback).
+ - <C-k>     → mostra/nascondi signature help (altrimenti fallback).
+ - <Up>      → Seleziona elemento precedente (altrimenti fallback).
+ - <Down>    → Seleziona elemento successivo (altrimenti fallback).
  - <PageUp>  → Scrolla la documentazione verso l'alto.
  - <PageDown>→ Scrolla la documentazione verso il basso.
- - <CR>      → Accetta la selezione (configurato con `enter` preset).
- - Cmdline <CR>: Accetta la selezione e esegue il comando.
+ - <Esc>     → Nascondi la lista di completamento (altrimenti fallback).
+
+Keymaps (cmdline):
+ - <Tab>     → show_and_insert + select_next.
+ - <S-Tab>   → show_and_insert + select_prev.
+ - <C-Space> → show (altrimenti fallback).
+ - <Up>      → select_prev (altrimenti fallback).
+ - <Down>    → select_next (altrimenti fallback).
+ - <C-y>     → Accetta la selezione (select_and_accept).
+ - <C-e>     → Nascondi (hide).
 
 Customization Highlights:
  - Dynamic sources per filetype.
