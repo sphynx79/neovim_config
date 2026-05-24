@@ -23,6 +23,7 @@ local modules = {
         -- "scrollview",        -- OK - Barra di scorrimento
         "ufo",
         "illuminate",           -- OK - Evidenzia altre occorrenze della parola
+        "vim-mark",             -- OK - Evidenzia parole/pattern con colori persistenti (stile evidenziatore)
         "foldsigns",            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
         "heirline",             -- Ok - Statusline, Winbar
         "indent-blankline",     -- OK - Migliora indentazione mostrando linee visive
@@ -114,7 +115,7 @@ local modules = {
         -- "vimade",
         -- "symbols-outline",
         -- "vista",
-        "aerial",
+        "aerial",                   -- ok - Mostra una finestra con la struttura (outline) del codice
         "chatgpt",
         "nvim-pasta",
         "sayonara",

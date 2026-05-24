@@ -1,3 +1,22 @@
+--[[
+===============================================================================================
+Plugin: aerial.nvim
+===============================================================================================
+Description: Mostra una finestra con la struttura (outline) del codice — funzioni, classi,
+             metodi e simboli del buffer corrente — sfruttando LSP/Treesitter. Sostituisce
+             plugin tipo vista/symbols-outline per navigare rapidamente tra i tag.
+Status: Active
+Author: stevearc
+Repository: https://github.com/stevearc/aerial.nvim
+Notes:
+ - Caricamento lazy: si attiva solo con i comandi AerialToggle / AerialNavToggle / AerialOpen.
+ - La sorgente dei simboli è gestita automaticamente da aerial (LSP quando disponibile,
+   altrimenti Treesitter).
+Keymaps:
+ - <F7> → AerialToggle: apre/chiude la lista dei tag (Tag-LSP) del buffer corrente
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -31,15 +50,6 @@ M.keybindings = function()
             description = "Open vista Tag-LSP list",
         },
     })
-    -- require("which-key").register({
-    --     p = {
-    --         name = "󰏗 Plugin",
-    --         s = { function()
-    --                     require("lazy").load({ plugins = { "symbols-outline.nvim" } })
-    --                     vim.cmd([[SymbolsOutline]])
-    --               end, "Symbols_outline"},
-    --     },
-    -- }, mapping.opt_plugin)
 end
 
 return M
