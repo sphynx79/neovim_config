@@ -8,9 +8,9 @@ Status: Active
 Author: kevinhwang91
 Repository: https://github.com/kevinhwang91/nvim-bqf
 Dependencies:
- - fzf (opzionale, ma consigliato per modalità filtro)
- - nvim-treesitter (opzionale, ma altamente consigliato per prestazioni migliori)
- - which-key.nvim (per l'integrazione della documentazione scorciatoie)
+ - fzf: dichiarata in M.plugins (junegunn/fzf), richiesta per la modalità FZF (tasto 'zf')
+ - nvim-treesitter: opzionale, NON dichiarata; se presente migliora il syntax highlighting
+   dell'anteprima (delay_syntax)
 
 Funzionalità principali:
  - Anteprima fluttuante per visualizzare i contenuti senza lasciare la quickfix
@@ -26,7 +26,7 @@ Configurazione:
  - Ottimizzazione per file di grandi dimensioni (skip > 100KB)
  - Bordi personalizzati per la finestra di anteprima
  - Mappatura tastiera personalizzata per scorrevole utilizzo
- - Integrazione with-key per documentare e mostrare i comandi disponibili
+ - Finestra di aiuto flottante ('?') per documentare e mostrare i comandi disponibili
 
 Keymaps:
  ┌─────────────────────┬────────────────────────────────────────────────────┐
@@ -85,7 +85,7 @@ Keymaps:
  ├─────────────────────┼────────────────────────────────────────────────────┤
  │ Aiuto e documentaz. │                                                    │
  ├─────────────────────┼────────────────────────────────────────────────────┤
- │ ?                   │ Mostra finestra whichkey con tutti i comandi       │
+ │ ?                   │ Apre/chiude l'aiuto flottante con i tasti reali    │
  └─────────────────────┴────────────────────────────────────────────────────┘
 
 Mouse:
@@ -93,10 +93,10 @@ Mouse:
  - <2-LeftMouse> nella quickfix: Esegue <CR> (apre elemento)
  - <2-LeftMouse> nell'anteprima: Salta alla posizione nel buffer originale
 
-Integrazione WhichKey:
- - Finestra di help automatica all'apertura della quickfix
- - Modalità hydra attivabile con '?' per mantenere aperta la guida comandi
- - Tasti prefissati con 'q' per visualizzare tutti i comandi disponibili
+Aiuto (finestra flottante):
+ - Dentro la quickfix, '?' apre/chiude una finestra flottante che elenca i TASTI REALI
+   utilizzabili (quelli di func_map + <F5>/<F6>), generata dalla tabella `qf_help`
+ - La finestra si chiude con q, <Esc> o di nuovo '?'
 
 Note:
  - La funzione drop (tasto 'o') è preferibile perché salta automaticamente
@@ -105,6 +105,9 @@ Note:
    per motivi di performance
  - <F5> e <F6> sono mappati in sphynx.core.5-mapping.lua per toggle e chiusura
    della finestra quickfix globalmente (disponibili in qualsiasi buffer)
+ - <Tab> (toggle segno e sposta in giù, stoggledown) NON è impostato in func_map:
+   funziona grazie al valore di default di bqf. In func_map sono ridefiniti solo
+   stoggleup (<S-Tab>) e stogglevm (<Tab>, modalità visuale)
 
 TODO:
  - [x] Creare funzione di toggle globale per aprire/chiudere quickfix
@@ -126,12 +129,6 @@ M.plugins = {
             'junegunn/fzf'
         },
     }
-}
-
-M.setup = {
-    ["bqf"] = function()
-        M.keybindings()
-    end
 }
 
 M.configs = {
@@ -212,95 +209,104 @@ M.configs = {
         ]]):format([[call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': '\%#' . getreg('/')}}})]]))
 
 
-        local open_help = function ()
-            -- Mostra which-key in modalità hydra per i comandi BQF
-            require("which-key").show({
-                mode = "n",      -- modalità normale
-                keys = "q",
-                -- delay = 100,
-                auto = true,     -- rilevamento automatico del prefisso (opzionale)
-                loop = true,     -- mantiene la finestra aperta fino a Esc
-                title = "Comandi QuickFix",
-                qf_specific = true, -- flag personalizzato per identificare che è per qf
-                sort = { "manual", "local", "order", "group", "alphanum", "mod" },
+        -- Elenco dei tasti REALI di bqf (func_map) + tasti globali <F5>/<F6>.
+        -- Tenere allineato con func_map sopra: è la sorgente della finestra di aiuto.
+        local qf_help = {
+            { key = "<CR>",       desc = "Apri elemento sotto il cursore" },
+            { key = "o",          desc = "Apri (drop) e chiudi quickfix" },
+            { key = "O",          desc = "Apri e chiudi quickfix" },
+            { key = "t",          desc = "Apri in nuova tab" },
+            { key = "T",          desc = "Apri in tab (resta in quickfix)" },
+            { key = "<C-t>",      desc = "Apri in tab e chiudi quickfix" },
+            { key = "<C-x>",      desc = "Apri in split orizzontale" },
+            { key = "<C-v>",      desc = "Apri in split verticale" },
+            { key = "<C-p>",      desc = "File precedente" },
+            { key = "<C-n>",      desc = "File successivo" },
+            { key = "<",          desc = "Lista quickfix precedente" },
+            { key = ">",          desc = "Lista quickfix successiva" },
+            { key = "<Tab>",      desc = "Toggle segno (giù)" },
+            { key = "<S-Tab>",    desc = "Toggle segno (su)" },
+            { key = "z<Tab>",     desc = "Pulisci segni" },
+            { key = "p",          desc = "Toggle preview elemento" },
+            { key = "P",          desc = "Toggle preview max size" },
+            { key = "<PageUp>",   desc = "Scorri preview su" },
+            { key = "<PageDown>", desc = "Scorri preview giù" },
+            { key = "<End>",      desc = "Torna alla posizione originale" },
+            { key = "zn",         desc = "Filtra elementi segnati" },
+            { key = "zN",         desc = "Filtra elementi non segnati" },
+            { key = "zf",         desc = "Modalità FZF" },
+            { key = "<F5>",       desc = "Toggle quickfix (globale)" },
+            { key = "<F6>",       desc = "Chiudi quickfix (globale)" },
+            { key = "?",          desc = "Mostra/nascondi questo aiuto" },
+        }
+
+        -- Finestra flottante con i tasti reali utilizzabili nella quickfix (toggle con '?').
+        local help_win = nil
+        local function show_qf_help()
+            -- Se è già aperta, '?' la richiude (toggle)
+            if help_win and vim.api.nvim_win_is_valid(help_win) then
+                vim.api.nvim_win_close(help_win, true)
+                help_win = nil
+                return
+            end
+
+            -- Larghezza colonna dei tasti = tasto più lungo
+            local key_w = 0
+            for _, item in ipairs(qf_help) do
+                key_w = math.max(key_w, #item.key)
+            end
+
+            local lines = {}
+            local width = 0
+            for _, item in ipairs(qf_help) do
+                local line = string.format("  %-" .. key_w .. "s   %s", item.key, item.desc)
+                lines[#lines + 1] = line
+                width = math.max(width, vim.fn.strdisplaywidth(line))
+            end
+            width = width + 2
+
+            local buf = vim.api.nvim_create_buf(false, true)
+            vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+            vim.bo[buf].modifiable = false
+            vim.bo[buf].bufhidden = "wipe"
+
+            help_win = vim.api.nvim_open_win(buf, true, {
+                relative = "editor",
+                width = width,
+                height = #lines,
+                row = math.floor((vim.o.lines - #lines) / 2 - 1),
+                col = math.floor((vim.o.columns - width) / 2),
+                style = "minimal",
+                border = sphynx.config.border_style,
+                title = " Comandi QuickFix ",
+                title_pos = "center",
             })
+
+            -- Chiusura con q / <Esc> / ?
+            for _, k in ipairs({ "q", "<Esc>", "?" }) do
+                vim.keymap.set("n", k, function()
+                    if help_win and vim.api.nvim_win_is_valid(help_win) then
+                        vim.api.nvim_win_close(help_win, true)
+                        help_win = nil
+                    end
+                end, { buffer = buf, nowait = true, silent = true })
+            end
         end
 
-
-        -- Crea un autocmd per mostrare la modalità hydra all'apertura della quickfix window
+        -- Nella quickfix '?' apre/chiude l'aiuto con i tasti reali.
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "qf",
             callback = function()
-                -- Piccolo ritardo per assicurarsi che la finestra sia completamente caricata
-                vim.defer_fn(function()
-                    -- Verifica se siamo ancora nella finestra quickfix (potrebbe essere cambiato)
-                    if vim.bo.filetype == "qf" then
-                        open_help()
-                    end
-                end, 150)  -- ritardo di 50ms
+                vim.keymap.set("n", "?", show_qf_help, {
+                    buffer = 0,
+                    nowait = true,
+                    silent = true,
+                    desc = "Mostra comandi QuickFix",
+                })
             end,
-            -- Assicurati che questo autocmd venga eseguito solo una volta per sessione
-            once = false,
-        })
-
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "qf",
-            callback = function()
-                -- Usa vim.keymap.set con una funzione anonima locale
-                vim.keymap.set('n', '?', function()
-                    open_help()
-                end, {buffer = 0, desc = "Mostra comandi QuickFix"})
-            end
         })
 
     end
 }
-
-M.keybindings = function()
-    local mapping = require("sphynx.core.5-mapping")
-    local wk = require("which-key")
-    local prefix = "q"
-
-    wk.add({
-        { prefix, group = " QuickFix", cond = function() return vim.bo.filetype == "qf" end },
-        -- Navigazione base
-        { prefix .. "?", desc = "Help"  },
-        { prefix .. "<CR>", desc = "Apre l'elemento sotto il cursore"  },
-        { prefix .. "o", desc = "Apri (drop) e chiudi QF" },
-        { prefix .. "O", desc = "Apri e chiudi QF" },
-        -- Comandi tab
-        { prefix .. "t", desc = "Apri in nuova tab" },
-        { prefix .. "T", desc = "Apri in tab (resta in QF)" },
-        { prefix .. "<C-t>", desc = "Apri in tab e chiudi QF" },
-        -- Split
-        { prefix .. "<C-x>", desc = "Apri in split orizzontale" },
-        { prefix .. "<C-v>", desc = "Apri in split verticale" },
-        -- Navigazione tra file nella quickfix
-        { prefix .. "<C-p>", desc = "File precedente" },
-        { prefix .. "<C-n>", desc = "File successivo" },
-        -- Navigazione nella storia della quickfix
-        { prefix .. "<", desc = "Lista QF precedente" },
-        { prefix .. ">", desc = "Lista QF successiva" },
-        -- Gestione segni (filtering con signs)
-        { prefix .."<Tab>", desc = "Toggle segno (giù)" },
-        { prefix .. "<S-Tab>", desc = "Toggle segno (su)" },
-        { prefix .. "<Tab>", desc = "Toggle segni multipli" },
-        { prefix .. "z<Tab>", desc = "Pulisci segni" },
-        -- Controllo finestra di anteprima
-        { prefix .. "p", desc = "Toggle preview elemento" },
-        { prefix .. "P", desc = "Toggle preview max size" },
-        { prefix .. "<PageUp>", desc = "Scorri preview su" },
-        { prefix .. "<PageDown>", desc = "Scorri preview giù" },
-        { prefix .. "<End>", desc = "Torna alla posizione originale" },
-        -- Fzf search & filter
-        { prefix .. "z", group = "Filter" },
-        { prefix .. "zn", desc = "Filtra elementi segnati" },
-        { prefix .. "zN", desc = "Filtra elementi non segnati" },
-        { prefix .. "zf", desc = "Modalità FZF", icon = { color = "blue", icon = "󰈞" } },
-        -- Close & Toggle
-        { prefix .. "<F5>", desc = "Toggle quickfix" },
-        { prefix .. "<F6>", desc = "Close quickfix" },
-    })
-end
 
 return M
