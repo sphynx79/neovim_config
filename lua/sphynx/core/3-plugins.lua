@@ -71,9 +71,9 @@ local modules = {
     --}}} LANGUAGE
 
     --{{{ FILE BROWSER AND NAVIGATION
-        "nvim-tree",
+        "nvim-tree",                  -- OK - File explorer (sidebar)
         "telescope",
-        "cybu",                 --Switch buffer con Tab come windows
+        "cybu",                       --Switch buffer con Tab come windows
         "nvim-window-picker",
         "maximizer",
         "workspace",
