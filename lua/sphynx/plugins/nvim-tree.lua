@@ -1,23 +1,41 @@
--- NOTE: PLUGIN: nvim-tree-preview.lua
--- DESCRIZIONE:
--- File explorer per neovim
---    PLUGIN: nvim-tree-preview.lua
---    DESCRIZIONE:
---    Mi permette di aprire la preview del file
---    MAPPING:
---    <Tab> => mi mostra la preview
---    se ancora <Tab> si sposta nella preview
---    se ancora <Tab> si mette ancora nella lista dei file
---    mentre sono in Preview:
---    <CR>  Apre il file
---    <C-v> Apre il file in vertical window
---    <C-x> Apre il file in horizontal window
---    <C-t> Apre il file in new tab
---    <C-V> Apre il file in vertical window
---    PLUGIN: nvim-window-picker
---    DESCRIZIONE:
---    Mi permette di aprire il file in una psecifica finestra
---    Vedere il file di configurazone del plugin [nvim-window-picker]
+--[[
+===============================================================================================
+Plugin: nvim-tree.lua
+===============================================================================================
+Description: File explorer (sidebar) per Neovim. Mostra l'albero dei file del progetto,
+             con stato git nel gutter, filtri, bookmark e gestione filesystem
+             (crea/rinomina/sposta/elimina) direttamente dall'albero.
+Status: Active
+Author: kyazdani42 / nvim-tree
+Repository: https://github.com/nvim-tree/nvim-tree.lua
+Notes:
+ - Caricamento lazy via "cmd": si carica al primo NvimTreeOpen/Toggle/FindFile
+ - netrw disabilitato (disable_netrw = true) per non avere conflitti
+ - Stato git abilitato; git.timeout alzato a 5000ms perche' su Windows "git status"
+   in questo repo impiega ~2.4s e il default (400ms) andava sempre in timeout
+ - update_focused_file.enable = false: l'albero NON segue automaticamente il file attivo
+ - Filtri custom: nasconde .git, node_modules, .cargo, .cache
+ - Aggiornamento albero: usa "R" sull'albero (api.tree.reload) per il refresh manuale
+ - "C" = cambia root (CD), "G" = toggle git-clean filter (mostra solo i file modificati)
+
+Dipendenze / plugin correlati:
+ - nvim-tree-preview.lua : anteprima del file senza aprirlo
+     <Tab> sul file  → apre/chiude l'anteprima (toggle focus tra albero e preview)
+     <Tab> su cartella → espande la cartella
+     P               → preview "watch" (segue il cursore nell'albero)
+     <Esc>           → chiude l'anteprima
+     dentro la preview: <CR> edit, <C-v> vsplit, <C-x> split, <C-t> tab
+ - nvim-window-picker : sceglie in quale finestra aprire il file (vedi config dedicata)
+
+Keymaps (globali):
+ - <F4>  → NvimTreeToggle    (apre/chiude l'explorer)
+ - <F3>  → NvimTreeFindFile  (trova il file corrente nell'albero)
+ - <F2>  → NvimTreeFocus     (sposta il focus sull'explorer)
+TODO:
+ - [ ] Valutare update_focused_file.enable = true per seguire il file attivo
+ - [ ] Le keymap A/E, ?/g?, s/Z sono alias volontari (stessa azione, tasti diversi)
+===============================================================================================
+--]]
 
 
 local M = {}
@@ -71,7 +89,7 @@ M.configs = {
             vim.keymap.set('n', 'bmv',   api.marks.bulk.move,                   opts('Move Bookmarked'))
             vim.keymap.set('n', 'B',     api.tree.toggle_no_buffer_filter,      opts('Toggle No Buffer'))
             vim.keymap.set('n', 'c',     api.fs.copy.node,                      opts('Copy'))
-            vim.keymap.set('n', 'C',     api.tree.toggle_git_clean_filter,      opts('Toggle Git Clean'))
+            vim.keymap.set('n', 'G',     api.tree.toggle_git_clean_filter,      opts('Toggle Git Clean'))
             vim.keymap.set('n', '[c',    api.node.navigate.git.prev,            opts('Prev Git'))
             vim.keymap.set('n', ']c',    api.node.navigate.git.next,            opts('Next Git'))
             vim.keymap.set('n', 'd',     api.fs.remove,                         opts('Delete'))
@@ -138,7 +156,7 @@ M.configs = {
         require("nvim-tree").setup({
             disable_netrw = true,
             hijack_netrw = false,
-            update_cwd = true,
+            sync_root_with_cwd = true,   -- ex "update_cwd" (deprecato): la root segue la cwd di Neovim
             update_focused_file = {
                 enable = false,
             },
