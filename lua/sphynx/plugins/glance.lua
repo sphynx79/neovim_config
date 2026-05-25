@@ -132,7 +132,7 @@ M.configs = {
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     local wk = require("which-key")
-    local prefix = "<leader>g"
+    local prefix = "<leader>p"
 
     wk.add({
         { prefix, group = " Glance" },
