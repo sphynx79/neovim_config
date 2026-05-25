@@ -93,9 +93,10 @@ end
 
 
 function utils.set_shell_title()
-  local cwd = fn.getcwd(0)
-  cwd = fn.fnamemodify(cwd, ":~")
-  vim.o.titlestring = fn.pathshorten(cwd,3)
+  -- %F = path completo del file nel buffer corrente.
+  -- E' un'espressione di tipo statusline: viene rivalutata ad ogni redraw,
+  -- quindi il titolo segue automaticamente il file attivo.
+  vim.o.titlestring = "%F"
 end
 
 function utils.check_time()
