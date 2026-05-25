@@ -91,6 +91,10 @@ local modules = {
         "grepper",
     --}}} SEARCH
 
+    --{{{ GIT
+        "gitsigns",             -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
+    --}}} GIT
+
     --{{{ EDITING
         "comment",
         "spaceless",
