@@ -147,7 +147,7 @@ M.configs = {
             },
             git = {
                 enable = true,
-                timeout = 500,
+                timeout = 5000,   -- su Windows "git status" qui impiega ~2.4s: 500ms andava sempre in timeout
             },
             diagnostics = {
                 enable = false,
