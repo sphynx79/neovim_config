@@ -93,6 +93,7 @@ local modules = {
 
     --{{{ GIT
         "gitsigns",             -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
+        "diffview",             -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
     --}}} GIT
 
     --{{{ EDITING
