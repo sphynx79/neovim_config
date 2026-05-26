@@ -67,5 +67,4 @@ M.keybindings = function()
     }, mapping.opt_plugin)
 end
 
-
 return M
