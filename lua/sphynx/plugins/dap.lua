@@ -1,3 +1,43 @@
+--[[
+===============================================================================================
+Plugin: nvim-dap
+===============================================================================================
+Description: Client del Debug Adapter Protocol (DAP) per Neovim: avvia/attacca debugger,
+             gestisce breakpoint, step ed ispezione dello stato. Qui configurato per il
+             debug di Ruby (via rdbg) e Lua (via nlua), con interfaccia grafica nvim-dap-ui.
+Status: Active
+Author: mfussenegger
+Repository: https://github.com/mfussenegger/nvim-dap
+Dependencies:
+ - nvim-dap-ui (rcarriga): UI a pannelli (scopes/breakpoints/stacks/watches + repl/console)
+ - nvim-nio (nvim-neotest): libreria async richiesta da nvim-dap-ui
+ - sphynx.plugins.dap_utils: fornisce reload_continue() (usato da <S-F9> e <leader>dC)
+Notes:
+ - Caricamento lazy: il plugin si carica al primo require('dap') scatenato da una keymap
+ - Adapter Ruby custom: lancia rdbg (rdbg.bat su Windows) e si connette in TCP come server
+ - Tre configurazioni Ruby: "debug current file" (ruby), "run current spec file" e
+   "run rspec" (rspec via bundle exec), tutte su 127.0.0.1:38698
+ - Adapter nlua per il debug di Neovim Lua: RICHIEDE il plugin one-small-step-for-vimkind
+   (sezione DISABLED DEBUG in 3-plugins.lua), che fornisce il server osv su :8086
+ - dap-ui: layout sinistro (scopes/breakpoints/stacks/watches) + inferiore (repl/console),
+   apertura automatica della UI sull'evento initialized
+ - Signs personalizzati per breakpoint/condizionali/log point/stopped
+ - In sessione Ruby: il tasto K viene rimappato a dapui.eval() e ripristinato a fine sessione
+ - external_terminal impostato su pwsh; REPL con autocompletamento su FileType dap-repl
+   e <C-R> per incollare un registro
+Keymaps (function keys):
+ - <F9>      → continue            - <S-F9>  → reload & continue (dap_utils)
+ - <F10>     → toggle breakpoint   - <F11>   → step over
+ - <F12>     → step into           - <S-F12> → step out
+Keymaps (<leader>d = Debug):
+ - <leader>dC → reload & continue  - <leader>dc → continue
+ - <leader>di → step into          - <leader>do → step out
+ - <leader>dr → repl               - <leader>ds → step over
+ - <leader>du → toggle UI          - <leader>dx → disconnect & close UI
+ - <leader>db → gruppo Breakpoint: dbb toggle, dbc conditional, dbl log point
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -49,7 +89,7 @@ M.configs = {
                 },
                 -- Expand lines larger than the window
                 -- Requires >= 0.7
-                expand_lines = vim.fn.has("nvim-0.7"),
+                expand_lines = vim.fn.has("nvim-0.7") == 1,
                 -- Layouts define sections of the screen to place windows.
                 -- The position can be "left", "right", "top" or "bottom".
                 -- The size specifies the height/width depending on position. It can be an Int
@@ -182,12 +222,11 @@ M.configs = {
                 handle, pid_or_err = vim.loop.spawn(rdbg, opts, function(code)
                     handle:close()
                     if code ~= 0 then
-                        assert(handle, "rdbg exited with code: " .. tostring(code))
                         print("rdbg exited with code", code)
                     end
                 end)
 
-                assert(handle, "Error running rgdb: " .. tostring(pid_or_err))
+                assert(handle, "Error running rdbg: " .. tostring(pid_or_err))
 
                 stdout:read_start(function(err, chunk)
                     assert(not err, err)
@@ -267,6 +306,9 @@ M.configs = {
         setup_ruby_adapter(dap)
         setup_ruby_configuration(dap)
 
+        -- NOTE: per usare il debug Lua (adapter nlua) serve abilitare il plugin
+        -- "one-small-step-for-vimkind" (sezione DISABLED DEBUG in 3-plugins.lua):
+        -- e' lui a fornire il server osv su 127.0.0.1:8086 a cui ci si connette qui.
         dap.configurations.lua = {
             {
                 type = "nlua",
@@ -295,7 +337,7 @@ M.keybindings = function()
         {
             mode = { "n" },
             lhs = "<S-F9>",
-            rhs = [[<Cmd>lua require('config.dap.utils').reload_continue()<CR>]],
+            rhs = [[<Cmd>lua require('sphynx.plugins.dap_utils').reload_continue()<CR>]],
             options = { silent = true },
             description = "Dap reload continue",
         },
