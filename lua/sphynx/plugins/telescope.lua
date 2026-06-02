@@ -440,7 +440,7 @@ M.keybindings = function()
         },
         {
             "<leader>" .. prefix .. "la",
-            [[<Cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]],
+            [[<Cmd>lua vim.lsp.buf.code_action()<CR>]],
             desc = "code actions",
         },
         {
