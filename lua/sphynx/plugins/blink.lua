@@ -75,11 +75,6 @@ Customization Highlights:
  - Tailored appearance with specific icon providers and borders.
  - Specific activation triggers and documentation delay.
  - Explicit exclusion rules.
-
-TODO:
- - [ ] Valutare l'ottimizzazione delle performance in caso di problemi.
- - [ ] Aggiungere ulteriori personalizzazioni per tipi di file specifici se necessario.
- - [ ] Esplorare altre sorgenti di completamento utili (es. 'spell' per Markdown).
 ===============================================================================================
 --]]
 
@@ -102,6 +97,11 @@ M.configs = {
         require("blink.cmp").setup({
             sources = {
                 min_keyword_length = function(ctx)
+                    -- Cmdline: il cursore non e' nel buffer, niente treesitter qui
+                    if ctx.mode == "cmdline" then
+                        return ctx.line:find(" ") == nil and 2 or 3
+                    end
+
                     local node = vim.treesitter.get_node()
                     if node and node:type():find("comment") then
                         return 3
@@ -109,10 +109,7 @@ M.configs = {
                     if node and node:type():find("string") then
                         return 2
                     end
-                    if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then
-                        return 2
-                    end
-                    return (ctx.line:find(" ") == nil) and 4 or 3
+                    return ctx.line:find(" ") == nil and 4 or 3
                 end,
 
                 default = function(_ctx)
@@ -228,7 +225,7 @@ M.configs = {
                     show_on_trigger_character = true,
                 },
 
-                -- Disable auto brackets
+                -- Auto brackets abilitati
                 -- NOTE: some LSPs may add auto brackets themselves anyway
                 accept = {
                     create_undo_point = true,
