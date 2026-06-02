@@ -1,6 +1,10 @@
 _G.sphynx = {}
 _G.vim = vim
 
+-- mapleader va impostato prima del caricamento dei plugin/keymap
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
 vim.loader.enable()
 
 sphynx.path = {

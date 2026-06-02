@@ -129,8 +129,8 @@ vim.opt.switchbuf = "usetab"
 vim.opt.complete = { ".", "w", "b", "u" }
 -- every wrapped line will continue visually indented
 vim.opt.breakindent = true
--- non fa vedere la tilde alla fine del file
-vim.opt.fillchars = { eob = " ", vert = "│" }
+-- non fa vedere la tilde alla fine del file; "fold: " rimuove i caratteri ----- dopo il fold
+vim.opt.fillchars = { eob = " ", vert = "│", fold = " " }
 -- vim.opt.fillchars = {
 --         eob = " "      ,
 --         horiz     = '━',
@@ -204,8 +204,6 @@ vim.opt.startofline = true
 -- g:vimsyn_embed == 0      : disable (don't embed any scripts)
 -- g:vimsyn_embed == 'lPr'  : support embedded lua, python and ruby
 vim.g.vimsyn_embed = "l"
--- in modalità V-Block will only allow moving the cursor just after the last character of the line.
-vim.opt.virtualedit = "onemore"
 -- permette di cancellare in modo fluido attraverso indentazioni, fine riga e punto di inizio inserimento
 vim.opt.backspace = { "indent", "eol", "start" }
 -- consente di muovere il cursore oltre l'inizio e la fine delle righe usando i tasti freccia e di movimento
@@ -342,8 +340,6 @@ vim.opt.wrap = false
 vim.opt.foldnestmax = 10
 -- cosa viene visualizzato quando faccio il folding del codice
 -- vim.opt.foldtext = "v:lua.custom_fold_text()"
--- rimuove i caratteri ----- dopo il fold
-vim.opt.fillchars = "fold: "
 -- fare l'unfold automatico
 vim.opt.foldopen:append("insert")
 -- setto il default foldlevel quando apro un file
