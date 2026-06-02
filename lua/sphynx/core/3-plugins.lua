@@ -116,7 +116,7 @@ local modules = {
     "nvim-pasta",
     "sayonara",
     "virtcolumn",
-    "tabby",
+    "tabby",                                -- OK -- .....
     -- --}}} MISC
 
     -- ============================================================
