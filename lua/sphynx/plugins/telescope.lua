@@ -73,12 +73,15 @@ M.no_preview = function()
             return 1 == vim.fn.buflisted(b)
         end, vim.api.nvim_list_bufs())
 
-        local max_bufnr = math.max(unpack(bufnrs))
+        local max_bufnr = math.max(1, unpack(bufnrs))
         local bufnr_width = #tostring(max_bufnr)
 
-        local max_bufname = math.max(unpack(map(function(bufnr)
-            return vim.fn.strdisplaywidth(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:t"))
-        end, bufnrs)))
+        local max_bufname = math.max(
+            1,
+            unpack(map(function(bufnr)
+                return vim.fn.strdisplaywidth(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":p:t"))
+            end, bufnrs))
+        )
 
         local displayer = entry_display.create({
             separator = " ",
