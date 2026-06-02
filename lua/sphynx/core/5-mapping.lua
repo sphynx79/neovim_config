@@ -1,7 +1,6 @@
 -- vim: set sw=2 ts=2 sts=2 et tw=120 foldmarker=--{{{,--}}} foldmethod=marker nospell:
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+-- mapleader/maplocalleader sono impostati in init.lua (devono precedere i plugin)
 
 local mapping = {}
 -- local wk = require("which-key")
