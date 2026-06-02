@@ -1,3 +1,22 @@
+--[[
+===============================================================================================
+Plugin: maximize.nvim
+===============================================================================================
+Description: Massimizza/ripristina la finestra (split) corrente con un toggle, nascondendo
+             temporaneamente gli altri split e ripristinando il layout al ritorno.
+Status: Active
+Author: declancm
+Repository: https://github.com/declancm/maximize.nvim
+Notes:
+ - Caricamento lazy: il plugin si carica al primo require('maximize') da una keymap.
+ - Integrazioni configurate: nvim-tree abilitata; aerial e nvim-dap-ui disabilitate.
+ - La keymap "wM" si aggancia al gruppo "w" = Window definito in core/5-mapping.lua
+   (coerente con wc/wr*/wn*/wm* per la gestione delle finestre; <leader>w resta Workspace).
+Keymaps:
+ - wM → toggle massimizzazione finestra (require('maximize').toggle())
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
