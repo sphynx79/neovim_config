@@ -1,3 +1,33 @@
+--[[
+===============================================================================================
+Plugin: nvim-treesitter (branch main)
+===============================================================================================
+Description: Parsing incrementale del codice per evidenziazione sintattica, indentazione e
+             selezione strutturale. Usa il branch "main" (la riscrittura con nuova API):
+             l'evidenziazione NON si abilita piu' da setup, ma si avvia per buffer con
+             vim.treesitter.start() su evento FileType.
+Status: Active
+Author: nvim-treesitter
+Repository: https://github.com/nvim-treesitter/nvim-treesitter
+Dependencies:
+ - nvim-treesitter-endwise (RRethy): chiude automaticamente i blocchi (end, endif, ...)
+ - nvim-treesitter-textobjects: text object basati su treesitter (anche plugin a se')
+Requisiti esterni:
+ - CLI "tree-sitter" nel PATH: il branch main compila i parser con "tree-sitter build"
+ - un compilatore C
+Notes:
+ - branch = "main", lazy = false (treesitter attivo fin dall'avvio), build = :TSUpdate
+ - desired_parsers: lingue che vogliamo avere installate
+ - bundled_parsers: lingue gia' incluse in Neovim, escluse dall'installazione
+ - install_dir = stdpath("data")/site (coincide col default), aggiunto al runtimepath da setup
+ - All'avvio install_missing_parsers() installa (async) i parser di desired non presenti
+ - setup_autocmds(): su FileType avvia treesitter per il buffer (vim.treesitter.start),
+   risolvendo il linguaggio con vim.treesitter.language.get_lang/add
+ - register_filetype_mappings(): sh->bash, javascriptreact->javascript,
+   typescriptreact->typescript
+===============================================================================================
+--]]
+
 local M = {}
 
 local desired_parsers = {
@@ -116,8 +146,6 @@ M.setup = {}
 
 M.configs = {
     ["nvim-treesitter"] = function()
-        require("nvim-treesitter.install").compilers = { "gcc" }
-
         require("nvim-treesitter").setup({
             install_dir = vim.fn.stdpath("data") .. "/site",
         })
@@ -125,6 +153,14 @@ M.configs = {
         register_filetype_mappings()
         install_missing_parsers()
         setup_autocmds()
+
+        -- Avvia treesitter sui buffer gia' aperti (es. file passati da riga di comando):
+        -- l'autocmd FileType copre solo i buffer aperti successivamente.
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_loaded(buf) then
+                start_treesitter_for_buffer(buf, vim.bo[buf].filetype)
+            end
+        end
     end,
 }
 
