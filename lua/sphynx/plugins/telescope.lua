@@ -237,7 +237,8 @@ M.configs = {
                     "%.webp",
                     "node_modules",
                     "node_modules_custom",
-                    "doc",
+                    "[/\\]doc[/\\]", -- cartella doc/ in qualsiasi sottocartella (help dei plugin)
+                    "^doc[/\\]", -- cartella doc/ alla radice del progetto
                 },
                 scroll_strategy = "cycle",
                 selection_strategy = "reset",
@@ -308,16 +309,6 @@ M.configs = {
                 },
             },
             pickers = {
-                find_files = {
-                    file_ignore_patterns = {
-                        "%.png",
-                        "%.jpg",
-                        "%.webp",
-                        "node_modules",
-                        "node_modules_custom",
-                        "doc",
-                    },
-                },
                 -- live_grep = {
                 --     on_input_filter_cb = function(prompt)
                 --         -- AND operator for live_grep like how fzf handles spaces with wildcards in rg
