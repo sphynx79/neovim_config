@@ -60,7 +60,7 @@ local is_osx = function()
     return (vim.fn.has("macunix") == 1)
 end
 local is_linux = function()
-    return ((vim.fn.has("unix") == 1) and (vim.fn.has("macunix") == 1) and not (vim.fn.has("win32unix") == 1))
+    return ((vim.fn.has("unix") == 1) and not (vim.fn.has("macunix") == 1) and not (vim.fn.has("win32unix") == 1))
 end
 local is_windows = function()
     return ((vim.fn.has("win16") == 1) or (vim.fn.has("win32") == 1) or (vim.fn.has("win64") == 1))
@@ -127,8 +127,6 @@ vim.opt.switchbuf = "usetab"
 -- i => scan current and included files
 -- k => scan the files given with the 'dictionary'
 vim.opt.complete = { ".", "w", "b", "u" }
--- every wrapped line will continue visually indented
-vim.opt.breakindent = true
 -- non fa vedere la tilde alla fine del file; "fold: " rimuove i caratteri ----- dopo il fold
 vim.opt.fillchars = { eob = " ", vert = "│", fold = " " }
 -- vim.opt.fillchars = {
@@ -187,7 +185,7 @@ vim.opt.inccommand = "split"
 -- No double spaces with join after a dot
 vim.opt.joinspaces = false
 -- Lines of context
-vim.opt.scrolloff = 4
+vim.opt.scrolloff = 5
 -- Columns of context
 vim.opt.sidescrolloff = 8
 -- Jump 5 lines when running out of the screen
@@ -217,8 +215,6 @@ vim.opt.shortmess = "IToOlxfitncWF"
 vim.opt.title = true
 -- dont show mode since we have a statusline
 vim.opt.showmode = false
--- set 5 lines to the cursor - when moving vertically using j/k
-vim.opt.so = 5
 -- Setta per ogni buffer l'opzione hidden di default, questo mi permette di passare in
 -- maniera più pratica tra i buffer(ved. usr_22: nascondere i buffer)
 vim.opt.hidden = true
@@ -326,13 +322,9 @@ vim.opt.expandtab = true
 -- vim.opt.shiftwidth = 2
 -- vim.opt.tabstop = 2
 -- vim.opt.softtabstop = 2
--- Line break on 500 characters
-vim.opt.linebreak = true
 -- Insert indents automatically
 vim.opt.autoindent = true
 vim.opt.smartindent = true
--- Disable line wrap
-vim.opt.wrap = false
 --}}} Tab and indent
 
 --{{{ Folding
@@ -439,19 +431,13 @@ if not vim.g.loaded_python3_provider then
             python3_host_prog = result
         end
 
-        if (vim.fn.filereadable(vim.fn.fnameescape(python3_host_prog))) == 1 then
+        if python3_host_prog then
             vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
             vim.opt.pyxversion = 3
         else
-            if vim.g.loaded_python3_provider then
-                vim.g.nvim_del_var("python3_host_prog")
-            end
             cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
         end
     else
-        if vim.g.loaded_python3_provider then
-            vim.g.nvim_del_var("python3_host_prog")
-        end
         cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
     end
 end
