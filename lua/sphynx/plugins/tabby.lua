@@ -32,9 +32,6 @@ Keymaps (prefisso <leader>w = workspace):
  - <leader>wm<Right> → Sposta il tab a destra
  - <leader>wcc       → Chiude il tab corrente (utils.closeAllBufs)
  - <leader>wc1..wc0  → Chiude il tab N (hidden, generati in loop)
-TODO:
- - [ ] Valutare se mostrare tab.number() nei tab fuori dal jump mode
- - [ ] Valutare cache del padding NvimTree per evitarne il calcolo ad ogni redraw
 ===============================================================================================
 --]]
 
