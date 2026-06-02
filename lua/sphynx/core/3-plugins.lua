@@ -61,8 +61,8 @@ local modules = {
     --}}} COMPLETION
 
     --{{{ DEBUG
-    "dap",
-    "dap-virtual-text",
+    "dap",                                -- OK - Debug
+    "dap-virtual-text",                   -- OK - Debug mostra valore variabili inline
     "dap-telescope",
     --}}} DEBUG
 
@@ -75,7 +75,7 @@ local modules = {
     "nvim-tree",                            -- OK - File explorer (sidebar)
     "telescope",
     "cybu",                                 -- OK - Switch buffer con Tab come windows
-    "nvim-window-picker",
+    "nvim-window-picker",                   -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
     "maximizer",
     "workspace",
     "matchup",
@@ -116,7 +116,7 @@ local modules = {
     "nvim-pasta",
     "sayonara",
     "virtcolumn",
-    "tabby",                                -- OK -- .....
+    "tabby",                                -- OK -- Line buffer e tab
     -- --}}} MISC
 
     -- ============================================================
