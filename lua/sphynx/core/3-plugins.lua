@@ -61,9 +61,9 @@ local modules = {
     --}}} COMPLETION
 
     --{{{ DEBUG
-    "dap",                                -- OK - Debug
-    "dap-virtual-text",                   -- OK - Debug mostra valore variabili inline
-    "dap-telescope",
+    "dap",                                  -- OK - Debug
+    "dap-virtual-text",                     -- OK - Mostra valore variabili inline
+    "dap-telescope",                        -- OK - Integrazione dap con telescope
     --}}} DEBUG
 
     --{{{ LANGUAGE
@@ -73,14 +73,14 @@ local modules = {
 
     --{{{ FILE BROWSER AND NAVIGATION
     "nvim-tree",                            -- OK - File explorer (sidebar)
-    "telescope",
+    "telescope",                            -- OK - Fuzzy finder estendibile: cerca, filtra, anteprima e seleziona file
     "cybu",                                 -- OK - Switch buffer con Tab come windows
     "nvim-window-picker",                   -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
-    "maximizer",
+    "maximizer",                            -- OK - Massimizza/ripristina la finestra
     "workspace",
     "matchup",
-    "hop",
-    "marks",
+    "hop",                                  -- OK - Motion plugin in stile EasyMotion
+    "marks",                                -- OK - Potenzia i mark nativi di Vim
     --}}} FILE BROWSER AND NAVIGATION
 
     --{{{ SEARCH
@@ -100,7 +100,7 @@ local modules = {
     --}}} EDITING
 
     -- {{{ MISC
-    "treesitter",
+    "treesitter",                           -- OK - Parsing incrementale del codice per evidenziazione sintattica
     "treesitter-textobjects",               -- OK - mi permette di selezionare metodi o classi usando treesitter
     "noice",
     "color",
