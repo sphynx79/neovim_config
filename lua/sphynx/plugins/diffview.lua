@@ -36,7 +36,7 @@ M.plugins = {
     ["diffview"] = {
         "sindrets/diffview.nvim",
         lazy = true,
-        cmd = {                                  -- comandi che attivano il caricamento lazy
+        cmd = { -- comandi che attivano il caricamento lazy
             "DiffviewOpen",
             "DiffviewClose",
             "DiffviewFileHistory",
@@ -57,7 +57,7 @@ M.setup = {
 M.configs = {
     ["diffview"] = function()
         require("diffview").setup({
-            use_icons = true,                    -- usa nvim-web-devicons nel pannello file
+            use_icons = true, -- usa nvim-web-devicons nel pannello file
         })
     end,
 }
@@ -76,6 +76,5 @@ M.keybindings = function()
         { prefix .. "c", [[<Cmd>DiffviewClose<CR>]], desc = "diffview: chiudi" },
     }, mapping.opt_mappping)
 end
-
 
 return M

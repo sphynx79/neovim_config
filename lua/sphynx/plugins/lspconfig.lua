@@ -71,7 +71,7 @@ M.plugins = {
             "lua",
             "ruby",
             "bash",
-            "sh"
+            "sh",
         },
     },
 }
@@ -79,7 +79,7 @@ M.plugins = {
 M.setup = {
     ["lspconfig"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
@@ -90,19 +90,19 @@ M.configs = {
         local custom_capabilities = function()
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities.textDocument.hover = { contentFormat = { "markdown", "plaintext" } }
-            capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+            capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
             capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
             capabilities.textDocument.completion.completionItem.preselectSupport = true
             capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
             capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
             capabilities.textDocument.completion.completionItem.snippetSupport = true
             -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-            capabilities.textDocument.completion.completionItem.snippetSupport = true;
-            capabilities.textDocument.signatureHelp.signatureInformation =
-                vim.tbl_deep_extend("force",
-                    capabilities.textDocument.signatureHelp.signatureInformation or {},
-                    { documentationFormat = { "markdown", "plaintext" } }
-                )
+            capabilities.textDocument.completion.completionItem.snippetSupport = true
+            capabilities.textDocument.signatureHelp.signatureInformation = vim.tbl_deep_extend(
+                "force",
+                capabilities.textDocument.signatureHelp.signatureInformation or {},
+                { documentationFormat = { "markdown", "plaintext" } }
+            )
             capabilities.textDocument.completion.completionItem.resolveSupport = {
                 properties = {
                     "documentation",
@@ -116,14 +116,22 @@ M.configs = {
                 if cmp_nvim_lsp_present then
                     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
                 else
-                    vim.notify("Installare cmp-nvim-lsp per autocompletamento LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
+                    vim.notify(
+                        "Installare cmp-nvim-lsp per autocompletamento LSP",
+                        vim.log.levels.WARN,
+                        { title = "Lsp", icon = " ", timeout = 5000 }
+                    )
                 end
             elseif sphynx.config.autocomplete == "blink" then
                 local blink_cmp_present, blink_cmp = pcall(require, "blink.cmp")
                 if blink_cmp_present then
                     capabilities = blink_cmp.get_lsp_capabilities(capabilities)
                 else
-                    vim.notify("Installare blink.cmp per autocompletamento LSP", vim.log.levels.WARN, { title = "Lsp", icon = " ",timeout = 5000 })
+                    vim.notify(
+                        "Installare blink.cmp per autocompletamento LSP",
+                        vim.log.levels.WARN,
+                        { title = "Lsp", icon = " ", timeout = 5000 }
+                    )
                 end
             end
             return capabilities
@@ -156,7 +164,7 @@ M.configs = {
                     prefix = "●",
                     spacing = 4,
                     source = "if_many",
-                    severity_limit = 'Warning'
+                    severity_limit = "Warning",
                 },
                 -- Finestra fluttuante per diagnostica dettagliata
                 float = {
@@ -181,19 +189,19 @@ M.configs = {
             })
         end
 
-        local lua_ls_cmd = function ()
-            if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
+        local lua_ls_cmd = function()
+            if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
                 local sumneko_root_path = vim.fn.stdpath("data") .. "/lsp/lua-language-server/"
                 local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
-                return {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"}
+                return { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" }
             end
 
             return nil
         end
 
-        local solargraph_ls_cmd = function ()
-            if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
-                return {"bundle.bat", "exec", "solargraph", "stdio"}
+        local solargraph_ls_cmd = function()
+            if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+                return { "bundle.bat", "exec", "solargraph", "stdio" }
             end
 
             return nil
@@ -203,12 +211,12 @@ M.configs = {
             capabilities = custom_capabilities(),
 
             handlers = {
-                ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
+                ["textDocument/publishDiagnostics"] = handlers_diagnostic(),
             },
 
             flags = {
                 debounce_text_changes = 150,
-             },
+            },
 
             on_attach = function(client, bufnr)
                 if vim.bo[bufnr].buftype ~= "" or not vim.bo[bufnr].buflisted then
@@ -229,7 +237,6 @@ M.configs = {
 
                 -- print(string.format("LSP '%s' attivo", client.name))
             end,
-
         }
 
         local servers = {
@@ -239,13 +246,13 @@ M.configs = {
                 cmd = solargraph_ls_cmd(),
                 autostart = true,
                 -- cmd = { "solargraph.bat", "stdio" },
-                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                flags = { debounce_did_change_notify = 150, allow_incremental_sync = true },
                 root_markers = { "Gemfile", ".git" },
                 single_file_support = false,
-                filetypes = {"ruby", "rakefile", "rb", "erb"},
+                filetypes = { "ruby", "rakefile", "rb", "erb" },
                 settings = {
                     solargraph = {
-                        completion  = true,
+                        completion = true,
                         definitions = true,
                         references = true,
                         hover = true,
@@ -253,8 +260,8 @@ M.configs = {
                         autoformat = false,
                         formatting = true,
                         folding = false,
-                        useBundler = false
-                    }
+                        useBundler = false,
+                    },
                 },
             },
 
@@ -268,13 +275,13 @@ M.configs = {
 
             vimls = {
                 detached = false,
-                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                flags = { debounce_did_change_notify = 150, allow_incremental_sync = true },
                 -- Configurazione specifica per vimls
                 init_options = {
-                        iskeyword = "@,48-57,_,192-255,-#",
-                        vimruntime = "",
-                        runtimepath = "",
-                        diagnostic = {
+                    iskeyword = "@,48-57,_,192-255,-#",
+                    vimruntime = "",
+                    runtimepath = "",
+                    diagnostic = {
                         enable = true,
                     },
                     indexes = {
@@ -285,7 +292,7 @@ M.configs = {
                     },
                     suggest = {
                         fromRuntimepath = true,
-                        fromVimruntime = true
+                        fromVimruntime = true,
                     },
                 },
             },
@@ -297,62 +304,64 @@ M.configs = {
 
             html = {
                 detached = false,
-                flags = {debounce_did_change_notify = 150},
-                cmd = {'vscode-html-language-server.cmd', '--stdio'},
-                filetypes = {'eruby', 'html'},
+                flags = { debounce_did_change_notify = 150 },
+                cmd = { "vscode-html-language-server.cmd", "--stdio" },
+                filetypes = { "eruby", "html" },
             },
 
             ts_ls = {
-                detached = false;
+                detached = false,
             },
 
             lua_ls = {
                 capabilities = custom_capabilities(),
                 cmd = lua_ls_cmd(),
-                autostart = true;
-                flags = {debounce_did_change_notify = 150, allow_incremental_sync = true},
+                autostart = true,
+                flags = { debounce_did_change_notify = 150, allow_incremental_sync = true },
                 handlers = {
-                    ['textDocument/publishDiagnostics'] = handlers_diagnostic(),
+                    ["textDocument/publishDiagnostics"] = handlers_diagnostic(),
                 },
                 settings = {
                     Lua = {
                         runtime = {
                             -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                            version = 'LuaJIT',
+                            version = "LuaJIT",
                             -- Setup your lua path
                             path = {
-                                vim.split(package.path, ';'),
-                                'lua/?.lua',
-                                'lua/?/init.lua',
-                            }
+                                vim.split(package.path, ";"),
+                                "lua/?.lua",
+                                "lua/?/init.lua",
+                            },
                         },
                         diagnostics = {
                             -- Get the language server to recognize the `vim` global
-                            globals = {'vim', 'nvim_config', 'sphynx'},
-                            disable = {'lowercase-global', 'missing-fields'},
-                            unusedLocalExclude = { "_*"}
+                            globals = { "vim", "nvim_config", "sphynx" },
+                            disable = { "lowercase-global", "missing-fields" },
+                            unusedLocalExclude = { "_*" },
                         },
                         workspace = {
                             checkThirdParty = false,
                             -- Make the server aware of Neovim runtime files
-                            library =  vim.api.nvim_get_runtime_file("", true),
+                            library = vim.api.nvim_get_runtime_file("", true),
                             -- adjust these two values if your performance is not optimal
                             maxPreload = 2000,
-                            preloadFileSize = 1000
+                            preloadFileSize = 1000,
                         },
                         telemetry = {
                             enable = false,
                         },
-                    }
-                }
+                    },
+                },
             },
 
             ahk2 = {
                 autostart = true,
                 cmd = {
                     "node",
-                    vim.fn.expand("C:/Users/en27553/AppData/Local/nvim-data/lsp/vscode-autohotkey2-lsp/server/dist/server.js"),
-                    "--stdio"
+                    vim.fn.expand(
+                        "C:/Users/en27553/AppData/Local/nvim-data/lsp/vscode-autohotkey2-lsp/server/dist/server.js"
+                    ),
+                    "--stdio",
                 },
                 filetypes = { "ahk", "autohotkey", "ah2" },
                 init_options = {
@@ -366,7 +375,7 @@ M.configs = {
             },
 
             bashls = {
-                cmd = { 'bash-language-server', 'start' },
+                cmd = { "bash-language-server", "start" },
                 autostart = true,
                 single_file_support = false,
                 settings = {
@@ -378,12 +387,12 @@ M.configs = {
                         -- directly in the home directory (e.g. ~/foo.sh).
                         --
                         -- Default upstream pattern is "**/*@(.sh|.inc|.bash|.command)".
-                        globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command)',
+                        globPattern = vim.env.GLOB_PATTERN or "*@(.sh|.inc|.bash|.command)",
                     },
                 },
-                filetypes = { 'bash', 'sh' },
-                root_markers = { '.git' },
-            }
+                filetypes = { "bash", "sh" },
+                root_markers = { ".git" },
+            },
         }
 
         -- Configura ogni server usando la nuova API vim.lsp.config
@@ -425,8 +434,8 @@ M.keybindings = function()
         virtual_text_enabled = not virtual_text_enabled
         vim.diagnostic.config({
             virtual_text = virtual_text_enabled and {
-            prefix = '●',
-            source = "if_many",
+                prefix = "●",
+                source = "if_many",
             } or false,
         })
         print("Virtual Text: " .. (virtual_text_enabled and "ON" or "OFF"))
@@ -437,7 +446,7 @@ M.keybindings = function()
     local function toggle_signs()
         signs_enabled = not signs_enabled
         vim.diagnostic.config({
-            signs = signs_enabled
+            signs = signs_enabled,
         })
         print("Diagnostic Signs: " .. (signs_enabled and "ON" or "OFF"))
     end
@@ -445,7 +454,7 @@ M.keybindings = function()
     -- Funzione per attivare/disattivare hints
     local function toggle_hints()
         local current_buf = vim.api.nvim_get_current_buf()
-        local is_enabled = vim.lsp.inlay_hint.is_enabled({bufnr=current_buf})
+        local is_enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = current_buf })
         vim.lsp.inlay_hint.enable(not is_enabled, { bufnr = current_buf })
 
         print("Inlay Hints: " .. (not is_enabled and "ON" or "OFF"))
@@ -461,7 +470,6 @@ M.keybindings = function()
         { prefix .. "s", toggle_signs, desc = "Toggle diagnostic signs" },
         { prefix .. "i", toggle_hints, desc = "Toggle Inlay Hints" },
     }, mapping.opt_mappping)
-
 end
 
 return M
@@ -476,14 +484,10 @@ return M
 --     }
 -- }
 
-
-
-
 -- if client.server_capabilities.inlayHintProvider then
 --     vim.notify("Inlay hint abilitato")
 --     vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
 -- end
-
 
 -- DECOMMENTARE LE SEGUENTI LINEE PER USARE RUBY-LSP
 -- _timers = {}

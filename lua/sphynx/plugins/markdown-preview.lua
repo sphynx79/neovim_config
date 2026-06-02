@@ -1,4 +1,3 @@
-
 --[[
 ===============================================================================================
 Plugin: markdown-preview.nvim
@@ -41,7 +40,7 @@ M.setup = {
     ["markdown_preview"] = function()
         vim.g.mkdp_filetypes = { "markdown" }
         vim.g.mkdp_refresh_slow = 0
-    end
+    end,
 }
 
 M.configs = {
@@ -55,4 +54,3 @@ M.configs = {
 }
 
 return M
-

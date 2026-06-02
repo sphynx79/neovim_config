@@ -32,13 +32,12 @@ local M = {}
 M.plugins = {
     ["markdown"] = {
         "preservim/vim-markdown",
-        branch = 'master',
+        branch = "master",
         dependencies = "godlygeek/tabular",
         ft = "markdown",
         lazy = true,
     },
 }
-
 
 M.setup = {
     ["markdown"] = function()
@@ -47,7 +46,7 @@ M.setup = {
         vim.g.vim_markdown_conceal = 1
         vim.g.vim_markdown_conceal_level = 2
         vim.g.vim_markdown_folding_style_pythonic = 1
-    end
+    end,
 }
 
 return M

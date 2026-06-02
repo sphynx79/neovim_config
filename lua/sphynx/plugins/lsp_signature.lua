@@ -17,18 +17,15 @@ M.plugins = {
 
 M.configs = {
     ["lsp_signature"] = function()
-        require'lsp_signature'.setup({
+        require("lsp_signature").setup({
             bind = true,
             noice = true,
             transparency = 20,
             handler_opts = {
-                border = "rounded"
-            }
-
+                border = "rounded",
+            },
         })
-
     end,
 }
 
 return M
-

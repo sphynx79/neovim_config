@@ -54,13 +54,12 @@ M.plugins = {
 
 M.setup = {
     ["indent_blankline"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "indent-blankline.nvim"
+        require("sphynx.utils.lazy_load").on_file_open("indent-blankline.nvim")
     end,
 }
 
 M.configs = {
     ["indent_blankline"] = function()
-
         local highlight = {
             "RainbowRed",
             "RainbowYellow",
@@ -71,7 +70,7 @@ M.configs = {
             "RainbowCyan",
         }
 
-        local hooks = require "ibl.hooks"
+        local hooks = require("ibl.hooks")
 
         hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
             vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#79839C" })
@@ -84,7 +83,7 @@ M.configs = {
             vim.api.nvim_set_hl(0, "IndentBlanklineContextChar", { fg = "#ff8349" })
         end)
 
-        require("ibl").setup {
+        require("ibl").setup({
             enabled = true,
             debounce = 200, -- Millisecondi di debounce
 
@@ -93,7 +92,7 @@ M.configs = {
             },
 
             indent = {
-                char =  '▏',
+                char = "▏",
                 tab_char = "→",
                 highlight = highlight,
             },
@@ -104,43 +103,43 @@ M.configs = {
             },
 
             scope = {
-                enabled = true,                             -- Attiva la funzionalità scope
-                show_start = true,                          -- Mostra una sottolineatura all'inizio dello scope
-                show_end = true,                            -- Mostra una sottolineatura alla fine dello scope
-                injected_languages = true,                  -- Supporta scope in linguaggi incorporati (es. JS in HTML)
-                highlight = "IndentBlanklineContextChar",   -- Gruppo di evidenziazione usato per lo scope
-                priority = 1024,                            -- Priorità alta per assicurare che sia sempre visibile
+                enabled = true, -- Attiva la funzionalità scope
+                show_start = true, -- Mostra una sottolineatura all'inizio dello scope
+                show_end = true, -- Mostra una sottolineatura alla fine dello scope
+                injected_languages = true, -- Supporta scope in linguaggi incorporati (es. JS in HTML)
+                highlight = "IndentBlanklineContextChar", -- Gruppo di evidenziazione usato per lo scope
+                priority = 1024, -- Priorità alta per assicurare che sia sempre visibile
                 include = {
                     node_type = {
                         lua = { "return_statement", "table_constructor" },
                         ruby = {
-                            'class',
-                            'singleton_method',
-                            'module',
-                            'return',
+                            "class",
+                            "singleton_method",
+                            "module",
+                            "return",
                             "function",
-                            'method',
-                            '^if',
-                            '^while',
-                            'case',
-                            'when',
-                            'jsx_element',
-                            '^for',
-                            '^object',
+                            "method",
+                            "^if",
+                            "^while",
+                            "case",
+                            "when",
+                            "jsx_element",
+                            "^for",
+                            "^object",
                             "^table",
                             "block",
-                            'arguments',
-                            'if_statement',
-                            'else_clause',
-                            'jsx_element',
-                            'jsx_self_closing_element',
-                            'try_statement',
-                            'catch_clause',
-                            'import_statement',
-                            'operation_type',
-                        }
-                    }
-                }
+                            "arguments",
+                            "if_statement",
+                            "else_clause",
+                            "jsx_element",
+                            "jsx_self_closing_element",
+                            "try_statement",
+                            "catch_clause",
+                            "import_statement",
+                            "operation_type",
+                        },
+                    },
+                },
             },
 
             exclude = {
@@ -156,9 +155,8 @@ M.configs = {
             -- indentLevel = 6,
             -- show_end_of_line = false,
             -- show_foldtext = false,
-        }
+        })
     end,
 }
 
 return M
-

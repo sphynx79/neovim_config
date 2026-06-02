@@ -34,15 +34,14 @@ M.plugins = {
 
 M.setup = {
     ["foldsigns"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "foldsigns"
+        require("sphynx.utils.lazy_load").on_file_open("foldsigns")
     end,
 }
 
 M.configs = {
     ["foldsigns"] = function()
-        require('foldsigns').setup()
+        require("foldsigns").setup()
     end,
 }
 
 return M
-

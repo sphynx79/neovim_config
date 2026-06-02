@@ -26,14 +26,14 @@ function M.setup()
             if vim.fn.filereadable(expanded) == 1 then
                 -- Schedula l'apertura per evitare problemi di timing
                 vim.schedule(function()
-                    vim.cmd('edit ' .. vim.fn.fnameescape(expanded))
+                    vim.cmd("edit " .. vim.fn.fnameescape(expanded))
                 end)
                 return -- blocca il paste
             end
             -- Se è una directory, aprila con netrw
             if vim.fn.isdirectory(expanded) == 1 then
                 vim.schedule(function()
-                    vim.cmd('NvimTreeOpen ' .. vim.fn.fnameescape(expanded))
+                    vim.cmd("NvimTreeOpen " .. vim.fn.fnameescape(expanded))
                 end)
                 return
             end
@@ -41,7 +41,6 @@ function M.setup()
         -- Fallback al paste normale
         return orig_paste(lines, phase)
     end
-
 end
 
 return M

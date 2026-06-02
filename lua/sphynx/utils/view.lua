@@ -4,10 +4,10 @@ local M = {}
 local function setup_view_options()
     -- Configurazione view
     vim.opt.viewoptions = {
-        'cursor',    -- Posizione cursore
-        'folds',     -- Stato fold
-        'slash',     -- Usa slash invece di backslash
-        'unix',      -- Usa format unix
+        "cursor", -- Posizione cursore
+        "folds", -- Stato fold
+        "slash", -- Usa slash invece di backslash
+        "unix", -- Usa format unix
     }
 
     -- Crea directory se non esiste
@@ -19,29 +19,35 @@ local function setup_view_options()
 
     -- Ignora alcuni tipi di file
     local ignore_filetypes = {
-        'gitcommit',
-        'help',
-        'quickfix',
+        "gitcommit",
+        "help",
+        "quickfix",
     }
 
     -- Funzione helper per verificare se il buffer è valido per la view
     local function is_valid_buffer()
         local bufname = vim.api.nvim_buf_get_name(0)
-        if bufname == "" then return false end
-        if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then return false end
-        if not vim.bo.modifiable then return false end
+        if bufname == "" then
+            return false
+        end
+        if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
+            return false
+        end
+        if not vim.bo.modifiable then
+            return false
+        end
         return true
     end
 
     -- Salva stato del fold insieme alla view
-    vim.api.nvim_create_autocmd({"BufWritePost", "BufLeave", "WinLeave"}, {
+    vim.api.nvim_create_autocmd({ "BufWritePost", "BufLeave", "WinLeave" }, {
         group = vim.api.nvim_create_augroup("AutoSaveView", { clear = true }),
         callback = function()
             if is_valid_buffer() then
                 -- Salva lo stato del fold auto nel buffer
                 pcall(vim.cmd.mkview)
             end
-        end
+        end,
     })
 
     -- Carica view e ripristina stato fold
@@ -50,18 +56,18 @@ local function setup_view_options()
         callback = function()
             if is_valid_buffer() then
                 pcall(vim.cmd.loadview)
-            -- Leggi lo stato salvato
-            local state_file = vim.fn.stdpath("data") .. "/fold_auto_state"
-            local file = io.open(state_file, "r")
-            if file then
-                local state = file:read("*all")
-                file:close()
-                if state == "1" then
-                    vim.opt.foldclose = "all"
+                -- Leggi lo stato salvato
+                local state_file = vim.fn.stdpath("data") .. "/fold_auto_state"
+                local file = io.open(state_file, "r")
+                if file then
+                    local state = file:read("*all")
+                    file:close()
+                    if state == "1" then
+                        vim.opt.foldclose = "all"
+                    end
                 end
             end
-            end
-        end
+        end,
     })
 end
 
@@ -91,7 +97,7 @@ function M.setup()
 
     -- Comando per pulire manualmente le view
     vim.api.nvim_create_user_command("CleanViews", M.clean_views, {
-        desc = "Clean old view files"
+        desc = "Clean old view files",
     })
 end
 

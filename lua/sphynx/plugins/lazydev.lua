@@ -34,13 +34,13 @@ M.plugins = {
         "folke/lazydev.nvim",
         ft = "lua",
         lazy = true,
-        dependencies = { "Bilal2453/luvit-meta", lazy = true }
+        dependencies = { "Bilal2453/luvit-meta", lazy = true },
     },
 }
 
 M.configs = {
     ["lazydev"] = function()
-        require('lazydev').setup({
+        require("lazydev").setup({
             library = {
                 -- Usa la sintassi raccomandata per i tipi luv
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },

@@ -13,9 +13,9 @@ M.plugins = {
 M.configs = {
     ["virtcolumn"] = function()
         require("virt-column").setup({
-            char = '▕',
+            char = "▕",
             virtcolumn = "100",
-            highlight = "VirtColumn"
+            highlight = "VirtColumn",
         })
     end,
 }

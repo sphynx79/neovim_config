@@ -43,14 +43,13 @@ M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     mapping.register({
         {
-            mode = {"n"},
+            mode = { "n" },
             lhs = "<F7>",
             rhs = [[<Cmd>AerialToggle<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Open vista Tag-LSP list",
         },
     })
 end
 
 return M
-

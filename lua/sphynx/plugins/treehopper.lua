@@ -4,7 +4,7 @@ M.plugins = {
     ["treehopper"] = {
         "mfussenegger/nvim-treehopper",
         lazy = true,
-        name = "treehopper"
+        name = "treehopper",
     },
 }
 
@@ -15,23 +15,20 @@ M.setup = {
 }
 
 M.configs = {
-    ["treehopper"] = function()
-
-    end,
+    ["treehopper"] = function() end,
 }
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     mapping.register({
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "~",
             rhs = [[<Cmd>lua require('tsht').nodes()<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "treesitter node selection",
         },
     })
 end
 
 return M
-

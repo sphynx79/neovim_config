@@ -11,12 +11,12 @@ M.plugins = {
 M.setup = {
     ["todo-comments"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["todo-comments"] = function()
-        require("todo-comments").setup {
+        require("todo-comments").setup({
             signs = true, -- show icons in the signs column
             -- keywords recognized as todo comments
             keywords = {
@@ -47,12 +47,12 @@ M.configs = {
             -- list of named colors where we try to extract the guifg from the
             -- list of hilight groups or use the hex color if hl not found as a fallback
             colors = {
-                error   = { "LspDiagnosticsDefaultHint", "ErrorMsg", "#DC2626" },
+                error = { "LspDiagnosticsDefaultHint", "ErrorMsg", "#DC2626" },
                 warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
-                info    = { "DiagnosticInfo", "#2563EB" },
-                hint    = { "DiagnosticHint", "#10B981" },
+                info = { "DiagnosticInfo", "#2563EB" },
+                hint = { "DiagnosticHint", "#10B981" },
                 default = { "Identifier", "#7C3AED" },
-                test    = { "Identifier", "#FF00FF" },
+                test = { "Identifier", "#FF00FF" },
             },
             search = {
                 command = "rg",
@@ -68,7 +68,7 @@ M.configs = {
                 pattern = [[\b(KEYWORDS):]], -- ripgrep regex
                 -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
             },
-        }
+        })
     end,
 }
 
@@ -82,10 +82,8 @@ M.keybindings = function()
         { prefix, group = " Todo" },
         { prefix .. "q", [[<Cmd>TodoQuickFix<CR>]], desc = "todo quickfix" },
         { prefix .. "x", [[<Cmd>TodoTrouble<CR>]], desc = "todo trouble" },
-        { prefix .. "t", [[<Cmd>TodoTelescope<CR>]], desc = "todo telescope"},
-    }, mapping.opt_mappping )
+        { prefix .. "t", [[<Cmd>TodoTelescope<CR>]], desc = "todo telescope" },
+    }, mapping.opt_mappping)
 end
 
-
 return M
-

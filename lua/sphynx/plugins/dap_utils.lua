@@ -1,5 +1,5 @@
 local M = {}
-local dap =  require'dap'
+local dap = require("dap")
 
 function M.reload_continue()
     dap.disconnect()
@@ -7,4 +7,3 @@ function M.reload_continue()
 end
 
 return M
-

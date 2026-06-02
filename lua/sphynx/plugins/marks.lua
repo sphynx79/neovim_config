@@ -12,16 +12,16 @@ M.plugins = {
 M.setup = {
     ["marks"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["marks"] = function()
-        require('marks').setup {
+        require("marks").setup({
             -- whether to map keybinds or not. default true
             default_mappings = false,
             -- which builtin marks to show. default {}
-            builtin_marks = { },
+            builtin_marks = {},
             -- whether movements cycle back to the beginning/end of buffer. default true
             cyclic = true,
             -- whether the shada file is updated after modifying uppercase marks. default false
@@ -35,7 +35,7 @@ M.configs = {
             -- can be either a table with all/none of the keys, or a single number, in which case
             -- the priority applies to all marks.
             -- default 10.
-            sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
+            sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
             -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own
             -- sign/virttext. Bookmarks can be used to group together positions and quickly move
             -- across multiple buffers. default sign is '!@#$%^&*()' (from 0 to 9), and
@@ -52,9 +52,9 @@ M.configs = {
                 sign = "",
                 annotate = true,
             },
-            mappings = {}
-        }
-    end
+            mappings = {},
+        })
+    end,
 }
 
 M.keybindings = function()
@@ -74,11 +74,10 @@ M.keybindings = function()
         { "<leader>mb#", desc = "Set bookmark .N" },
     })
     for i = 0, 9 do
-      require("which-key").add({
-        { "<leader>mb" .. tostring(i),  "<Plug>(Marks-set-bookmark" .. tostring(i) .. ")", hidden = true },
-      })
+        require("which-key").add({
+            { "<leader>mb" .. tostring(i), "<Plug>(Marks-set-bookmark" .. tostring(i) .. ")", hidden = true },
+        })
     end
 end
 
 return M
-

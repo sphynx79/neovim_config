@@ -34,7 +34,7 @@ local ts_filetypes = {
     "yaml",
     "json",
     "markdown",
-    "hyprlang"
+    "hyprlang",
 }
 
 M.plugins = {
@@ -48,28 +48,28 @@ M.plugins = {
             "nvim-treesitter/nvim-treesitter-textobjects",
             "RRethy/nvim-treesitter-textsubjects",
             "RRethy/nvim-treesitter-endwise",
-        }
+        },
     },
 }
 
 M.setup = {
     ["nvim-treesitter"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "nvim-treesitter"
+        require("sphynx.utils.lazy_load").on_file_open("nvim-treesitter")
     end,
 }
 
 M.configs = {
     ["nvim-treesitter"] = function()
-        require 'nvim-treesitter.install'.compilers = { "zig" }
+        require("nvim-treesitter.install").compilers = { "zig" }
         -- require 'nvim-treesitter.install'.prefer_git = false
-        require('nvim-treesitter.configs').setup {
+        require("nvim-treesitter.configs").setup({
             -- ensure_installed = ts_filetypes,
 
             highlight = {
-                enable = true,              -- false will disable the whole extension
+                enable = true, -- false will disable the whole extension
                 use_languagetree = true,
                 additional_vim_regex_highlighting = false,
-                disable = { "vim" }
+                disable = { "vim" },
             },
 
             indent = {
@@ -77,10 +77,10 @@ M.configs = {
                 disable = { "python" },
             },
             matchup = {
-                enable = true,              -- mandatory, false will disable the whole extension
+                enable = true, -- mandatory, false will disable the whole extension
             },
 
-        --[[ playground = {
+            --[[ playground = {
             enable = true,
             disable = {},
             updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
@@ -101,17 +101,17 @@ M.configs = {
             textsubjects = {
                 enable = true,
                 keymaps = {
-                    ['.'] = 'textsubjects-smart',
-                    [';'] = 'textsubjects-container-outer',
-                }
+                    ["."] = "textsubjects-smart",
+                    [";"] = "textsubjects-container-outer",
+                },
             },
             incremental_selection = {
                 enable = true,
                 keymaps = {
-                    init_selection = '<CR>',
-                    scope_incremental = '<CR>',
-                    node_incremental = '<TAB>',
-                    node_decremental = '<S-TAB>',
+                    init_selection = "<CR>",
+                    scope_incremental = "<CR>",
+                    node_incremental = "<TAB>",
+                    node_decremental = "<S-TAB>",
                 },
             },
             endwise = { enable = true },
@@ -132,17 +132,15 @@ M.configs = {
                 },
                 lsp_interop = {
                     enable = true,
-                    border = 'single',
+                    border = "single",
                     peek_definition_code = {
                         ["df"] = "@function.outer",
                         ["dF"] = "@class.outer",
                     },
                 },
             },
-        }
+        })
     end,
 }
-
-
 
 return M

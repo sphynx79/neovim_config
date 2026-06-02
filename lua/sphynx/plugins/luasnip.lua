@@ -12,11 +12,10 @@ luasnip.plugins = {
     },
 }
 
-
 luasnip.configs = {
     ["luasnip"] = function()
         local types = require("luasnip.util.types")
-        require("luasnip").config.set_config {
+        require("luasnip").config.set_config({
             history = true,
             updateevents = "TextChanged,TextChangedI",
             ext_opts = {
@@ -26,13 +25,13 @@ luasnip.configs = {
                     },
                 },
             },
-            }
+        })
 
-            -- local path = sphynx.config.code_snippets_directory
-            -- TODO: vedere se risco a caricarli in modalità lazy
-            -- local path = vim.fn.expand(vim.fn.stdpath("data") .. "/snippet")
-            -- require("luasnip.loaders.from_vscode").load({ paths = { path } })
-            require("sphynx.plugins.snippets")
+        -- local path = sphynx.config.code_snippets_directory
+        -- TODO: vedere se risco a caricarli in modalità lazy
+        -- local path = vim.fn.expand(vim.fn.stdpath("data") .. "/snippet")
+        -- require("luasnip.loaders.from_vscode").load({ paths = { path } })
+        require("sphynx.plugins.snippets")
     end,
 }
 

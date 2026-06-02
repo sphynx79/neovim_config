@@ -9,35 +9,30 @@ M.plugins = {
 }
 
 M.setup = {
-    ["X"] = function()
-
-    end,
+    ["X"] = function() end,
 }
 
 M.configs = {
-    ["X"] = function()
-
-    end,
+    ["X"] = function() end,
 }
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
     mapping.register({
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "key",
             rhs = [[<Cmd>.....<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Desc",
         },
     })
     require("which-key").register({
         x = {
             name = " Todo",
-            q = {[[<Cmd>......<CR>]], "Desc"},
+            q = { [[<Cmd>......<CR>]], "Desc" },
         },
     }, mapping.opt_plugin)
 end
 
 return M
-

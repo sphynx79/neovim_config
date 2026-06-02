@@ -4,14 +4,14 @@ M.plugins = {
     ["tabular"] = {
         "godlygeek/tabular",
         lazy = true,
-        cmd = {'Tabularize'},
+        cmd = { "Tabularize" },
     },
 }
 
 M.setup = {
     ["tabular"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.keybindings = function()
@@ -32,21 +32,20 @@ M.keybindings = function()
     --         description = "Allign with tabular plugin",
     --     },
     -- })
-  require("which-key").register({
-    ["a"] = {
-      name = "Allign with tabular plugin",
-      ["="] = {[[<Cmd>Tabularize /= <CR>]], "Allign to ="},
-      [":"] = {[[<Cmd>Tabularize /:\zs <CR>]], "Allign to ;"},
-    }
-  }, {
-    mode = { "n", "v"}, -- NORMAL mode
-    prefix = "<localleader>",
-    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true, -- use `silent` when creating keymaps
-    noremap = true, -- use `noremap` when creating keymaps
-    nowait = true, -- use `nowait` when creating keymaps
-  })
+    require("which-key").register({
+        ["a"] = {
+            name = "Allign with tabular plugin",
+            ["="] = { [[<Cmd>Tabularize /= <CR>]], "Allign to =" },
+            [":"] = { [[<Cmd>Tabularize /:\zs <CR>]], "Allign to ;" },
+        },
+    }, {
+        mode = { "n", "v" }, -- NORMAL mode
+        prefix = "<localleader>",
+        buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+        silent = true, -- use `silent` when creating keymaps
+        noremap = true, -- use `noremap` when creating keymaps
+        nowait = true, -- use `nowait` when creating keymaps
+    })
 end
 
 return M
-

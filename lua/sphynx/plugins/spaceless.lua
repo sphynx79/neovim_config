@@ -8,19 +8,16 @@ M.plugins = {
     },
 }
 
-
 M.setup = {
     ["spaceless"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "spaceless"
+        require("sphynx.utils.lazy_load").on_file_open("spaceless")
     end,
 }
 
-
 M.configs = {
     ["spaceless"] = function()
-        require'spaceless'.setup()
+        require("spaceless").setup()
     end,
 }
 
 return M
-

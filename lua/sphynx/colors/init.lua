@@ -25,7 +25,7 @@ colors.get_color = function(colorscheme)
     local ok, palette = pcall(require, "sphynx.colors.palette." .. current_theme)
     if not ok then
         vim.notify("Couldn't load colorscheme: " .. current_theme, vim.log.levels.ERROR)
-        return require("sphynx.colors.palette.nightfox").colors  -- fallback sicuro
+        return require("sphynx.colors.palette.nightfox").colors -- fallback sicuro
     end
 
     return palette.colors

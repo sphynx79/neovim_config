@@ -19,11 +19,11 @@ M.setup = {
 
 M.configs = {
     ["ufo"] = function()
-        vim.o.foldcolumn     = '0'
-        vim.o.foldlevel      = 99
+        vim.o.foldcolumn = "0"
+        vim.o.foldlevel = 99
         vim.o.foldlevelstart = 99
-        vim.o.foldenable     = true
-        require('ufo').setup({
+        vim.o.foldenable = true
+        require("ufo").setup({
             provider_selector = function(_, ft)
                 if ft == "markdown" or ft == "rst" then
                     return { "treesitter", "indent" } -- prose files: simpler, faster
@@ -45,17 +45,17 @@ M.configs = {
                     local chunkText = chunk[1]
                     local chunkWidth = vim.fn.strdisplaywidth(chunkText)
                     if targetWidth > curWidth + chunkWidth then
-                    table.insert(newVirtText, chunk)
+                        table.insert(newVirtText, chunk)
                     else
-                    chunkText = truncate(chunkText, targetWidth - curWidth)
-                    local hlGroup = chunk[2]
-                    table.insert(newVirtText, { chunkText, hlGroup })
-                    chunkWidth = vim.fn.strdisplaywidth(chunkText)
-                    -- str width returned from truncate() may less than 2nd argument, need padding
-                    if curWidth + chunkWidth < targetWidth then
-                        suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-                    end
-                    break
+                        chunkText = truncate(chunkText, targetWidth - curWidth)
+                        local hlGroup = chunk[2]
+                        table.insert(newVirtText, { chunkText, hlGroup })
+                        chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        -- str width returned from truncate() may less than 2nd argument, need padding
+                        if curWidth + chunkWidth < targetWidth then
+                            suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+                        end
+                        break
                     end
                     curWidth = curWidth + chunkWidth
                 end
@@ -79,7 +79,6 @@ M.keybindings = function()
         { "zz", group = "+ Fold-Unfold all" },
         { "zz<Down>", [[<Cmd>lua require('ufo').openAllFolds()<CR>]], desc = "Open all folds [Ufo]" },
         { "zz<Up>", [[<Cmd>lua require('ufo').closeAllFolds()<CR>]], desc = "Close all folds [Ufo]" },
-
     })
 
     -- local mapping = require("sphynx.core.5-mapping")
@@ -101,4 +100,3 @@ M.keybindings = function()
 end
 
 return M
-

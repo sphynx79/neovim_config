@@ -17,14 +17,14 @@ M.plugins = {
     ["neoterm"] = {
         "kassio/neoterm",
         lazy = true,
-        cmd = {"T"},
+        cmd = { "T" },
     },
 }
 
 M.setup = {
     ["neoterm"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
@@ -57,7 +57,6 @@ M.configs = {
             endfunction
             nnoremap <silent> <localleader>nb :<C-U>call SetBreakPoint()<CR>
         ]])
-
     end,
 }
 
@@ -71,4 +70,3 @@ M.keybindings = function()
 end
 
 return M
-

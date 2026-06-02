@@ -43,30 +43,30 @@ M.plugins = {
 
 M.setup = {
     ["illuminate"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "vim-illuminate"
+        require("sphynx.utils.lazy_load").on_file_open("vim-illuminate")
     end,
 }
 
 M.configs = {
     ["illuminate"] = function()
-        require('illuminate').configure({
-            providers = {                            -- provider utilizzati per trovare i riferimenti nel buffer, ordinati per priorità
-                'lsp',                               -- usa il Language Server Protocol
-                'treesitter',                        -- usa TreeSitter per l'analisi sintattica
-                'regex',                             -- usa espressioni regolari come fallback
+        require("illuminate").configure({
+            providers = { -- provider utilizzati per trovare i riferimenti nel buffer, ordinati per priorità
+                "lsp", -- usa il Language Server Protocol
+                "treesitter", -- usa TreeSitter per l'analisi sintattica
+                "regex", -- usa espressioni regolari come fallback
             },
-            delay = 3000,                            -- ritardo in millisecondi prima dell'evidenziazione
-            filetypes_denylist = sphynx.config.excluded_filetypes,  -- lista di tipi di file da escludere dall'evidenziazione
-            filetypes_allowlist = {},                -- lista di tipi di file da includere nell'evidenziazione (vuota = tutti)
-            modes_denylist = {},                     -- modalità di Vim da escludere dall'evidenziazione
-            modes_allowlist = {},                    -- modalità di Vim da includere nell'evidenziazione (vuota = tutte)
-            providers_regex_syntax_denylist = {},    -- sintassi regex da escludere
-            providers_regex_syntax_allowlist = {},   -- sintassi regex da includere
-            under_cursor = false,                    -- se evidenziare la parola sotto il cursore
-            large_file_cutoff = 3000,               -- numero di righe oltre il quale considerare il file come "grande"
-            min_count_to_highlight = 1,             -- numero minimo di occorrenze necessarie per l'evidenziazione
-            case_insensitive_regex = true,          -- se ignorare maiuscole/minuscole nelle regex
-            disable_keymaps = false,                -- se disabilitare le scorciatoie da tastiera predefinite
+            delay = 3000, -- ritardo in millisecondi prima dell'evidenziazione
+            filetypes_denylist = sphynx.config.excluded_filetypes, -- lista di tipi di file da escludere dall'evidenziazione
+            filetypes_allowlist = {}, -- lista di tipi di file da includere nell'evidenziazione (vuota = tutti)
+            modes_denylist = {}, -- modalità di Vim da escludere dall'evidenziazione
+            modes_allowlist = {}, -- modalità di Vim da includere nell'evidenziazione (vuota = tutte)
+            providers_regex_syntax_denylist = {}, -- sintassi regex da escludere
+            providers_regex_syntax_allowlist = {}, -- sintassi regex da includere
+            under_cursor = false, -- se evidenziare la parola sotto il cursore
+            large_file_cutoff = 3000, -- numero di righe oltre il quale considerare il file come "grande"
+            min_count_to_highlight = 1, -- numero minimo di occorrenze necessarie per l'evidenziazione
+            case_insensitive_regex = true, -- se ignorare maiuscole/minuscole nelle regex
+            disable_keymaps = false, -- se disabilitare le scorciatoie da tastiera predefinite
         })
     end,
 }

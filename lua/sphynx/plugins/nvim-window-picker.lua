@@ -15,7 +15,7 @@ M.plugins = {
         "s1n7ax/nvim-window-picker",
         lazy = true,
         event = "VeryLazy",
-        version = '2.*',
+        version = "2.*",
     },
 }
 
@@ -27,23 +27,23 @@ M.setup = {
 
 M.configs = {
     ["nvim-window-picker"] = function()
-        local picker = require('window-picker')
+        local picker = require("window-picker")
         picker.setup({
             autoselect_one = true,
-            hint = 'floating-big-letter',
+            hint = "floating-big-letter",
             include_current = false,
             -- whether to show 'Pick window:' prompt
             show_prompt = false,
-            selection_chars = 'ABCDEFGHIJKLMNOP',
+            selection_chars = "ABCDEFGHIJKLMNOP",
             filter_rules = {
                 include_current_win = false,
                 autoselect_one = true,
                 -- filter using buffer options
                 bo = {
                     -- if the file type is one of following, the window will be ignored
-                    filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                    filetype = { "neo-tree", "neo-tree-popup", "notify" },
                     -- if the buffer type is one of following, the window will be ignored
-                    buftype = { 'terminal', "quickfix" },
+                    buftype = { "terminal", "quickfix" },
                 },
             },
             statusline_winbar_picker = {
@@ -51,44 +51,44 @@ M.configs = {
                 -- It supports '%' printf style. Such as `return char .. ': %f'` to display
                 -- buffer file path. See :h 'stl' for details.
                 selection_display = function(char, _)
-                    return '%=' .. char .. '%='
+                    return "%=" .. char .. "%="
                 end,
                 floating_big_letter = {
                     -- window picker plugin provides bunch of big letter fonts
                     -- fonts will be lazy loaded as they are being requested
                     -- additionally, user can pass in a table of fonts in to font
                     -- property to use instead
-                    font = 'ansi-shadow',       -- ansi-shadow |
+                    font = "ansi-shadow", -- ansi-shadow |
                 },
 
                 -- whether you want to use winbar instead of the statusline
                 -- "always" means to always use winbar,
                 -- "never" means to never use winbar
                 -- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
-                use_winbar = 'never',       -- "always" | "never" | "smart"
+                use_winbar = "never", -- "always" | "never" | "smart"
             },
             highlights = {
                 statusline = {
                     focused = {
-                        fg = '#ededed',
-                        bg = '#3C424C',
+                        fg = "#ededed",
+                        bg = "#3C424C",
                         bold = true,
                     },
                     unfocused = {
-                        fg = '#ededed',
-                        bg = '#757A84',
+                        fg = "#ededed",
+                        bg = "#757A84",
                         bold = true,
                     },
                 },
                 winbar = {
                     focused = {
-                        fg = '#ededed',
-                        bg = '#81b29a',
+                        fg = "#ededed",
+                        bg = "#81b29a",
                         bold = true,
                     },
                     unfocused = {
-                        fg = '#ededed',
-                        bg = '#3C424C',
+                        fg = "#ededed",
+                        bg = "#3C424C",
                         bold = true,
                     },
                 },
@@ -99,12 +99,12 @@ M.configs = {
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-    local picker = require('window-picker')
+    local picker = require("window-picker")
 
     -- Swap two windows using picker
     local function swap_windows()
         local window = picker.pick_window({
-            include_current_win = false
+            include_current_win = false,
         })
         local target_buffer = vim.fn.winbufnr(window)
         -- Set the target window to contain current buffer
@@ -116,7 +116,7 @@ M.keybindings = function()
     -- Go to window using picker
     local function picked_window()
         local picked_window_id = picker.pick_window({
-            include_current_win = true
+            include_current_win = true,
         }) or vim.api.nvim_get_current_win()
         vim.api.nvim_set_current_win(picked_window_id)
     end
@@ -128,4 +128,3 @@ M.keybindings = function()
 end
 
 return M
-

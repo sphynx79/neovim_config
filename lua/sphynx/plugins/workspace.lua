@@ -53,28 +53,36 @@ M.keybindings = function()
         { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
         { "<leader>" .. prefix .. "m" .. "#", desc = "Move buffer to tab .N [Workspace]" },
         { "<leader>" .. prefix .. "c", group = " Close [Workspace]" },
-        { "<leader>" .. prefix .. "c" .. "c", [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], desc = "Close current tab [utils=>init.lua]" },
+        {
+            "<leader>" .. prefix .. "c" .. "c",
+            [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
+            desc = "Close current tab [utils=>init.lua]",
+        },
         { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
     }, mapping.opt_mappping)
 
     -- New or go to if exist tab .N
     for i = 1, 10 do
         wk.add({
-            { "<leader>" .. prefix .. tostring(i),  [[<Cmd>WS ]] .. tostring(i) .. [[<CR>]], hidden = true },
+            { "<leader>" .. prefix .. tostring(i), [[<Cmd>WS ]] .. tostring(i) .. [[<CR>]], hidden = true },
         }, mapping.opt_mappping)
     end
 
     -- Move buffer to tab .N
     for i = 1, 10 do
         wk.add({
-            { "<leader>" .. prefix .. "m" .. tostring(i),  [[<Cmd>WSbmv ]] .. tostring(i) .. [[<CR>]], hidden = true },
+            { "<leader>" .. prefix .. "m" .. tostring(i), [[<Cmd>WSbmv ]] .. tostring(i) .. [[<CR>]], hidden = true },
         }, mapping.opt_mappping)
     end
 
     -- Close tab .N
     for i = 1, 10 do
         wk.add({
-            { "<leader>" .. prefix .. "c" .. tostring(i),  [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]], hidden = true },
+            {
+                "<leader>" .. prefix .. "c" .. tostring(i),
+                [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
+                hidden = true,
+            },
         }, mapping.opt_mappping)
     end
 end

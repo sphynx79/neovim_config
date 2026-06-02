@@ -43,7 +43,6 @@ TODO:
 ===============================================================================================
 --]]
 
-
 local M = {}
 
 M.plugins = {
@@ -51,7 +50,7 @@ M.plugins = {
         "rebelot/heirline.nvim",
         lazy = true,
         -- event = "UiEnter",
-        cond = function ()
+        cond = function()
             return not vim.g.gonvim_running
         end,
     },
@@ -59,7 +58,7 @@ M.plugins = {
 
 M.setup = {
     ["heirline"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "heirline.nvim"
+        require("sphynx.utils.lazy_load").on_file_open("heirline.nvim")
     end,
 }
 
@@ -67,15 +66,15 @@ M.configs = {
     ["heirline"] = function()
         vim.opt.laststatus = 3
 
-        local heirline = require "heirline"
+        local heirline = require("heirline")
         local conditions = require("heirline.conditions")
         local utils = require("heirline.utils")
         local colors = require("sphynx.colors").get_color()
         local sep = package.config:sub(1, 1)
-        local file_changed = sep ~= '\\' and vim.loop.new_fs_event() or vim.loop.new_fs_poll()
+        local file_changed = sep ~= "\\" and vim.loop.new_fs_event() or vim.loop.new_fs_poll()
         local Align = { provider = "%=" }
         local Space = { provider = " " }
-        local Break = { provider = "%<"} -- this means that the statusline is cut here when there's not enough space
+        local Break = { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
         local BigSpace = { provider = (" "):rep(5) }
 
         -- require("heirline").load_colors(colors)
@@ -87,19 +86,19 @@ M.configs = {
 
         local function update_branch(git_dir)
             file_changed:stop()
-            local head_file = git_dir .. sep .. 'HEAD'
+            local head_file = git_dir .. sep .. "HEAD"
             local f_head = io.open(head_file)
             local head = f_head:read()
             f_head:close()
             file_changed:start(
                 head_file,
-                sep ~= '\\' and {} or 1000,
+                sep ~= "\\" and {} or 1000,
                 vim.schedule_wrap(function()
                     -- reset file-watch
                     update_branch(git_dir)
                 end)
             )
-            return head:match('ref: refs/heads/(.+)$')
+            return head:match("ref: refs/heads/(.+)$")
         end
 
         local ViMode = {
@@ -114,41 +113,41 @@ M.configs = {
             -- them at initialisation time.
             static = {
                 mode_names = { -- change the strings if yow like it vvvvverbose!
-                    ['n']      = 'NORMAL',
-                    ['no']     = 'O-PENDING',
-                    ['nov']    = 'O-PENDING',
-                    ['noV']    = 'O-PENDING',
-                    ['no\22']  = 'O-PENDING',
-                    ['niI']    = 'NORMAL',
-                    ['niR']    = 'NORMAL',
-                    ['niV']    = 'NORMAL',
-                    ['nt']     = 'NORMAL',
-                    ['v']      = 'VISUAL',
-                    ['vs']     = 'VISUAL',
-                    ['V']      = 'V-LINE',
-                    ['Vs']     = 'V-LINE',
-                    ['\22']    = 'V-BLOCK',
-                    ['\22s']   = 'V-BLOCK',
-                    ['s']      = 'SELECT',
-                    ['S']      = 'S-LINE',
-                    ['\19']    = 'S-BLOCK',
-                    ['i']      = 'INSERT',
-                    ['ic']     = 'INSERT',
-                    ['ix']     = 'INSERT',
-                    ['R']      = 'REPLACE',
-                    ['Rc']     = 'REPLACE',
-                    ['Rx']     = 'REPLACE',
-                    ['Rv']     = 'V-REPLACE',
-                    ['Rvc']    = 'V-REPLACE',
-                    ['Rvx']    = 'V-REPLACE',
-                    ['c']      = 'COMMAND',
-                    ['cv']     = 'EX',
-                    ['ce']     = 'EX',
-                    ['r']      = 'REPLACE',
-                    ['rm']     = 'MORE',
-                    ['r?']     = 'CONFIRM',
-                    ['!']      = 'SHELL',
-                    ['t']      = 'TERMINAL',
+                    ["n"] = "NORMAL",
+                    ["no"] = "O-PENDING",
+                    ["nov"] = "O-PENDING",
+                    ["noV"] = "O-PENDING",
+                    ["no\22"] = "O-PENDING",
+                    ["niI"] = "NORMAL",
+                    ["niR"] = "NORMAL",
+                    ["niV"] = "NORMAL",
+                    ["nt"] = "NORMAL",
+                    ["v"] = "VISUAL",
+                    ["vs"] = "VISUAL",
+                    ["V"] = "V-LINE",
+                    ["Vs"] = "V-LINE",
+                    ["\22"] = "V-BLOCK",
+                    ["\22s"] = "V-BLOCK",
+                    ["s"] = "SELECT",
+                    ["S"] = "S-LINE",
+                    ["\19"] = "S-BLOCK",
+                    ["i"] = "INSERT",
+                    ["ic"] = "INSERT",
+                    ["ix"] = "INSERT",
+                    ["R"] = "REPLACE",
+                    ["Rc"] = "REPLACE",
+                    ["Rx"] = "REPLACE",
+                    ["Rv"] = "V-REPLACE",
+                    ["Rvc"] = "V-REPLACE",
+                    ["Rvx"] = "V-REPLACE",
+                    ["c"] = "COMMAND",
+                    ["cv"] = "EX",
+                    ["ce"] = "EX",
+                    ["r"] = "REPLACE",
+                    ["rm"] = "MORE",
+                    ["r?"] = "CONFIRM",
+                    ["!"] = "SHELL",
+                    ["t"] = "TERMINAL",
                 },
             },
             -- We can now access the value of mode() that, by now, would have been
@@ -174,7 +173,7 @@ M.configs = {
 
         local GitBranch = {
             condition = function(self)
-                self.git_dir = ("%s".. sep .. ".git"):format(vim.loop.cwd())
+                self.git_dir = ("%s" .. sep .. ".git"):format(vim.loop.cwd())
                 return vim.fn.isdirectory(self.git_dir) == 1
             end,
 
@@ -211,11 +210,8 @@ M.configs = {
             init = function(self)
                 local filename = self.filename
                 local extension = vim.fn.fnamemodify(filename, ":e")
-                self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(
-                    filename,
-                    extension,
-                    { default = true }
-                )
+                self.icon, self.icon_color =
+                    require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
             end,
 
             provider = function(self)
@@ -248,7 +244,7 @@ M.configs = {
             },
             {
                 provider = function(self)
-                   return " " .. vim.fn.pathshorten(self.lfilename)
+                    return " " .. vim.fn.pathshorten(self.lfilename)
                 end,
             },
         }
@@ -326,12 +322,14 @@ M.configs = {
             },
 
             init = function(self)
-                self.buf_ft = vim.api.nvim_get_option_value('filetype' , { buf = 0 })
+                self.buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
                 self.clients = vim.lsp.get_clients({ bufnr = 0 })
             end,
 
             provider = function(self)
-                if next(self.clients) == nil then return self.icon .. self.msg end
+                if next(self.clients) == nil then
+                    return self.icon .. self.msg
+                end
                 for _, client in ipairs(self.clients) do
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, self.buf_ft) ~= -1 then
@@ -343,47 +341,43 @@ M.configs = {
 
             hl = { fg = "grey2" },
 
-            update = {'LspAttach', 'LspDetach', 'WinEnter'},
+            update = { "LspAttach", "LspDetach", "WinEnter" },
 
             on_click = {
                 name = "heirline_LSP",
                 callback = function()
                     vim.schedule(function()
-                    vim.cmd("LspInfo")
-                end)
-            end,
+                        vim.cmd("LspInfo")
+                    end)
+                end,
             },
         }
 
         local Path = {
             -- inizializzazione del componente
             init = function(self)
-                local bufname = vim.fn.expand('%')
+                local bufname = vim.fn.expand("%")
 
-                if bufname == '' then
+                if bufname == "" then
                     -- buffer senza nome
-                    self.path = '[No Name]'
+                    self.path = "[No Name]"
                     self.filename = self.path
                     self.icon, self.icon_color = "", nil
                     return
                 end
 
                 -- percorso completo (con ~, relativo alla cwd se applicabile)
-                self.path = vim.fn.fnamemodify(bufname, ':p:~:.')
+                self.path = vim.fn.fnamemodify(bufname, ":p:~:.")
                 -- solo il nome del file (senza path)
-                self.filename = vim.fn.fnamemodify(self.path, ':t')
+                self.filename = vim.fn.fnamemodify(self.path, ":t")
 
                 -- estensione
-                local extension = vim.fn.fnamemodify(self.filename, ':e')
+                local extension = vim.fn.fnamemodify(self.filename, ":e")
 
                 -- icona + colore da nvim-web-devicons
                 local ok, devicons = pcall(require, "nvim-web-devicons")
                 if ok then
-                    self.icon, self.icon_color = devicons.get_icon_color(
-                        self.filename,
-                        extension,
-                        { default = true }
-                    )
+                    self.icon, self.icon_color = devicons.get_icon_color(self.filename, extension, { default = true })
                 else
                     -- fallback se devicons non è disponibile
                     self.icon, self.icon_color = "", nil
@@ -425,75 +419,71 @@ M.configs = {
             },
         }
 
-        local Diagnostics = utils.surround(
-            {" [", "]"},
-            nil,
-            {
-                condition = conditions.has_diagnostics,
+        local Diagnostics = utils.surround({ " [", "]" }, nil, {
+            condition = conditions.has_diagnostics,
 
-                static = {
-                    error_icon = ' ',
-                    warn_icon  = ' ',
-                    info_icon  = ' ',
-                    hint_icon  = ' ',
-                },
+            static = {
+                error_icon = " ",
+                warn_icon = " ",
+                info_icon = " ",
+                hint_icon = " ",
+            },
 
-                init = function(self)
-                    self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-                    self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-                    self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-                    self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+            init = function(self)
+                self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+                self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+                self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+                self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+            end,
+
+            on_click = {
+                name = "heirline_diagnostic",
+                callback = function()
+                    if is_available("telescope.nvim") then
+                        require("telescope.builtin").diagnostics()
+                    end
                 end,
+            },
 
-                on_click = {
-                    name = "heirline_diagnostic",
-                    callback = function()
-                        if is_available "telescope.nvim" then
-                            require("telescope.builtin").diagnostics()
-                        end
-                    end,
-                },
+            update = { "DiagnosticChanged", "BufEnter" },
 
-                update = { "DiagnosticChanged", "BufEnter" },
-
-                {
-                    provider = function(self)
-                        return self.errors > 0 and (self.error_icon .. self.errors .. " ")
-                    end,
-                    hl = { fg = "red" },
-                },
-                {
-                    provider = function(self)
-                        return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
-                    end,
-                    hl = { fg = "magenta" },
-                },
-                {
-                    provider = function(self)
-                        return self.info > 0 and (self.info_icon .. self.info .. " ")
-                    end,
-                    hl = { fg = "green" },
-                },
-                {
-                    provider = function(self)
-                        return self.hints > 0 and (self.hint_icon .. self.hints)
-                    end,
-                    hl = { fg = "blue" },
-                },
-            }
-        )
+            {
+                provider = function(self)
+                    return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+                end,
+                hl = { fg = "red" },
+            },
+            {
+                provider = function(self)
+                    return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+                end,
+                hl = { fg = "magenta" },
+            },
+            {
+                provider = function(self)
+                    return self.info > 0 and (self.info_icon .. self.info .. " ")
+                end,
+                hl = { fg = "green" },
+            },
+            {
+                provider = function(self)
+                    return self.hints > 0 and (self.hint_icon .. self.hints)
+                end,
+                hl = { fg = "blue" },
+            },
+        })
 
         local Progress = {
-            provider = '%3p%%',
+            provider = "%3p%%",
 
             hl = function(self)
                 local color = self:mode_color() -- here!
                 return { fg = color, bold = true }
-            end
+            end,
         }
 
         local Location = {
-            provider = '%3l:%-2v',
+            provider = "%3l:%-2v",
         }
 
         local ScrollBar = {
@@ -508,7 +498,7 @@ M.configs = {
             end,
             hl = function(self)
                 return { fg = "yellow", bold = true }
-            end
+            end,
         }
 
         local HelpFilename = {
@@ -530,9 +520,13 @@ M.configs = {
             unpack(FileFlags) -- A small optimisation, since their parent does nothing
         )
 
-        ViMode = utils.surround({ "", "" }, function(self) return self:mode_color() end, {ViMode, hl = {fg = "grey14", bold = true}} )
+        ViMode = utils.surround({ "", "" }, function(self)
+            return self:mode_color()
+        end, { ViMode, hl = { fg = "grey14", bold = true } })
 
-        Location = utils.surround({ "", "" }, function(self) return self:mode_color() end, {Location, Space,  hl = {fg = "grey14", bold = true}} )
+        Location = utils.surround({ "", "" }, function(self)
+            return self:mode_color()
+        end, { Location, Space, hl = { fg = "grey14", bold = true } })
 
         local DefaultStatusline = {
             ViMode,
@@ -542,7 +536,8 @@ M.configs = {
             Diagnostics,
             Break,
             Align,
-            LspClient, Align,
+            LspClient,
+            Align,
             FileType,
             Space,
             ScrollBar,
@@ -629,7 +624,9 @@ M.configs = {
         }
 
         local WinBar = {
-            init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
+            init = function(self)
+                self.bufnr = vim.api.nvim_get_current_buf()
+            end,
             fallthrough = false,
 
             {
@@ -657,15 +654,15 @@ M.configs = {
                         BigSpace,
                         {
                             FileNameBlock,
-                            hl = { fg = "gray", bold = true, force = true }
+                            hl = { fg = "gray", bold = true, force = true },
                         },
                         {
                             CloseButton,
                             provider = nil,
                             Align,
-                            { provider = ""},
+                            { provider = "" },
                             hl = { bg = "bg1", force = true },
-                        }
+                        },
                     },
                 },
                 {
@@ -674,7 +671,7 @@ M.configs = {
                         Space,
                         {
                             FileNameBlock,
-                            hl = { fg = "gray", bold = true, force = true }
+                            hl = { fg = "gray", bold = true, force = true },
                         },
                         CloseButton,
                     },
@@ -688,7 +685,7 @@ M.configs = {
                                 local filename = vim.fn.fnamemodify(self.filename, ":t")
                                 return filename == "" and "[No Name]" or filename
                             end,
-                            hl = { fg = "gray", bold = true, force = true }
+                            hl = { fg = "gray", bold = true, force = true },
                         },
                     },
                 },
@@ -709,9 +706,9 @@ M.configs = {
                             CloseButton,
                             provider = nil,
                             Align,
-                            { provider = ""},
+                            { provider = "" },
                             hl = { bg = "bg1", force = true },
-                        }
+                        },
                     },
                 },
                 {
@@ -734,7 +731,7 @@ M.configs = {
                                 local filename = vim.fn.fnamemodify(self.filename, ":t")
                                 return filename == "" and "[No Name]" or filename
                             end,
-                            hl = { fg = "blue", bold = true, force = true }
+                            hl = { fg = "blue", bold = true, force = true },
                         },
                     },
                 },
@@ -749,8 +746,12 @@ M.configs = {
                 -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
                 disable_winbar_cb = function(args)
                     local buf = args.buf
-                    local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "terminal" }, vim.bo[buf].buftype)
-                    local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "lazy", "NvimTree", "neo%-tree" }, vim.bo[buf].filetype)
+                    local buftype =
+                        vim.tbl_contains({ "prompt", "nofile", "help", "quickfix", "terminal" }, vim.bo[buf].buftype)
+                    local filetype = vim.tbl_contains(
+                        { "gitcommit", "fugitive", "Trouble", "lazy", "NvimTree", "neo%-tree" },
+                        vim.bo[buf].filetype
+                    )
                     return buftype or filetype
                 end,
                 -- Mappa i nomi dei colori che usi in Heirline ai tuoi colori personalizzati
@@ -778,7 +779,6 @@ M.configs = {
                 },
             },
         })
-
 
         vim.api.nvim_create_augroup("Heirline", { clear = true })
         -- TODO: vedere se questa opzione in Heirline serve

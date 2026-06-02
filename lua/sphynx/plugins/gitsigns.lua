@@ -39,7 +39,7 @@ M.plugins = {
 
 M.setup = {
     ["gitsigns"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "gitsigns.nvim"
+        require("sphynx.utils.lazy_load").on_file_open("gitsigns.nvim")
         M.keybindings()
     end,
 }
@@ -47,19 +47,19 @@ M.setup = {
 M.configs = {
     ["gitsigns"] = function()
         require("gitsigns").setup({
-            signs = {                                -- segni mostrati nel gutter per le righe non staged
-                add          = { text = "┃" },       -- riga aggiunta      (verde)
-                change       = { text = "┃" },       -- riga modificata    (giallo)
-                delete       = { text = "✗" },       -- riga eliminata     (rosso)
-                topdelete    = { text = "✗" },       -- eliminazione in cima al file
-                changedelete = { text = "~" },       -- riga modificata e in parte eliminata
-                untracked    = { text = "┆" },       -- file non tracciato
+            signs = { -- segni mostrati nel gutter per le righe non staged
+                add = { text = "┃" }, -- riga aggiunta      (verde)
+                change = { text = "┃" }, -- riga modificata    (giallo)
+                delete = { text = "✗" }, -- riga eliminata     (rosso)
+                topdelete = { text = "✗" }, -- eliminazione in cima al file
+                changedelete = { text = "~" }, -- riga modificata e in parte eliminata
+                untracked = { text = "┆" }, -- file non tracciato
             },
-            signcolumn = true,                       -- mostra i segni nella signcolumn
-            numhl      = false,                      -- non evidenziare il numero di riga
-            linehl     = false,                      -- non evidenziare l'intera riga
-            word_diff  = false,                      -- niente diff intra-riga (parola per parola)
-            current_line_blame = false,              -- blame inline spento all'avvio (resta come funzione, qui senza toggle)
+            signcolumn = true, -- mostra i segni nella signcolumn
+            numhl = false, -- non evidenziare il numero di riga
+            linehl = false, -- non evidenziare l'intera riga
+            word_diff = false, -- niente diff intra-riga (parola per parola)
+            current_line_blame = false, -- blame inline spento all'avvio (resta come funzione, qui senza toggle)
         })
     end,
 }
@@ -73,11 +73,10 @@ M.keybindings = function()
         -- Gruppo Git condiviso con diffview
         { prefix, group = " Git" },
         { prefix .. "<Down>", [[<Cmd>Gitsigns next_hunk<CR>]], desc = "hunk successivo" },
-        { prefix .. "<Up>",   [[<Cmd>Gitsigns prev_hunk<CR>]], desc = "hunk precedente" },
-        { prefix .. "p",      [[<Cmd>Gitsigns preview_hunk<CR>]], desc = "preview hunk" },
-        { prefix .. "b",      [[<Cmd>Gitsigns blame_line<CR>]], desc = "blame riga" },
+        { prefix .. "<Up>", [[<Cmd>Gitsigns prev_hunk<CR>]], desc = "hunk precedente" },
+        { prefix .. "p", [[<Cmd>Gitsigns preview_hunk<CR>]], desc = "preview hunk" },
+        { prefix .. "b", [[<Cmd>Gitsigns blame_line<CR>]], desc = "blame riga" },
     }, mapping.opt_mappping)
 end
-
 
 return M
