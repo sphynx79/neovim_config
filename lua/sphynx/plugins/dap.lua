@@ -45,7 +45,7 @@ M.plugins = {
         "mfussenegger/nvim-dap",
         name = "dap",
         lazy = true,
-        dependencies = { "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio" },
+        dependencies = { "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio", "theHamsta/nvim-dap-virtual-text" },
     },
 }
 

@@ -12,10 +12,9 @@ Dependencies:
  - nvim-dap: e' un'estensione, ha senso solo con una sessione di debug attiva
  - nvim-treesitter: usato per individuare le variabili nel sorgente
 Notes:
- - Caricamento lazy.
- - ATTENZIONE: attualmente manca la chiamata require("nvim-dap-virtual-text").setup(),
-   quindi l'estensione non viene inizializzata; inoltre, con lazy = true e nessun trigger
-   (event/keys) ne' dipendenza da "dap", nulla la carica. Vedi report per il fix.
+ - Caricamento lazy: dichiarato come dependency di nvim-dap in dap.lua, quindi viene
+   caricato insieme al debugger (di cui e' un'estensione).
+ - Inizializzazione in M.configs con require("nvim-dap-virtual-text").setup({}).
 ===============================================================================================
 --]]
 
@@ -27,6 +26,12 @@ M.plugins = {
         name = "dap-virtual-text",
         lazy = true,
     },
+}
+
+M.configs = {
+    ["dap_virtual_text"] = function()
+        require("nvim-dap-virtual-text").setup({})
+    end,
 }
 
 return M
