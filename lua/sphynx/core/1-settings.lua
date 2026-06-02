@@ -411,7 +411,7 @@ if not vim.g.loaded_python3_provider then
     local python_executable = "python"
     local which_command
     local python3_host_prog
-    local msg = "'Devi installare python3!'"
+    local msg = "Devi installare python3!"
 
     if is_windows() then
         which_command = "where"
@@ -435,10 +435,10 @@ if not vim.g.loaded_python3_provider then
             vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
             vim.opt.pyxversion = 3
         else
-            cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
+            vim.notify(msg, vim.log.levels.WARN, { title = "Python3 Provider" })
         end
     else
-        cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
+        vim.notify(msg, vim.log.levels.WARN, { title = "Python3 Provider" })
     end
 end
 --}}} Python3
