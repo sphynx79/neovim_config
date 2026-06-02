@@ -256,7 +256,7 @@ M.configs = {
         local FileType = {
             FileIcon,
             {
-                provider = function()
+                provider = function(self)
                     local buffer = vim.bo[self and self.bufnr or 0]
                     return string.upper(buffer.filetype)
                 end,
@@ -450,15 +450,6 @@ M.configs = {
                 hl = { fg = "blue" },
             },
         })
-
-        local Progress = {
-            provider = "%3p%%",
-
-            hl = function(self)
-                local color = self:mode_color() -- here!
-                return { fg = color, bold = true }
-            end,
-        }
 
         local Location = {
             provider = "%3l:%-2v",
@@ -781,7 +772,7 @@ M.configs = {
                     bg = updated_colors.bg,
                     bg1 = updated_colors.bg1,
                     fg = updated_colors.fg,
-                    grey2 = colors.grey2,
+                    grey2 = updated_colors.grey2,
                     grey8 = updated_colors.grey8,
                     grey10 = updated_colors.grey10,
                     grey13 = updated_colors.grey13,
