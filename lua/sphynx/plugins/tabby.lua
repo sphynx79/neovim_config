@@ -1,3 +1,43 @@
+--[[
+===============================================================================================
+Plugin: tabby.nvim
+===============================================================================================
+Description: Tabline dichiarativa e altamente configurabile. Qui e' usata in modalita'
+             "bufferline" (mostra l'elenco dei buffer aperti a sinistra) con la sezione
+             dei tab vim nativi a destra, piu' un logo e un padding allineato a NvimTree.
+Status: Active
+Author: nanozuki
+Repository: https://github.com/nanozuki/tabby.nvim
+Notes:
+ - Caricamento lazy su VeryLazy (tabby non e' lento; con VeryLazy la tabline grezza viene
+   renderizzata prima e poi ridisegnata da tabby)
+ - showtabline = 2: la tabline e' sempre visibile, anche con un solo tab
+ - buf_name mode = "unique": nome buffer minimo ma univoco; fallback "[No Name]"
+ - tab_name fallback: nome della cartella del primo buffer del tab (project name)
+ - Tema costruito da sphynx.colors e riapplicato sull'evento ColorScheme (augroup dedicato)
+ - Padding dinamico a sinistra allineato alla larghezza di NvimTree quando e' aperto
+ - Filtro buffer: esclusi per filetype NvimTree, neo-tree, TelescopePrompt, qf, help
+ - Indicatore di modifica del buffer con il glifo "●"; in jump mode il tab mostra "[key]"
+ - sessionoptions += tabpages, globals: salva/ripristina layout e nomi dei tab nelle sessioni
+ - Comandi utente definiti qui: BufOnly (chiude tutti i buffer tranne il corrente),
+   Bd (chiude il buffer corrente senza chiudere la finestra)
+Keymaps (prefisso <leader>w = workspace):
+ - <leader>wr        → Rinomina il tab corrente (vim.ui.input → Tabby rename_tab)
+ - <leader>wn        → Nuovo tab
+ - <leader>wj        → Jump mode: salta a un tab con un tasto (Tabby jump_to_tab)
+ - <leader>ww        → Pick window tra i tab (Tabby pick_window)
+ - <leader>w<Left>   → Tab precedente
+ - <leader>w<Right>  → Tab successivo
+ - <leader>wm<Left>  → Sposta il tab a sinistra
+ - <leader>wm<Right> → Sposta il tab a destra
+ - <leader>wcc       → Chiude il tab corrente (utils.closeAllBufs)
+ - <leader>wc1..wc0  → Chiude il tab N (hidden, generati in loop)
+TODO:
+ - [ ] Valutare se mostrare tab.number() nei tab fuori dal jump mode
+ - [ ] Valutare cache del padding NvimTree per evitarne il calcolo ad ogni redraw
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -53,7 +93,6 @@ local function setup_tabby_theme()
         local logo_width = 3 -- 1 spazio + icona + 1 spazio
 
         local nvimtree_width = 0
-        local has_normal_window = false
 
         for _, win in ipairs(wins) do
             local buf = api.nvim_win_get_buf(win)
@@ -65,12 +104,6 @@ local function setup_tabby_theme()
                 if nvimtree_width < 0 then
                     nvimtree_width = 0
                 end
-            else
-                -- se c'è almeno una finestra "normale", la segniamo
-                local bt = api.nvim_get_option_value("buftype", { buf = buf })
-                if bt == "" then
-                    has_normal_window = true
-                end
             end
         end
 
@@ -78,14 +111,9 @@ local function setup_tabby_theme()
     end
 
     local function filterBuffers(buf)
-        local name = buf.name()
         local excluded = { "NvimTree", "neo-tree", "TelescopePrompt", "qf", "help" }
-        for _, pattern in ipairs(excluded) do
-            if name:match(pattern) then
-                return false
-            end
-        end
-        return true
+        local ft = vim.api.nvim_get_option_value("filetype", { buf = buf.id })
+        return not vim.tbl_contains(excluded, ft)
     end
 
     -- Funzione per renderizzare un singolo buffer
@@ -235,7 +263,6 @@ M.configs = {
         })
 
         -- Settings
-        vim.o.showtabline = 2
         vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
         -- Chiudi tutti i buffer tranne il corrente
