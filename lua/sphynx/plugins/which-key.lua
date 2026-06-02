@@ -76,6 +76,7 @@ M.configs = {
             triggers = {
                 { "<auto>", mode = "nxsot" },
                 --{ "<leader>", mode = "nxsotv" },
+                { "h", mode = "n" },
                 { "w", mode = "n" },
                 { "b", mode = "n" },
                 { "t", mode = "n" },
