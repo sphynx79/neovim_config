@@ -70,8 +70,6 @@ M.configs = {
         local conditions = require("heirline.conditions")
         local utils = require("heirline.utils")
         local colors = require("sphynx.colors").get_color()
-        local sep = package.config:sub(1, 1)
-        local file_changed = sep ~= "\\" and vim.loop.new_fs_event() or vim.loop.new_fs_poll()
         local Align = { provider = "%=" }
         local Space = { provider = " " }
         local Break = { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
@@ -82,23 +80,6 @@ M.configs = {
         local function is_available(plugin)
             local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
             return lazy_config_avail and lazy_config.spec.plugins[plugin] ~= nil
-        end
-
-        local function update_branch(git_dir)
-            file_changed:stop()
-            local head_file = git_dir .. sep .. "HEAD"
-            local f_head = io.open(head_file)
-            local head = f_head:read()
-            f_head:close()
-            file_changed:start(
-                head_file,
-                sep ~= "\\" and {} or 1000,
-                vim.schedule_wrap(function()
-                    -- reset file-watch
-                    update_branch(git_dir)
-                end)
-            )
-            return head:match("ref: refs/heads/(.+)$")
         end
 
         local ViMode = {
@@ -172,13 +153,10 @@ M.configs = {
         }
 
         local GitBranch = {
-            condition = function(self)
-                self.git_dir = ("%s" .. sep .. ".git"):format(vim.loop.cwd())
-                return vim.fn.isdirectory(self.git_dir) == 1
-            end,
+            condition = conditions.is_git_repo,
 
             init = function(self)
-                self.branch = update_branch(self.git_dir)
+                self.branch = vim.b.gitsigns_head or ""
             end,
 
             provider = function(self)
@@ -190,13 +168,13 @@ M.configs = {
                 return { fg = color, bold = true }
             end,
 
-            -- update = {
-            --     "BufEnter",
-            --     "FocusGained",
-            --     "VimEnter",
-            --     -- Se stai usando gitsigns, puoi anche aggiungere:
-            --     -- "GitSignsUpdate",
-            -- },
+            update = {
+                "User",
+                pattern = "GitSignsUpdate",
+                callback = vim.schedule_wrap(function()
+                    vim.cmd("redrawstatus")
+                end),
+            },
         }
 
         local FileNameBlock = {
