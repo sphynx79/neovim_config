@@ -1,3 +1,26 @@
+--[[
+===============================================================================================
+Plugin: telescope-dap.nvim
+===============================================================================================
+Description: Integrazione tra nvim-dap e Telescope: espone comandi, configurazioni,
+             breakpoint, frame e variabili del debugger tramite il selettore di Telescope.
+Status: Active
+Author: nvim-telescope
+Repository: https://github.com/nvim-telescope/telescope-dap.nvim
+Dependencies:
+ - telescope.nvim: l'estensione "dap" viene caricata con telescope.load_extension("dap")
+ - nvim-dap: fornisce i dati (comandi, configurazioni, breakpoint, frame, variabili)
+Notes:
+ - Caricamento lazy; le keybindings sono registrate via which-key (gruppo <leader>d Debug).
+ - In M.configs l'estensione "dap" viene caricata con telescope.load_extension("dap"),
+   protetta da un pcall su telescope.
+Keymaps (<leader>d = Debug):
+ - <leader>de → Commands         - <leader>df → Configurations
+ - <leader>dl → List breakpoints - <leader>dm → Frames
+ - <leader>dv → Variables
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -17,7 +40,7 @@ M.setup = {
 M.configs = {
     ["telescope_dap"] = function()
         local ok, telescope = pcall(require, "telescope")
-        if present then
+        if ok then
             telescope.load_extension("dap")
         end
     end,
