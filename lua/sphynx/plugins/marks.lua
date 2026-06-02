@@ -1,3 +1,34 @@
+--[[
+===============================================================================================
+Plugin: marks.nvim
+===============================================================================================
+Description: Potenzia i mark nativi di Vim: mostra i mark nella signcolumn, permette di
+             aggiungere/cancellare/navigare/preview dei mark e introduce i "bookmark"
+             (marcatori senza nome, con sign e annotazioni, anche cross-buffer).
+Status: Active
+Author: chentoast (Tony Chen)
+Repository: https://github.com/chentoast/marks.nvim
+Notes:
+ - lazy = false: attivo fin dall'avvio per tracciare i mark e disegnare i signs.
+ - default_mappings = false: niente mapping nativi del plugin; tutto rimappato sotto
+   <leader>m tramite i <Plug> mapping di marks.nvim.
+ - cyclic = true: la navigazione tra mark cicla a inizio/fine buffer.
+ - force_write_shada = true: ATTENZIONE, opzione "destructive" - cancellare un mark globale
+   (maiuscolo) lo rimuove in modo permanente anche dallo shada file.
+ - refresh_interval = 250 (default 150): meno frequente = meno lag, mark un filo meno reattivi.
+ - sign_priority per tipo di mark; bookmark groups 0/1/2 con sign custom e annotate = true
+   (chiede un'annotazione quando si imposta il bookmark).
+ - NOTA: il set-mark nativo "m" e' intercettato dal trigger { "m", mode = "n" } in
+   which-key.lua; qui i comandi vivono tutti sotto <leader>m.
+Keymaps (<leader>m = Marks):
+ - <leader>m<Down> → mark successivo      - <leader>m<Up>    → mark precedente
+ - <leader>m<Right> → set next available  - <leader>mt       → toggle mark
+ - <leader>md → delete mark sulla riga    - <leader>mD       → delete mark nel buffer
+ - <leader>mp → preview mark              - <leader>ml / mL  → lista mark buffer / globali (QF)
+ - <leader>mb → bookmarks: mbd delete bookmark sotto cursore, mb0..mb9 set bookmark gruppo N
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
