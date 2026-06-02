@@ -29,71 +29,58 @@ local modules = {
     --}}} CORE
 
     --{{{ UI
-    -- "satellite",
-    -- "scrollview",        -- OK - Barra di scorrimento
     "ufo",
-    "illuminate", -- OK - Evidenzia altre occorrenze della parola
-    "vim-mark", -- OK - Evidenzia parole/pattern con colori persistenti (stile evidenziatore)
-    "foldsigns", -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
-    "heirline", -- Ok - Statusline, Winbar
-    "indent-blankline", -- OK - Migliora indentazione mostrando linee visive
-    "devicons", -- OK - Aggiunge icone colorate per i file
-    "smoothcursor", -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
-    "bqf", -- OK - Migliorare la finestra quickfix
-    "rainbow-delimiters", -- OK - Mostra le parentesi colorate
+    "illuminate",                           -- OK - Evidenzia altre occorrenze della parola
+    "vim-mark",                             -- OK - Evidenzia parole/pattern con colori persistenti (stile evidenziatore)
+    "foldsigns",                            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
+    "heirline",                             -- Ok - Statusline, Winbar
+    "indent-blankline",                     -- OK - Migliora indentazione mostrando linee visive
+    "devicons",                             -- OK - Aggiunge icone colorate per i file
+    "smoothcursor",                         -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
+    "bqf",                                  -- OK - Migliorare la finestra quickfix
+    "rainbow-delimiters",                   -- OK - Mostra le parentesi colorate
     --}}} UI
 
     --{{{ MAPPING
-    "which-key", -- OK - Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
+    "which-key",                            -- OK - Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
     --}}} MAPPING
 
     --{{{ LSP
-    "lspconfig", -- OK - Configurazione del Language Server Protocol (LSP)
-    "lazydev", -- OK - Migliore esperienza di sviluppo Lua in Neovim
-    "floating-tag-preview", -- OK - Visualizza i tag in una floating window vicino al cursore
-    "lsp-smag", -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
-    "dd", -- OK - Si occupa di rimandare (defer) tutti i diagnostici
-    "goto-preview", -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
-    "glance", -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
-    -- "lspsaga",
-    -- "lsp_signature",
+    "lspconfig",                            -- OK - Configurazione del Language Server Protocol (LSP)
+    "lazydev",                              -- OK - Migliore esperienza di sviluppo Lua in Neovim
+    "floating-tag-preview",                 -- OK - Visualizza i tag in una floating window vicino al cursore
+    "lsp-smag",                             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
+    "dd",                                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
+    "goto-preview",                         -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
+    "glance",                               -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
     --}}} LSP
 
     --{{{ COMPLETION
-    "blink", -- OK - Autocompletamento asincrono
-    "autopair", -- OK - Inserimento automatico e la gestione di coppie di caratteri
-    -- "luasnip",
-    -- "cmp",
-    -- "cmp-cmdline",
+    "blink",                                -- OK - Autocompletamento asincrono
+    "autopair",                             -- OK - Inserimento automatico e la gestione di coppie di caratteri
     --}}} COMPLETION
 
     --{{{ DEBUG
     "dap",
     "dap-virtual-text",
     "dap-telescope",
-    -- "one-small-step-for-vimkind",
     --}}} DEBUG
 
     --{{{ LANGUAGE
-    "ruby-interpolation", -- OK - Aggiunge l'interpolazione delle stringhe Ruby
-    "markdown-preview", -- OK - Anteprima live nel browser per i file Markdown
-    -- "nim",
+    "ruby-interpolation",                   -- OK - Aggiunge l'interpolazione delle stringhe Ruby
+    "markdown-preview",                     -- OK - Anteprima live nel browser per i file Markdown
     --}}} LANGUAGE
 
     --{{{ FILE BROWSER AND NAVIGATION
-    "nvim-tree", -- OK - File explorer (sidebar)
+    "nvim-tree",                            -- OK - File explorer (sidebar)
     "telescope",
-    "cybu", --Switch buffer con Tab come windows
+    "cybu",                                 -- OK - Switch buffer con Tab come windows
     "nvim-window-picker",
     "maximizer",
     "workspace",
     "matchup",
     "hop",
     "marks",
-    -- "window",
-    -- "windowswap",
-    -- "scope",
-    -- "clap",
     --}}} FILE BROWSER AND NAVIGATION
 
     --{{{ SEARCH
@@ -102,41 +89,80 @@ local modules = {
     --}}} SEARCH
 
     --{{{ GIT
-    "gitsigns", -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
-    "diffview", -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
+    "gitsigns",                             -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
+    "diffview",                             -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
     --}}} GIT
 
     --{{{ EDITING
     "comment",
     "spaceless",
-    "treehopper", --mi permette con "~" di selezionare attraverso hop i nodi di treesitter
+    "treehopper",                           -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
     --}}} EDITING
 
     -- {{{ MISC
     "treesitter",
-    "treesitter-textobjects", -- OK - mi permette di selezionare metodi o classi usando treesitter
+    "treesitter-textobjects",               -- OK - mi permette di selezionare metodi o classi usando treesitter
     "noice",
     "color",
-    -- --"faster",
-    -- --"focus",
     "neoformat",
     "neoterm",
     "neoscroll",
     "neoclip",
     "sorround",
-    -- "tabular",
     "todo-comments",
     "trouble",
-    -- "vimade",
-    -- "symbols-outline",
-    -- "vista",
-    "aerial", -- ok - Mostra una finestra con la struttura (outline) del codice
+    "aerial",                               -- OK - Mostra una finestra con la struttura (outline) del codice
     "chatgpt",
     "nvim-pasta",
     "sayonara",
     "virtcolumn",
     "tabby",
     -- --}}} MISC
+
+    -- ============================================================
+    -- PLUGIN DISABILITATI - scommenta una riga per riattivare
+    -- ============================================================
+
+    --{{{ DISABLED UI
+    -- "satellite",
+    -- "scrollview", -- Barra di scorrimento
+    --}}} DISABLED UI
+
+    --{{{ DISABLED LSP
+    -- "lspsaga",
+    -- "lsp_signature",
+    --}}} DISABLED LSP
+
+    --{{{ DISABLED COMPLETION
+    -- "luasnip",
+    -- "cmp",
+    -- "cmp-cmdline",
+    --}}} DISABLED COMPLETION
+
+    --{{{ DISABLED DEBUG
+    -- "one-small-step-for-vimkind",
+    --}}} DISABLED DEBUG
+
+    --{{{ DISABLED LANGUAGE
+    -- "nim",
+    --}}} DISABLED LANGUAGE
+
+    --{{{ DISABLED FILE BROWSER AND NAVIGATION
+    -- "window",
+    -- "windowswap",
+    -- "scope",
+    -- "clap",
+    --}}} DISABLED FILE BROWSER AND NAVIGATION
+
+    --{{{ DISABLED MISC
+    -- "faster",
+    -- "focus",
+    -- "tabular",
+    -- "vimade",
+    -- "symbols-outline",
+    -- "vista",
+    --}}} DISABLED MISC
+
 }
 
 -- Install Lazy if not found
