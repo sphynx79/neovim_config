@@ -29,36 +29,35 @@ Keymaps:
 local M = {}
 
 M.plugins = {
-  ["nvim-treesitter-textobjects"] = {
-     branch = "main",
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
+    ["nvim-treesitter-textobjects"] = {
+        branch = "main",
+        "nvim-treesitter/nvim-treesitter-textobjects",
+    },
 }
 
 M.setup = {
     ["nvim-treesitter-textobjects"] = function()
         vim.g.no_plugin_maps = true
         M.keybindings()
-    end
+    end,
 }
-
 
 M.configs = {
     ["nvim-treesitter-textobjects"] = function()
-        require("nvim-treesitter-textobjects").setup {
+        require("nvim-treesitter-textobjects").setup({
             select = {
                 -- Automatically jump forward to textobj, similar to targets.vim
                 lookahead = true,
 
                 selection_modes = {
-                    ['@parameter.outer'] = 'v', -- charwise
-                    ['@function.outer'] = 'V', -- linewise
+                    ["@parameter.outer"] = "v", -- charwise
+                    ["@function.outer"] = "V", -- linewise
                     -- ['@class.outer'] = '<c-v>', -- blockwise
                 },
 
                 include_surrounding_whitespace = false,
             },
-        }
+        })
     end,
 }
 

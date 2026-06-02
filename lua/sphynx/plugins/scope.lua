@@ -13,9 +13,8 @@ M.plugins = {
 
 M.configs = {
     ["scope"] = function()
-        require("scope").setup {}
+        require("scope").setup({})
     end,
 }
 
 return M
-

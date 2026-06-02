@@ -10,8 +10,8 @@ M.plugins = {
             "MunifTanjim/nui.nvim",
             "nvim-lua/plenary.nvim",
             "folke/trouble.nvim",
-            "nvim-telescope/telescope.nvim"
-        }
+            "nvim-telescope/telescope.nvim",
+        },
     },
 }
 
@@ -115,57 +115,61 @@ M.configs = {
                 top_p = 0.1,
                 n = 1,
             },
-			openai_edit_params = {
-				model = "gpt-4o",
-				frequency_penalty = 0,
-				presence_penalty = 0,
-				temperature = 0.2,
-				top_p = 0.1,
-				n = 1,
-			},
-            actions_paths = {sphynx.path.nvim_config .. "/actions.json"},
+            openai_edit_params = {
+                model = "gpt-4o",
+                frequency_penalty = 0,
+                presence_penalty = 0,
+                temperature = 0.2,
+                top_p = 0.1,
+                n = 1,
+            },
+            actions_paths = { sphynx.path.nvim_config .. "/actions.json" },
         })
-
     end,
 }
 
 M.keybindings = function()
     local mapping = require("sphynx.core.5-mapping")
-	local wk = require("which-key")
-	local prefix = "<leader>G"
+    local wk = require("which-key")
+    local prefix = "<leader>G"
 
     wk.add({
-          { prefix, group = " GPT" },
-          { prefix .. "c", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
-		  {
-			mode = { "n", "v" },
-				{ prefix, group = " GPT" },
-				{ prefix .. "e", "<cmd>ChatGPTEditWithInstructions<CR>",          desc = "Modifica il buffer corrente con prompt" },
-				{ prefix .. "C", "<cmd>ChatGPTRun complete_code<CR>", 		 		  desc = "Genera codice da testo"  },
-				{ prefix .. "g", "<cmd>ChatGPTRun grammar_correction<CR>", 		  desc = "Grammar Correction" },
-			    { prefix .. "t", "<cmd>ChatGPTRun translate<CR>", 				  desc = "Translate in [lang]" },
-				{ prefix .. "k", "<cmd>ChatGPTRun keywords<CR>", 				  desc = "Extract the main keywords"  },
-				{ prefix .. "d", "<cmd>ChatGPTRun docstring<CR>", 				  desc = "Docstring" },
-				{ prefix .. "a", "<cmd>ChatGPTRun add_tests<CR>", 				  desc = "Add Tests" },
-			    { prefix .. "o", "<cmd>ChatGPTRun optimize_code<CR>",             desc = "Optimize Code" },
-				{ prefix .. "s", "<cmd>ChatGPTRun summarize<CR>", 				  desc = "Summarize" },
-				{ prefix .. "f", "<cmd>ChatGPTRun fix_bugs<CR>",  			      desc = "Fix Bugs" },
-				{ prefix .. "x", "<cmd>ChatGPTRun explain_code<CR>",              desc = "Spiega il codice" },
-				{ prefix .. "r", "<cmd>ChatGPTRun roxygen_edit<CR>", 			  desc = "Roxygen Edit" },
-				{ prefix .. "l", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Analizza la chiarezza del codice" },
-		   }
-	})
-	
-				
-	
-    -- require("which-key").register({
-        -- ["G"] = {
-            -- name = " GPT",
+        { prefix, group = " GPT" },
+        { prefix .. "c", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+        {
+            mode = { "n", "v" },
+            { prefix, group = " GPT" },
+            {
+                prefix .. "e",
+                "<cmd>ChatGPTEditWithInstructions<CR>",
+                desc = "Modifica il buffer corrente con prompt",
+            },
+            { prefix .. "C", "<cmd>ChatGPTRun complete_code<CR>", desc = "Genera codice da testo" },
+            { prefix .. "g", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+            { prefix .. "t", "<cmd>ChatGPTRun translate<CR>", desc = "Translate in [lang]" },
+            { prefix .. "k", "<cmd>ChatGPTRun keywords<CR>", desc = "Extract the main keywords" },
+            { prefix .. "d", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+            { prefix .. "a", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+            { prefix .. "o", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+            { prefix .. "s", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+            { prefix .. "f", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+            { prefix .. "x", "<cmd>ChatGPTRun explain_code<CR>", desc = "Spiega il codice" },
+            { prefix .. "r", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+            {
+                prefix .. "l",
+                "<cmd>ChatGPTRun code_readability_analysis<CR>",
+                desc = "Analizza la chiarezza del codice",
+            },
+        },
+    })
 
-            -- g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction" },
-        -- },
+    -- require("which-key").register({
+    -- ["G"] = {
+    -- name = " GPT",
+
+    -- g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction" },
+    -- },
     -- }, mapping.opt_plugin_visual)
 end
 
 return M
-

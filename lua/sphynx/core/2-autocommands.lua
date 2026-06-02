@@ -1,17 +1,19 @@
 local utils = require("sphynx.utils")
 
-utils.define_augroups {
+utils.define_augroups({
     _general = {
         {
-            event = {"VimEnter"},
+            event = { "VimEnter" },
             opts = {
                 pattern = "*",
-                callback = function() vim.api.nvim_set_current_dir(vim.fn.expand("%:p:h")) end,
+                callback = function()
+                    vim.api.nvim_set_current_dir(vim.fn.expand("%:p:h"))
+                end,
                 desc = "When open Neovim with file set current dir to file",
             },
         },
         {
-            event = {"VimEnter", "DirChangedPre"},
+            event = { "VimEnter", "DirChangedPre" },
             opts = {
                 pattern = "*",
                 callback = utils.set_shell_title,
@@ -19,7 +21,7 @@ utils.define_augroups {
             },
         },
         {
-            event = {"BufEnter", "CursorHold", "CursorHoldI", "FocusGained"},
+            event = { "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" },
             opts = {
                 pattern = "*",
                 callback = utils.check_time,
@@ -30,7 +32,9 @@ utils.define_augroups {
             event = "TextYankPost",
             opts = {
                 pattern = "*",
-                callback = function() vim.hl.on_yank({higroup="IncSearch", timeout=1000, on_visual=true}) end,
+                callback = function()
+                    vim.hl.on_yank({ higroup = "IncSearch", timeout = 1000, on_visual = true })
+                end,
                 desc = "Highlight on yank",
             },
         },
@@ -38,7 +42,9 @@ utils.define_augroups {
             event = "BufReadPost",
             opts = {
                 pattern = "*",
-                callback = function() vim.cmd [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]] end,
+                callback = function()
+                    vim.cmd([[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]])
+                end,
                 desc = "Go to last loc when opening a buffer",
             },
         },
@@ -46,7 +52,9 @@ utils.define_augroups {
             event = "QuickFixCmdPost",
             opts = {
                 pattern = "*",
-                callback = function() vim.cmd('copen | wincmd J') end,
+                callback = function()
+                    vim.cmd("copen | wincmd J")
+                end,
                 desc = "Open quickfix bottom",
             },
         },
@@ -61,10 +69,12 @@ utils.define_augroups {
             },
         },
         {
-            event = {"BufEnter", "BufFilePost"},
+            event = { "BufEnter", "BufFilePost" },
             opts = {
                 pattern = "*.ahk",
-                callback = function() vim.api.nvim_set_option_value("commentstring", "; %s", { buf = 0 }) end,
+                callback = function()
+                    vim.api.nvim_set_option_value("commentstring", "; %s", { buf = 0 })
+                end,
                 desc = "Setting ",
             },
         },
@@ -79,13 +89,13 @@ utils.define_augroups {
             },
         },
     },
-}
+})
 
 if sphynx.config.cursorline then
-    utils.define_augroups {
+    utils.define_augroups({
         _cursorline = {
             {
-                event = {"InsertLeave", "WinEnter"},
+                event = { "InsertLeave", "WinEnter" },
                 opts = {
                     pattern = "*",
                     command = [[set cursorline]],
@@ -94,20 +104,20 @@ if sphynx.config.cursorline then
                 },
             },
             {
-                event = {"InsertEnter", "WinLeave"},
+                event = { "InsertEnter", "WinLeave" },
                 opts = {
                     pattern = "*",
                     command = [[set nocursorline]],
                     nested = true,
                     desc = "Disable cursorline",
                 },
-            }
+            },
         },
-    }
+    })
 end
 
 if sphynx.config.auto_save_buffer then
-    utils.define_augroups {
+    utils.define_augroups({
         _autosave = {
             {
                 event = "FocusLost",
@@ -117,7 +127,7 @@ if sphynx.config.auto_save_buffer then
                     nested = true,
                     desc = "Save file automatic",
                 },
-            }
+            },
         },
-    }
+    })
 end

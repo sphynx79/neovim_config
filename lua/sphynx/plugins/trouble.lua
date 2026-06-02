@@ -11,12 +11,12 @@ M.plugins = {
 M.setup = {
     ["trouble"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["trouble"] = function()
-        require("trouble").setup {
+        require("trouble").setup({
             auto_close = false, -- auto close when there are no items
             auto_open = false, -- auto open when there are items
             auto_preview = true, -- automatically open preview when on an item
@@ -202,8 +202,7 @@ M.configs = {
                     Variable      = "󰀫 ",
                 },
             },
-
-        }
+        })
     end,
 }
 
@@ -217,9 +216,12 @@ M.keybindings = function()
         { "<leader>kd", [[<Cmd>Trouble symbols toggle focus=false<CR>]], desc = "Symbols" },
         { "<leader>kl", [[<Cmd>Trouble loclist toggle<cr>]], desc = "Location List" },
         { "<leader>kq", [[<Cmd>Trouble qflist toggle<CR>]], desc = "Quickfix List" },
-        { "<leader>kr", [[<Cmd>Trouble lsp toggle focus=false win.position=right<CR>]], desc = "LSP Definitions / references / ..." },
+        {
+            "<leader>kr",
+            [[<Cmd>Trouble lsp toggle focus=false win.position=right<CR>]],
+            desc = "LSP Definitions / references / ...",
+        },
     })
 end
 
 return M
-

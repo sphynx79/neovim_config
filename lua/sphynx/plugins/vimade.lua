@@ -16,7 +16,7 @@ M.setup = {
             fadelevel = 0.6,
             usecursorhold = 1,
             enabletreesitter = 1,
-            enablesigns = 1
+            enablesigns = 1,
         }
 
         M.keybindings()
@@ -25,17 +25,19 @@ M.setup = {
 
 M.configs = {
     ["vimade"] = function()
-        require("sphynx.utils").define_augroups {
+        require("sphynx.utils").define_augroups({
             _vimade = {
                 {
                     event = "FileType",
                     opts = {
                         pattern = "nerdtree,vista,vista_kind,neoterm,dapui_scopes,dapui_breakpoints,CHADTree,NvimTree_1,NvimTree",
-                        callback = function() vim.cmd [[VimadeBufDisable]] end,
-                    }
+                        callback = function()
+                            vim.cmd([[VimadeBufDisable]])
+                        end,
+                    },
                 },
-            }
-        }
+            },
+        })
     end,
 }
 
@@ -44,14 +46,15 @@ M.keybindings = function()
     require("which-key").register({
         p = {
             name = "󰏗 Plugin",
-            V = { function()
-                        -- require("lazy").load({ plugins = { "vimade" } })
-                        vim.cmd([[VimadeActivate]])
-                  end, "Vimade"},
+            V = {
+                function()
+                    -- require("lazy").load({ plugins = { "vimade" } })
+                    vim.cmd([[VimadeActivate]])
+                end,
+                "Vimade",
+            },
         },
     }, mapping.opt_plugin)
 end
 
-
 return M
-

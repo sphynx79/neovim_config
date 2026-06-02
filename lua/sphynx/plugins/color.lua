@@ -15,15 +15,15 @@ M.setup = {
 
 M.configs = {
     ["color"] = function()
-        require("oklch-color-picker").setup {
+        require("oklch-color-picker").setup({
             highlight = {
                 enabled = false,
                 -- List of LSP clients that are allowed to highlight colors:
                 -- By default, only fairly performant and useful LSPs are enabled.
                 -- Set `enabled_lsps = true` to enable all LSPs anyways.
-                enabled_lsps = { "tailwindcss", "cssls", "css_variables" }
-            }
-        }
+                enabled_lsps = { "tailwindcss", "cssls", "css_variables" },
+            },
+        })
     end,
 }
 

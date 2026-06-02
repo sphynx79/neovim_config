@@ -53,7 +53,7 @@ M.configs = {
     ["nvim-web-devicons"] = function()
         local colors = require("sphynx.colors").get_color()
 
-        require("nvim-web-devicons").setup {
+        require("nvim-web-devicons").setup({
             override = {
                 html = {
                     icon = "",
@@ -171,7 +171,7 @@ M.configs = {
                     name = "lua",
                 },
                 nim = {
-                    icon = '',
+                    icon = "",
                     color = "orange",
                     name = "Nim",
                 },
@@ -357,7 +357,7 @@ M.configs = {
                 },
             },
             default = true,
-        }
+        })
     end,
 }
 

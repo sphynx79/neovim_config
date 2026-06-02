@@ -15,7 +15,7 @@ M.configs = {
         vim.g.matchup_delim_noskips = 2
         vim.g.matchup_matchparen_pumvisible = 1
         vim.g.matchup_motion_cursor_end = 0
-        vim.g.matchup_matchparen_nomode = 'i'
+        vim.g.matchup_matchparen_nomode = "i"
         vim.g.matchup_matchparen_timeout = 250
         vim.g.matchup_matchparen_insert_timeout = 40
         vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
@@ -24,4 +24,3 @@ M.configs = {
 }
 
 return M
-

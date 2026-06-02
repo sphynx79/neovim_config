@@ -54,13 +54,13 @@ M.plugins = {
     ["which_key"] = {
         "folke/which-key.nvim",
         lazy = true,
-        event = "VeryLazy"
+        event = "VeryLazy",
     },
 }
 
 M.configs = {
     ["which_key"] = function()
-        require('which-key').setup {
+        require("which-key").setup({
             preset = "helix",
             debug = false,
             -- show a warning when issues were detected with your mappings
@@ -110,13 +110,13 @@ M.configs = {
             },
             layout = {
                 width = { min = 20 }, -- min and max width of the columns
-                spacing = 4,          -- spacing between columns
-                align = "center",     -- align columns left, center or right
+                spacing = 4, -- spacing between columns
+                align = "center", -- align columns left, center or right
             },
             icons = {
                 breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-                separator = "",   -- symbol used between a key and it's label
-                group = "+",      -- symbol prepended to a group
+                separator = "", -- symbol used between a key and it's label
+                group = "+", -- symbol prepended to a group
                 ellipsis = "…",
                 mappings = false,
             },
@@ -154,10 +154,8 @@ M.configs = {
                 F11 = "󱊵",
                 F12 = "󱊶",
             },
-
-        }
+        })
     end,
 }
 
 return M
-

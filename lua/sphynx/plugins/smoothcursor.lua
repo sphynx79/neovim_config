@@ -68,20 +68,20 @@ M.plugins = {
 
 M.setup = {
     ["smoothcursor"] = function()
-        require("sphynx.utils.lazy_load").on_file_open "SmoothCursor.nvim"
+        require("sphynx.utils.lazy_load").on_file_open("SmoothCursor.nvim")
     end,
 }
 
 M.configs = {
     ["smoothcursor"] = function()
-        require('smoothcursor').setup({
+        require("smoothcursor").setup({
             autostart = true,
-            cursor = "",              -- cursor shape (need nerd font)
-            texthl = "SmoothCursor",   -- highlight group, default is { bg = nil, fg = "#FFD400" }
-            linehl = nil,              -- highlight sub-cursor line like 'cursorline', "CursorLine" recommended
-            type = "exp",              -- define cursor movement calculate function, "default" or "exp" (exponential).
+            cursor = "", -- cursor shape (need nerd font)
+            texthl = "SmoothCursor", -- highlight group, default is { bg = nil, fg = "#FFD400" }
+            linehl = nil, -- highlight sub-cursor line like 'cursorline', "CursorLine" recommended
+            type = "exp", -- define cursor movement calculate function, "default" or "exp" (exponential).
             fancy = {
-                enable = true,        -- enable fancy mode
+                enable = true, -- enable fancy mode
                 head = { cursor = "", texthl = "SmoothCursor", linehl = nil },
                 body = {
                     { cursor = "●", texthl = "SmoothCursorGray1" },
@@ -91,17 +91,17 @@ M.configs = {
                     { cursor = ".", texthl = "SmoothCursorGray5" },
                     { cursor = ".", texthl = "SmoothCursorGray6" },
                 },
-                tail = { cursor = nil, texthl = "SmoothCursor" }
+                tail = { cursor = nil, texthl = "SmoothCursor" },
             },
-            flyin_effect = nil,        -- "bottom" or "top"
-            speed = 25,                -- max is 100 to stick to your current position
-            intervals = 35,            -- tick interval
-            priority = 10,             -- set marker priority
-            timeout = 1000,            -- timout for animation
-            threshold = 10,            -- animate if threshold lines jump
-            disable_float_win = true,  -- disable on float window
-            max_threshold = 200,       -- If you move more than this many lines, don't animate
-            enabled_filetypes = nil,   -- example: { "lua", "vim" }
+            flyin_effect = nil, -- "bottom" or "top"
+            speed = 25, -- max is 100 to stick to your current position
+            intervals = 35, -- tick interval
+            priority = 10, -- set marker priority
+            timeout = 1000, -- timout for animation
+            threshold = 10, -- animate if threshold lines jump
+            disable_float_win = true, -- disable on float window
+            max_threshold = 200, -- If you move more than this many lines, don't animate
+            enabled_filetypes = nil, -- example: { "lua", "vim" }
             disabled_filetypes = { "TelescopePrompt", "NvimTree", "dashboard", "lazy" },
         })
     end,

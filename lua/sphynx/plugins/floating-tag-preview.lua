@@ -1,4 +1,3 @@
-
 --[[
 ===============================================================================================
 Plugin: floating_tag_preview
@@ -42,9 +41,17 @@ M.plugins = {
         "weilbith/nvim-floating-tag-preview",
         lazy = true,
         cmd = {
-            "Ptag", "Ptselect", "Ptjump", "Ptnext", "PtNext",
-            "Ptprevious", "Ptrewind", "Ptfirst", "Ptlast",
-            "Pedit", "Psearch"
+            "Ptag",
+            "Ptselect",
+            "Ptjump",
+            "Ptnext",
+            "PtNext",
+            "Ptprevious",
+            "Ptrewind",
+            "Ptfirst",
+            "Ptlast",
+            "Pedit",
+            "Psearch",
         },
     },
 }
@@ -52,7 +59,7 @@ M.plugins = {
 M.setup = {
     ["floating_tag_preview"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
@@ -61,7 +68,7 @@ M.configs = {
         vim.g.floating_tag_preview_width = 130
         vim.g.floating_tag_preview_border = "double"
         vim.g.floating_tag_preview_window_options = {
-            number = true     -- mostra i numeri di riga
+            number = true, -- mostra i numeri di riga
         }
     end,
 }

@@ -40,10 +40,10 @@ M.plugins = {
 M.setup = {
     ["vim-mark"] = function()
         -- Variabili da impostare PRIMA del caricamento del plugin
-        vim.g.mw_no_mappings = 1                       -- disabilita le mappature di default per ridefinirle
-        vim.g.mwAutoLoadMarks = 1                      -- carica automaticamente i mark salvati
+        vim.g.mw_no_mappings = 1 -- disabilita le mappature di default per ridefinirle
+        vim.g.mwAutoLoadMarks = 1 -- carica automaticamente i mark salvati
         vim.g.mwDefaultHighlightingPalette = "maximum" -- usa la palette piu ampia di colori
-        vim.g.mwDefaultHighlightingNum = 9             -- numero di gruppi di evidenziazione
+        vim.g.mwDefaultHighlightingNum = 9 -- numero di gruppi di evidenziazione
 
         M.keybindings()
     end,
@@ -124,8 +124,18 @@ M.keybindings = function()
     -- Ricerca per gruppo specifico: <leader>b1..b9 (avanti) e <leader>B1..B9 (indietro)
     for i = 1, 9 do
         wk.add({
-            { "<leader>b" .. i, "<Plug>MarkSearchGroup" .. i .. "Next", desc = "search group " .. i .. " next", mode = "n" },
-            { "<leader>B" .. i, "<Plug>MarkSearchGroup" .. i .. "Prev", desc = "search group " .. i .. " prev", mode = "n" },
+            {
+                "<leader>b" .. i,
+                "<Plug>MarkSearchGroup" .. i .. "Next",
+                desc = "search group " .. i .. " next",
+                mode = "n",
+            },
+            {
+                "<leader>B" .. i,
+                "<Plug>MarkSearchGroup" .. i .. "Prev",
+                desc = "search group " .. i .. " prev",
+                mode = "n",
+            },
         })
     end
 end

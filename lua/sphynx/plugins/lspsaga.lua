@@ -6,9 +6,9 @@ M.plugins = {
         lazy = true,
         event = "VeryLazy",
         dependencies = {
-            'nvim-treesitter/nvim-treesitter', -- optional
-            'nvim-tree/nvim-web-devicons',     -- optional
-        }
+            "nvim-treesitter/nvim-treesitter", -- optional
+            "nvim-tree/nvim-web-devicons", -- optional
+        },
     },
 }
 
@@ -20,7 +20,7 @@ M.plugins = {
 
 M.configs = {
     ["lspsaga"] = function()
-        require('lspsaga').setup({})
+        require("lspsaga").setup({})
     end,
 }
 
@@ -44,4 +44,3 @@ M.configs = {
 -- end
 
 return M
-

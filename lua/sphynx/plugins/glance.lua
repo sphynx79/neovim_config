@@ -43,12 +43,12 @@ M.plugins = {
 M.setup = {
     ["glance"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["glance"] = function()
-        local glance = require('glance')
+        local glance = require("glance")
         local actions = glance.actions
 
         glance.setup({
@@ -65,52 +65,52 @@ M.configs = {
             },
             border = {
                 enable = true,
-                top_char = '―',
-                bottom_char = '―',
+                top_char = "―",
+                bottom_char = "―",
             },
             list = {
-                position = 'right',
+                position = "right",
                 width = 0.33,
             },
             theme = {
                 enable = true,
-                mode = 'auto',
+                mode = "auto",
             },
             mappings = {
                 list = {
-                    ['<Down>'] = actions.next,
-                    ['<Up>'] = actions.previous,
-                    ['<Tab>'] = actions.next_location,
-                    ['<S-Tab>'] = actions.previous_location,
-                    ['<PageDown>'] = actions.preview_scroll_win(5),
-                    ['<PageUp>'] = actions.preview_scroll_win(-5),
-                    ['v'] = actions.jump_vsplit,
-                    ['s'] = actions.jump_split,
-                    ['t'] = actions.jump_tab,
-                    ['<CR>'] = actions.jump,
-                    ['o'] = actions.jump,
-                    ['<C-p>'] = actions.enter_win('preview'),
-                    ['q'] = actions.close,
-                    ['Q'] = actions.close,
-                    ['<Esc>'] = actions.close,
+                    ["<Down>"] = actions.next,
+                    ["<Up>"] = actions.previous,
+                    ["<Tab>"] = actions.next_location,
+                    ["<S-Tab>"] = actions.previous_location,
+                    ["<PageDown>"] = actions.preview_scroll_win(5),
+                    ["<PageUp>"] = actions.preview_scroll_win(-5),
+                    ["v"] = actions.jump_vsplit,
+                    ["s"] = actions.jump_split,
+                    ["t"] = actions.jump_tab,
+                    ["<CR>"] = actions.jump,
+                    ["o"] = actions.jump,
+                    ["<C-p>"] = actions.enter_win("preview"),
+                    ["q"] = actions.close,
+                    ["Q"] = actions.close,
+                    ["<Esc>"] = actions.close,
                 },
                 preview = {
-                    ['<Tab>'] = actions.next_location,
-                    ['<S-Tab>'] = actions.previous_location,
-                    ['<C-l>'] = actions.enter_win('list'),
-                    ['q'] = actions.close,
-                    ['Q'] = actions.close,
-                    ['<Esc>'] = actions.close,
+                    ["<Tab>"] = actions.next_location,
+                    ["<S-Tab>"] = actions.previous_location,
+                    ["<C-l>"] = actions.enter_win("list"),
+                    ["q"] = actions.close,
+                    ["Q"] = actions.close,
+                    ["<Esc>"] = actions.close,
                 },
             },
             folds = {
-                fold_closed = '󰅂',
-                fold_open = '󰅀',
+                fold_closed = "󰅂",
+                fold_open = "󰅀",
                 folded = true,
             },
             indent_lines = {
                 enable = true,
-                icon = '│',
+                icon = "│",
             },
             winbar = {
                 enable = true,
@@ -121,11 +121,11 @@ M.configs = {
                     vim.defer_fn(function()
                         actions.enter_win("preview")()
                     end, 50)
-                end
+                end,
             },
             use_trouble_qf = false,
         })
-        vim.api.nvim_set_hl(0, 'GlancePreviewMatch', {})
+        vim.api.nvim_set_hl(0, "GlancePreviewMatch", {})
     end,
 }
 

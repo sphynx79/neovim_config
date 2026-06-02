@@ -29,8 +29,8 @@ M.plugins = {
 
 M.configs = {
     ["dd"] = function()
-        require('dd').setup({
-            timeout = 4000
+        require("dd").setup({
+            timeout = 4000,
         })
     end,
 }

@@ -19,7 +19,6 @@ TODO:
 ===============================================================================================
 --]]
 
-
 local M = {}
 
 M.plugins = {
@@ -31,25 +30,25 @@ M.plugins = {
 
 M.configs = {
     ["rainbow-delimiters"] = function()
-        require 'rainbow-delimiters.setup'.setup {
+        require("rainbow-delimiters.setup").setup({
             strategy = {
-                [''] = 'rainbow-delimiters.strategy.global',
+                [""] = "rainbow-delimiters.strategy.global",
             },
             query = {
-                [''] = 'rainbow-delimiters',
-                lua = 'rainbow-blocks',
+                [""] = "rainbow-delimiters",
+                lua = "rainbow-blocks",
             },
             highlight = {
-                'RainbowDelimiterRed',
-                'RainbowDelimiterYellow',
-                'RainbowDelimiterBlue',
-                'RainbowDelimiterOrange',
-                'RainbowDelimiterGreen',
-                'RainbowDelimiterViolet',
-                'RainbowDelimiterCyan',
+                "RainbowDelimiterRed",
+                "RainbowDelimiterYellow",
+                "RainbowDelimiterBlue",
+                "RainbowDelimiterOrange",
+                "RainbowDelimiterGreen",
+                "RainbowDelimiterViolet",
+                "RainbowDelimiterCyan",
             },
             blacklist = sphynx.config.excluded_filetypes,
-        }
+        })
     end,
 }
 

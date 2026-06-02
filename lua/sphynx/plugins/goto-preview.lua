@@ -51,8 +51,6 @@ TODO:
 ===============================================================================================
 --]]
 
-
-
 local M = {}
 
 M.plugins = {
@@ -65,12 +63,12 @@ M.plugins = {
 M.setup = {
     ["goto_preview"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["goto_preview"] = function()
-        require('goto-preview').setup {
+        require("goto-preview").setup({
             width = 160,
             height = 35,
             default_mappings = false,
@@ -80,20 +78,48 @@ M.configs = {
             dismiss_on_move = false,
             stack_floating_preview_windows = true,
             preview_window_title = { enable = true, position = "left" },
-        }
+        })
     end,
 }
 
 M.keybindings = function()
     require("which-key").add({
         { "t", group = " Tags" },
-        { "td", [[<Cmd>lua require('goto-preview').goto_preview_definition()<CR>]], desc = "Preview LSP goto definition [goto-preview]" },
-        { "tt", [[<Cmd>lua require('goto-preview').goto_preview_type_definition()<CR>]], desc = "Preview LSP goto type definition [goto-preview]" },
-        { "tD", [[<Cmd>lua require('goto-preview').goto_preview_declaration()<CR>]], desc = "Preview LSP goto declaration [goto-preview]" },
-        { "ti", [[<Cmd>lua require('goto-preview').goto_preview_implementation()<CR>]], desc = "Preview LSP goto implementation [goto-preview]" },
-        { "tr", [[<Cmd>lua require('goto-preview').goto_preview_references()<CR>]], desc = "Preview LSP show all references in telescope [goto-preview]" },
-        { "tc", [[<Cmd>lua require('goto-preview').close_all_win()<CR>]], desc = "Close all Preview LSP goto definition [goto-preview]" },
-        { "tC", [[<Cmd>lua require('goto-preview').close_all_win({ skip_curr_window = true })<CR>]], desc = "Close other Preview LSP goto definition [goto-preview]" },
+        {
+            "td",
+            [[<Cmd>lua require('goto-preview').goto_preview_definition()<CR>]],
+            desc = "Preview LSP goto definition [goto-preview]",
+        },
+        {
+            "tt",
+            [[<Cmd>lua require('goto-preview').goto_preview_type_definition()<CR>]],
+            desc = "Preview LSP goto type definition [goto-preview]",
+        },
+        {
+            "tD",
+            [[<Cmd>lua require('goto-preview').goto_preview_declaration()<CR>]],
+            desc = "Preview LSP goto declaration [goto-preview]",
+        },
+        {
+            "ti",
+            [[<Cmd>lua require('goto-preview').goto_preview_implementation()<CR>]],
+            desc = "Preview LSP goto implementation [goto-preview]",
+        },
+        {
+            "tr",
+            [[<Cmd>lua require('goto-preview').goto_preview_references()<CR>]],
+            desc = "Preview LSP show all references in telescope [goto-preview]",
+        },
+        {
+            "tc",
+            [[<Cmd>lua require('goto-preview').close_all_win()<CR>]],
+            desc = "Close all Preview LSP goto definition [goto-preview]",
+        },
+        {
+            "tC",
+            [[<Cmd>lua require('goto-preview').close_all_win({ skip_curr_window = true })<CR>]],
+            desc = "Close other Preview LSP goto definition [goto-preview]",
+        },
     })
 end
 

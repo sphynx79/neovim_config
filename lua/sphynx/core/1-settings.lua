@@ -57,13 +57,13 @@ local cmd = vim.cmd
 
 --{{{ Identify platform
 local is_osx = function()
-	return (vim.fn.has("macunix") == 1)
+    return (vim.fn.has("macunix") == 1)
 end
 local is_linux = function()
-	return ((vim.fn.has("unix") == 1) and (vim.fn.has("macunix") == 1) and not (vim.fn.has("win32unix") == 1))
+    return ((vim.fn.has("unix") == 1) and (vim.fn.has("macunix") == 1) and not (vim.fn.has("win32unix") == 1))
 end
 local is_windows = function()
-	return ((vim.fn.has("win16") == 1) or (vim.fn.has("win32") == 1) or (vim.fn.has("win64") == 1))
+    return ((vim.fn.has("win16") == 1) or (vim.fn.has("win32") == 1) or (vim.fn.has("win64") == 1))
 end
 
 vim.g.is_nvim = (vim.fn.has("nvim") == 1)
@@ -80,8 +80,8 @@ vim.opt.termguicolors = true -- True color support
 vim.opt.mouse = "a" -- enable mouse mode
 vim.g.local_config = vim.fn.expand("./vim-dev")
 if vim.fn.filereadable(vim.g.local_config) ~= 0 then
-	print("Leggo file vimrc locale")
-	cmd("source " .. vim.g.local_config)
+    print("Leggo file vimrc locale")
+    cmd("source " .. vim.g.local_config)
 end
 --}}} Set before all
 
@@ -89,8 +89,8 @@ end
 
 --{{{ Windows Config
 if is_windows() then
-	-- Load windows support
-	vim.cmd("source " .. vim.fn.expand(sphynx.path.nvim_config .. "/mswin.vim"))
+    -- Load windows support
+    vim.cmd("source " .. vim.fn.expand(sphynx.path.nvim_config .. "/mswin.vim"))
 end
 --}}} Windows Config
 
@@ -145,35 +145,35 @@ vim.opt.fillchars = { eob = " ", vert = "│" }
 -- "▏" │" "▎" "⎸"" "¦" "┆" "" "┊"
 -- disabilito plugin caricati di default
 local disabled_built_ins = {
-	"2html_plugin",
-	"getscript",
-	"getscriptPlugin",
-	"gzip",
-	"logipat",
-	"netrw",
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	"matchit",
-	"matchparen",
-	"man",
-	"tar",
-	"tarPlugin",
-	"rrhelper",
-	"spellfile_plugin",
-	"vimball",
-	"vimballPlugin",
-	"zip",
-	"zipPlugin",
-	"loaded_less",
-	"loaded_syntax_completion",
-	"tutor_mode_plugin",
-	"syntax_completion",
-	"sql_completion",
-	"rrhelper",
+    "2html_plugin",
+    "getscript",
+    "getscriptPlugin",
+    "gzip",
+    "logipat",
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "matchit",
+    "matchparen",
+    "man",
+    "tar",
+    "tarPlugin",
+    "rrhelper",
+    "spellfile_plugin",
+    "vimball",
+    "vimballPlugin",
+    "zip",
+    "zipPlugin",
+    "loaded_less",
+    "loaded_syntax_completion",
+    "tutor_mode_plugin",
+    "syntax_completion",
+    "sql_completion",
+    "rrhelper",
 }
 for _, plugin in pairs(disabled_built_ins) do
-	vim.g["loaded_" .. plugin] = 1
+    vim.g["loaded_" .. plugin] = 1
 end
 
 -- sync with system clipboard
@@ -230,36 +230,36 @@ vim.opt.number = true
 vim.opt.wildmode = "longest:full,full"
 -- file da ignorare nel wildmenu
 vim.opt.wildignore = {
-	"*.o",
-	"*~",
-	"*.pyc",
-	"*.png",
-	"*.jpg",
-	"*.gif",
-	"*.xlsm",
-	"*.xls",
-	"*.xlsx",
-	"*.zip",
-	"*.so",
-	"*.exe",
-	"*.ico",
-	"*.lock",
-	"log/**",
-	"*\\log\\*",
-	"*/log/*",
-	"vendor/cache/**",
-	"vendor/rails/**",
-	"*\\tmp\\*",
-	"*/tmp/*",
-	"*/.git/*",
-	".git",
-	".git/*",
-	"*\\.git\\*",
-	"*/node_modules/**",
-	"*/node_modules_custom/**",
-	".bundle",
-	".yardoc",
-	".prettierrc",
+    "*.o",
+    "*~",
+    "*.pyc",
+    "*.png",
+    "*.jpg",
+    "*.gif",
+    "*.xlsm",
+    "*.xls",
+    "*.xlsx",
+    "*.zip",
+    "*.so",
+    "*.exe",
+    "*.ico",
+    "*.lock",
+    "log/**",
+    "*\\log\\*",
+    "*/log/*",
+    "vendor/cache/**",
+    "vendor/rails/**",
+    "*\\tmp\\*",
+    "*/tmp/*",
+    "*/.git/*",
+    ".git",
+    ".git/*",
+    "*\\.git\\*",
+    "*/node_modules/**",
+    "*/node_modules_custom/**",
+    ".bundle",
+    ".yardoc",
+    ".prettierrc",
 }
 -- Put new windows below current
 vim.opt.splitbelow = true
@@ -303,20 +303,20 @@ vim.opt.swapfile = false
 vim.opt.undofile = true
 vim.opt.undolevels = 200
 vim.opt.sessionoptions = {
-	"buffers", -- Buffer nascosti
-	"curdir", -- Directory di lavoro corrente
-	"folds", -- Stato delle fold
-	"globals", -- Variabili globali (iniziano con maiuscola)
-	"help", -- Finestre della guida
-	"localoptions", -- Opzioni locali di buffer e finestre
-	"options", -- Opzioni globali
-	"resize", -- Dimensioni delle finestre
-	"tabpages", -- Tab pages
-	"terminal", -- Terminali
-	"winpos", -- Posizione finestra Vim
-	"winsize", -- Dimensione finestra
-	"slash", -- Backslashes in nomi file
-	"unix", -- File endings
+    "buffers", -- Buffer nascosti
+    "curdir", -- Directory di lavoro corrente
+    "folds", -- Stato delle fold
+    "globals", -- Variabili globali (iniziano con maiuscola)
+    "help", -- Finestre della guida
+    "localoptions", -- Opzioni locali di buffer e finestre
+    "options", -- Opzioni globali
+    "resize", -- Dimensioni delle finestre
+    "tabpages", -- Tab pages
+    "terminal", -- Terminali
+    "winpos", -- Posizione finestra Vim
+    "winsize", -- Dimensione finestra
+    "slash", -- Backslashes in nomi file
+    "unix", -- File endings
 }
 -- vim.opt.sessionoptions = { "blank", "buffers", "curdir", "folds", "help", "tabpages", "winsize", "resize", "winpos", "terminal" }
 --}}} Files, backups and undo
@@ -420,55 +420,55 @@ vim.g.loaded_python_provider = 0
 --{{{ Python3
 -- vim.g.loaded_python3_provider = 0
 if not vim.g.loaded_python3_provider then
-	local python_executable = "python"
-	local which_command
-	local python3_host_prog
-	local msg = "'Devi installare python3!'"
+    local python_executable = "python"
+    local which_command
+    local python3_host_prog
+    local msg = "'Devi installare python3!'"
 
-	if is_windows() then
-		which_command = "where"
-	else
-		which_command = "which"
-	end
+    if is_windows() then
+        which_command = "where"
+    else
+        which_command = "which"
+    end
 
-	-- Esegui il comando which/where per trovare il percorso completo di Python
-	local handle = io.popen(which_command .. " " .. python_executable)
+    -- Esegui il comando which/where per trovare il percorso completo di Python
+    local handle = io.popen(which_command .. " " .. python_executable)
 
-	if handle then
-		local result = handle:read("*l")
-		handle:close()
+    if handle then
+        local result = handle:read("*l")
+        handle:close()
 
-		-- Verifica che il risultato sia valido
-		if result and result ~= "" and vim.fn.filereadable(vim.fn.fnameescape(result)) == 1 then
-			python3_host_prog = result
-		end
+        -- Verifica che il risultato sia valido
+        if result and result ~= "" and vim.fn.filereadable(vim.fn.fnameescape(result)) == 1 then
+            python3_host_prog = result
+        end
 
-		if (vim.fn.filereadable(vim.fn.fnameescape(python3_host_prog))) == 1 then
-			vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
-			vim.opt.pyxversion = 3
-		else
-			if vim.g.loaded_python3_provider then
-				vim.g.nvim_del_var("python3_host_prog")
-			end
-			cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
-		end
-	else
-		if vim.g.loaded_python3_provider then
-			vim.g.nvim_del_var("python3_host_prog")
-		end
-		cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
-	end
+        if (vim.fn.filereadable(vim.fn.fnameescape(python3_host_prog))) == 1 then
+            vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
+            vim.opt.pyxversion = 3
+        else
+            if vim.g.loaded_python3_provider then
+                vim.g.nvim_del_var("python3_host_prog")
+            end
+            cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
+        end
+    else
+        if vim.g.loaded_python3_provider then
+            vim.g.nvim_del_var("python3_host_prog")
+        end
+        cmd('echohl WarningMsg | echomsg "=> "' .. msg .. "| echohl None")
+    end
 end
 --}}} Python3
 
 --{{{ Ruby
 vim.g.loaded_ruby_provider = 0
 if not vim.g.loaded_ruby_provider then
-	if vim.fn.executable("neovim-ruby-host") == 1 then
-		vim.g.ruby_host_prog = vim.fn.exepath("neovim-ruby-host")
-	else
-		vim.notify("Gemma neovim-ruby-host non trovata nel tuo PATH.", vim.log.levels.WARN, { title = "Ruby Provider" })
-	end
+    if vim.fn.executable("neovim-ruby-host") == 1 then
+        vim.g.ruby_host_prog = vim.fn.exepath("neovim-ruby-host")
+    else
+        vim.notify("Gemma neovim-ruby-host non trovata nel tuo PATH.", vim.log.levels.WARN, { title = "Ruby Provider" })
+    end
 end
 --}}} Ruby
 
@@ -481,96 +481,96 @@ vim.g.loaded_perl_provider = 0
 --{{{ Other Gui
 
 if vim.g.nvy then
-	-- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDraft"
-	vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
-	-- vim.opt.guifont = "JetBrainsMonoNL Nerd Font Mono:h9:cANSI:qDraft"
-	-- vim.opt.guifont = "JetBrainsMono Nerd Font:h9:cANSI:qDraft"
-	-- vim.opt.guifont = "MonaspiceNE Nerd Font:h9:cANSI:qDRAFT"
+    -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDraft"
+    vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
+    -- vim.opt.guifont = "JetBrainsMonoNL Nerd Font Mono:h9:cANSI:qDraft"
+    -- vim.opt.guifont = "JetBrainsMono Nerd Font:h9:cANSI:qDraft"
+    -- vim.opt.guifont = "MonaspiceNE Nerd Font:h9:cANSI:qDRAFT"
 end
 
 if vim.g.neovide then
-	-- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDRAFT"
-	-- vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
-	-- vim.opt.guifont = "MonaspiceNE Nerd Font:h9"
-	vim.opt.linespace = 1
-	vim.g.neovide_scroll_animation_length = 0
-	vim.g.neovide_refresh_rate = 120
-	vim.g.neovide_cursor_antialiasing = true
-	vim.g.neovide_cursor_animation_length = 0
-	vim.g.neovide_cursor_animate_in_insert_mode = false
-	vim.g.neovide_cursor_animate_command_line = false
-	vim.g.neovide_cursor_vfx_mode = ""
-	vim.g.neovide_unlink_border_highlights = true
-	vim.g.neovide_padding_top = 2
-	vim.g.neovide_padding_bottom = 2
-	vim.g.neovide_padding_right = 2
-	vim.g.neovide_padding_left = 2
-	vim.g.neovide_window_blurred = false
-	vim.g.neovide_opacity = 1
-	vim.g.neovide_normal_opacity = 1
-	vim.g.neovide_pixel_geometry = "RGBH"
-	vim.g.neovide_text_gamma = 0.0
-	vim.g.neovide_text_contrast = 0.5
-	cmd("imap <M-Esc> [")
-	cmd("imap <M-C-]> ]")
+    -- vim.opt.guifont = "DejaVuSansM Nerd Font:h9:cANSI:qDRAFT"
+    -- vim.opt.guifont = "FiraCode Nerd Font:h9:cANSI:qDraft"
+    -- vim.opt.guifont = "MonaspiceNE Nerd Font:h9"
+    vim.opt.linespace = 1
+    vim.g.neovide_scroll_animation_length = 0
+    vim.g.neovide_refresh_rate = 120
+    vim.g.neovide_cursor_antialiasing = true
+    vim.g.neovide_cursor_animation_length = 0
+    vim.g.neovide_cursor_animate_in_insert_mode = false
+    vim.g.neovide_cursor_animate_command_line = false
+    vim.g.neovide_cursor_vfx_mode = ""
+    vim.g.neovide_unlink_border_highlights = true
+    vim.g.neovide_padding_top = 2
+    vim.g.neovide_padding_bottom = 2
+    vim.g.neovide_padding_right = 2
+    vim.g.neovide_padding_left = 2
+    vim.g.neovide_window_blurred = false
+    vim.g.neovide_opacity = 1
+    vim.g.neovide_normal_opacity = 1
+    vim.g.neovide_pixel_geometry = "RGBH"
+    vim.g.neovide_text_gamma = 0.0
+    vim.g.neovide_text_contrast = 0.5
+    cmd("imap <M-Esc> [")
+    cmd("imap <M-C-]> ]")
 
-	-- Drag&drop file: comportamento deterministico "salta se gia aperto".
-	-- Di default Neovide chiama neovide.private.dropfile(filename, tabs) ed esegue
-	-- `:drop`; quando il lato Rust passa tabs=true fa `:<N>tab drop`, aprendo un
-	-- nuovo tab in fondo -> incompatibile con workspace.vim (tab e [No Name] spuri).
-	-- Override: ignoriamo `tabs` e usiamo sempre `:drop` semplice. Con
-	-- switchbuf=usetab questo salta al tab se il file e' gia aperto in un
-	-- workspace, altrimenti lo apre nella finestra/workspace corrente. Mai nuovi tab.
-	local function patch_neovide_dropfile()
-		if _G.neovide and _G.neovide.private then
-			_G.neovide.private.dropfile = function(filename)
-				vim.api.nvim_cmd({
-					cmd = "drop",
-					args = { vim.fn.fnameescape(filename) },
-				}, {})
-			end
-			return true
-		end
-		return false
-	end
-	-- Il runtime Lua di Neovide viene iniettato via RPC dopo l'attach dell'UI,
-	-- quindi puo' non essere pronto durante lo startup: ritenta per ~2s.
-	if not patch_neovide_dropfile() then
-		local tries = 0
-		local timer = vim.uv.new_timer()
-		timer:start(
-			50,
-			50,
-			vim.schedule_wrap(function()
-				tries = tries + 1
-				if patch_neovide_dropfile() or tries > 40 then
-					timer:stop()
-					timer:close()
-				end
-			end)
-		)
-	end
+    -- Drag&drop file: comportamento deterministico "salta se gia aperto".
+    -- Di default Neovide chiama neovide.private.dropfile(filename, tabs) ed esegue
+    -- `:drop`; quando il lato Rust passa tabs=true fa `:<N>tab drop`, aprendo un
+    -- nuovo tab in fondo -> incompatibile con workspace.vim (tab e [No Name] spuri).
+    -- Override: ignoriamo `tabs` e usiamo sempre `:drop` semplice. Con
+    -- switchbuf=usetab questo salta al tab se il file e' gia aperto in un
+    -- workspace, altrimenti lo apre nella finestra/workspace corrente. Mai nuovi tab.
+    local function patch_neovide_dropfile()
+        if _G.neovide and _G.neovide.private then
+            _G.neovide.private.dropfile = function(filename)
+                vim.api.nvim_cmd({
+                    cmd = "drop",
+                    args = { vim.fn.fnameescape(filename) },
+                }, {})
+            end
+            return true
+        end
+        return false
+    end
+    -- Il runtime Lua di Neovide viene iniettato via RPC dopo l'attach dell'UI,
+    -- quindi puo' non essere pronto durante lo startup: ritenta per ~2s.
+    if not patch_neovide_dropfile() then
+        local tries = 0
+        local timer = vim.uv.new_timer()
+        timer:start(
+            50,
+            50,
+            vim.schedule_wrap(function()
+                tries = tries + 1
+                if patch_neovide_dropfile() or tries > 40 then
+                    timer:stop()
+                    timer:close()
+                end
+            end)
+        )
+    end
 
-	-- Helper function for transparency formatting
-	-- local alpha = function()
-	--   return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
-	-- end
-	-- -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
-	-- vim.g.neovide_transparency = 0
-	-- vim.g.transparency = 1
-	-- vim.g.neovide_background_color = "#0f1117" .. alpha()
+    -- Helper function for transparency formatting
+    -- local alpha = function()
+    --   return string.format("%x", math.floor(255 * vim.g.transparency or 0.8))
+    -- end
+    -- -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+    -- vim.g.neovide_transparency = 0
+    -- vim.g.transparency = 1
+    -- vim.g.neovide_background_color = "#0f1117" .. alpha()
 end
 
 if vim.g.gonvim_running then
-	vim.opt.ruler = false
-	vim.opt.laststatus = 0
-	vim.opt.showcmd = false
+    vim.opt.ruler = false
+    vim.opt.laststatus = 0
+    vim.opt.showcmd = false
 end
 --}}} Other Gui
 
 --{{{ Linux
 if vim.fn.has("unix") == 1 then
-	require("sphynx.utils.dragopen").setup()
+    require("sphynx.utils.dragopen").setup()
 end
 --}}} Linux
 
@@ -601,8 +601,8 @@ vim.opt.wrapmargin = 0 -- Disabilita il margine di wrapping
 
 -- Crea comandi utili per gestire il wrapping
 vim.api.nvim_create_user_command("ToggleWrap", function()
-	vim.opt_local.wrap = not vim.opt_local.wrap:get()
-	print("Wrap è " .. (vim.opt_local.wrap:get() and "attivo" or "disattivo"))
+    vim.opt_local.wrap = not vim.opt_local.wrap:get()
+    print("Wrap è " .. (vim.opt_local.wrap:get() and "attivo" or "disattivo"))
 end, {})
 
 -- Mappatura rapida per toggleare il wrap

@@ -7,141 +7,141 @@ local mapping = {}
 -- local wk = require("which-key")
 
 --{{{ Function register
-  mapping.register = function(group_keymap)
+mapping.register = function(group_keymap)
     for _, key_map in pairs(group_keymap) do
-      key_map.options.desc = key_map.description
-      vim.keymap.set(key_map.mode, key_map.lhs, key_map.rhs, key_map.options)
+        key_map.options.desc = key_map.description
+        vim.keymap.set(key_map.mode, key_map.lhs, key_map.rhs, key_map.options)
     end
-  end
+end
 --}}} Function register
 
 --{{{ Mapping preset option
-  mapping.opt_mappping = {
+mapping.opt_mappping = {
     mode = "n", -- NORMAL mode
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 
-  mapping.opt_visual = {
+mapping.opt_visual = {
     mode = "v", -- NORMAL mode
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 
-  mapping.opt_mappping_localleader = {
+mapping.opt_mappping_localleader = {
     mode = "n", -- NORMAL mode
     prefix = "<localleader>",
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 
-  mapping.opt_plugin = {
+mapping.opt_plugin = {
     mode = "n", -- NORMAL mode
     prefix = "<leader>",
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 
-  mapping.opt_visual = {
+mapping.opt_visual = {
     mode = "v", -- NORMAL mode
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 
-  mapping.opt_plugin_visual = {
+mapping.opt_plugin_visual = {
     mode = "v", -- NORMAL mode
     prefix = "<leader>",
     buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
     silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = true, -- use `nowait` when creating keymaps
-  }
+}
 --}}} Mapping preset option
 
 --{{{ Global
-  if (vim.fn.has("macunix") == 1) then
-    vim.cmd [[let macvim_skip_cmd_opt_movement = 1]]
+if vim.fn.has("macunix") == 1 then
+    vim.cmd([[let macvim_skip_cmd_opt_movement = 1]])
     vim.opt.macmeta = true
     mapping.register({
-      {
-        mode = { "n", "v" },
-        lhs = "<D-j>",
-        rhs = "<M-j>",
-        options = { silent = true },
-      },
-      {
-        mode = { "n", "v" },
-        lhs = "<D-k>",
-        rhs = "<M-k>",
-        options = { silent = true },
-      },
+        {
+            mode = { "n", "v" },
+            lhs = "<D-j>",
+            rhs = "<M-j>",
+            options = { silent = true },
+        },
+        {
+            mode = { "n", "v" },
+            lhs = "<D-k>",
+            rhs = "<M-k>",
+            options = { silent = true },
+        },
     })
-  end
-  mapping.register({
+end
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "'",
-      rhs = "`",
-      options = { silent = true },
-      description = "Remap ` for to go right position mark",
-    },
-    {
-      mode = { "n" },
-      lhs = "<localleader>w",
-      rhs = [[:lcd %:p:h<cr>:pwd<CR>]],
-      options = { silent = false },
-      description = "Switch CWD to the directory of the open buffer",
+        mode = { "n" },
+        lhs = "'",
+        rhs = "`",
+        options = { silent = true },
+        description = "Remap ` for to go right position mark",
     },
     {
-      mode = { "n" },
-      lhs = "<localleader>S",
-      rhs = [[<CMD>setlocal spell!<CR>]],
-      options = { silent = true },
-      description = "Will toggle and untoggle spell checking",
-    },
-    {   -- TODO: vedere se serve o lo posso togliere
-      mode = { "i" },
-      lhs = "<Esc>",
-      rhs = "<Esc><Esc>",
-      options = { silent = true },
-      description = "Force esc two time",
+        mode = { "n" },
+        lhs = "<localleader>w",
+        rhs = [[:lcd %:p:h<cr>:pwd<CR>]],
+        options = { silent = false },
+        description = "Switch CWD to the directory of the open buffer",
     },
     {
-      mode = { "n" },
-      lhs = "<C-s>",
-      rhs = [[<CMD>silent! update<CR>]],
-      options = { silent = true },
-      description = "Save silent mode",
+        mode = { "n" },
+        lhs = "<localleader>S",
+        rhs = [[<CMD>setlocal spell!<CR>]],
+        options = { silent = true },
+        description = "Will toggle and untoggle spell checking",
+    },
+    { -- TODO: vedere se serve o lo posso togliere
+        mode = { "i" },
+        lhs = "<Esc>",
+        rhs = "<Esc><Esc>",
+        options = { silent = true },
+        description = "Force esc two time",
     },
     {
-      mode = { "v" },
-      lhs = "<C-s>",
-      rhs = [[<C-C><CMD>:silent! update<CR>]],
-      options = { silent = true },
-      description = "Save silent mode",
+        mode = { "n" },
+        lhs = "<C-s>",
+        rhs = [[<CMD>silent! update<CR>]],
+        options = { silent = true },
+        description = "Save silent mode",
     },
     {
-      mode = { "i" },
-      lhs = "<C-s>",
-      rhs = [[<Esc><CMD>:silent! update<CR>gi]],
-      options = { silent = true },
-      description = "Save silent mode",
+        mode = { "v" },
+        lhs = "<C-s>",
+        rhs = [[<C-C><CMD>:silent! update<CR>]],
+        options = { silent = true },
+        description = "Save silent mode",
     },
-  })
+    {
+        mode = { "i" },
+        lhs = "<C-s>",
+        rhs = [[<Esc><CMD>:silent! update<CR>gi]],
+        options = { silent = true },
+        description = "Save silent mode",
+    },
+})
 --}}} Global
 
 --{{{ Folding
-  require("which-key").add({
+require("which-key").add({
     { "z", group = "󰊈 Folding" },
     { "z<Down>", "zr", desc = "Unfold 1 level fold" },
     { "z<Up>", "zm", desc = "Decrease 1 level fold" },
@@ -152,63 +152,63 @@ local mapping = {}
     { "zh", "zfat", desc = "Html folding" },
     -- { "zz<Down>", "zR", desc = "Unfold all" },
     -- { "zz<Up>", "zM", desc = "Fold all" },
-  })
+})
 
-  for i = 0, 10 do
-      require("which-key").add({
+for i = 0, 10 do
+    require("which-key").add({
         { "z" .. tostring(i), group = "󰊈 Folding", "<CMD>set foldlevel=" .. i .. "<CR>", hidden = true },
     })
-  end
+end
 --}}} Folding
 
 --{{{ Moving around
-  mapping.register({
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "9",
-      rhs = "$",
-      options = { silent = true },
-      description = "󰑃 end of line",
+        mode = { "n" },
+        lhs = "9",
+        rhs = "$",
+        options = { silent = true },
+        description = "󰑃 end of line",
     },
     {
-      mode = { "n" },
-      lhs = "0",
-      rhs = "^",
-      options = { silent = true },
-      description = "󰑁 beginning of line",
+        mode = { "n" },
+        lhs = "0",
+        rhs = "^",
+        options = { silent = true },
+        description = "󰑁 beginning of line",
     },
     {
-      mode = { "n" },
-      lhs = "8",
-      rhs = function()
-        local line = vim.api.nvim_win_get_cursor(0)[1]
-        vim.api.nvim_win_set_cursor(0, {line, math.floor(vim.fn.virtcol("$") / 2)})
-      end,
-      options = { silent = true },
-      description = "middle of line",
+        mode = { "n" },
+        lhs = "8",
+        rhs = function()
+            local line = vim.api.nvim_win_get_cursor(0)[1]
+            vim.api.nvim_win_set_cursor(0, { line, math.floor(vim.fn.virtcol("$") / 2) })
+        end,
+        options = { silent = true },
+        description = "middle of line",
     },
-  })
+})
 --}}} Moving around
 
 --{{{ Window
-  mapping.register({
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "cp",
-      rhs = ":pclose<CR>",
-      options = { silent = true },
-      description = "Close preview",
+        mode = { "n" },
+        lhs = "cp",
+        rhs = ":pclose<CR>",
+        options = { silent = true },
+        description = "Close preview",
     },
     {
-      mode = { "n" },
-      lhs = "tn",
-      rhs = [[<CMD>tabnew<CR>]],
-      options = { silent = true },
-      description = "Tab new",
+        mode = { "n" },
+        lhs = "tn",
+        rhs = [[<CMD>tabnew<CR>]],
+        options = { silent = true },
+        description = "Tab new",
     },
-  })
+})
 
-  require("which-key").add({
+require("which-key").add({
     { "w", group = "󰆏 Window" },
     { "wc", "<C-W>c", desc = "Close current window" },
     { "w<Up>", "<C-W>k", desc = "Focus to window Up" },
@@ -217,9 +217,9 @@ local mapping = {}
     { "w<Right>", "<C-W>l", desc = "Focus to window Right" },
     { "wr", group = "󰙖 Resize" },
     { "wr<Up>", [[<CMD>resize +10<CR>]], desc = "Aumenta horizontal size" },
-    { "wr<Down>",  [[<CMD>resize -10<CR>]], desc = "Diminuisce horizontal size" },
+    { "wr<Down>", [[<CMD>resize -10<CR>]], desc = "Diminuisce horizontal size" },
     { "wr<Left>", [[<CMD>vertical resize -10<CR>]], desc = "Diminuisce vertical resize" },
-    { "wr<Right>",  [[<CMD>vertical resize +10<CR>]], desc = "Aumenta vertical resize" },
+    { "wr<Right>", [[<CMD>vertical resize +10<CR>]], desc = "Aumenta vertical resize" },
     { "wrh", "<C-w>|", desc = "Max horizontal size" },
     { "wrv", "<C-w>_", desc = "Max vertical size" },
     { "wr0", "<C-W>=", desc = "All equal space" },
@@ -233,15 +233,15 @@ local mapping = {}
     { "wm<Down>", "<C-w>J", desc = "Down" },
     { "wm<Left>", "<C-w>H", desc = "Left" },
     { "wm<Right>", "<C-w>L", desc = "Right" },
-  })
+})
 --}}} Window
 
 --{{{ Buffer
-  require("which-key").add({
+require("which-key").add({
     { "b", group = " Buffers" },
     -- { "bC", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer_and_window()<CR>]], desc = "Close buffer and window [tabufline]"},
     -- { "bc", [[<CMD>lua require("sphynx.ui.tabufline").close_buffer()<CR>]], desc = "Close buffer and keep window  [tabufline]"},
-    { "bx", [[<CMD>lua require("sphynx.ui.tabufline").closeAllBufs()<CR>]], desc = "Close all buffers [tabufline]"},
+    { "bx", [[<CMD>lua require("sphynx.ui.tabufline").closeAllBufs()<CR>]], desc = "Close all buffers [tabufline]" },
     -- { "bC", [[<CMD>bd<CR>]], desc = "Close buffer and window" },
     -- { "bX", [[<CMD>bufdo bd<CR>]], desc = "Close all buffers" },
     { "bn", group = " New Buffer" },
@@ -249,7 +249,7 @@ local mapping = {}
     { "bn<Right>", [[<CMD>rightbelow vnew<CR>]], desc = "Right" },
     { "bn<Up>", [[<CMD>leftabove new<CR>]], desc = "Up" },
     { "bn<Down>", [[<CMD>rightbelow new<CR>]], desc = "Down" },
-  })
+})
 --}}} Buffer
 
 --{{{ Tab-Workspace
@@ -257,28 +257,28 @@ local mapping = {}
 --}}} Tab-Workspace
 
 --{{{ Editing
-  mapping.register({
+mapping.register({
     -- TODO: vedere se lo devo fare solo per ruby
     {
-      mode = { "i" },
-      lhs = "<C-d>",
-      rhs = "<C-O>B<C-O>dE",
-      options = { silent = true },
-      description = "Eliminare parola @variabile o se mi (trova) al centro della parola",
+        mode = { "i" },
+        lhs = "<C-d>",
+        rhs = "<C-O>B<C-O>dE",
+        options = { silent = true },
+        description = "Eliminare parola @variabile o se mi (trova) al centro della parola",
     },
     {
-      mode = { "n" },
-      lhs = "<localleader>D",
-      rhs = "BdEi",
-      options = { silent = true },
-      description = "Eliminare parola @variabile o se mi (trova) al centro della parola",
+        mode = { "n" },
+        lhs = "<localleader>D",
+        rhs = "BdEi",
+        options = { silent = true },
+        description = "Eliminare parola @variabile o se mi (trova) al centro della parola",
     },
     {
-      mode = { "n" },
-      lhs = "<localleader>C",
-      rhs = "Bye",
-      options = { silent = true },
-      description = "Copia parola @variabile o se mi (trova) al centro della parola",
+        mode = { "n" },
+        lhs = "<localleader>C",
+        rhs = "Bye",
+        options = { silent = true },
+        description = "Copia parola @variabile o se mi (trova) al centro della parola",
     },
 
     -- TODO: vedere se usare plugin surround.nvim| Surround.vim | vim-sandwich
@@ -311,109 +311,123 @@ local mapping = {}
     --   options = { silent = true },
     --   description = "Mette singolo  apice esul testo selezionato",
     -- },
-
-  })
+})
 --}}} Editing
 
 --{{{ Editing
-  mapping.register({
+mapping.register({
     -- TODO: vedere se lo devo fare solo per ruby
     {
-      mode = { "i", "n" },
-      lhs = "<C-a>",
-      rhs = "<Esc>ggVG",
-      options = { silent = true },
-      description = "Select all buffer",
+        mode = { "i", "n" },
+        lhs = "<C-a>",
+        rhs = "<Esc>ggVG",
+        options = { silent = true },
+        description = "Select all buffer",
     },
-  })
+})
 --}}} Editing
 
 --{{{ Ctags
-  require("which-key").add({
+require("which-key").add({
     { "t", group = " Tags" },
     { "t<Left>", "<C-T>", desc = "Go back from definition" },
     { "t<Right>", [[:tjump /<C-r>=expand("<cword>")<CR><CR>]], desc = "Jump to the definition" },
     { "tv", [[<CMD>vsp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition vsplit" },
     { "ts", [[<CMD>sp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition split" },
-  })
+})
 --}}} Ctags
 
 --{{{ Visualization
-  mapping.register({
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "<localleader>-",
-      rhs = [[:nohlsearch<CR>]],
-      options = { silent = false },
-      description = "Clear search highlight",
+        mode = { "n" },
+        lhs = "<localleader>-",
+        rhs = [[:nohlsearch<CR>]],
+        options = { silent = false },
+        description = "Clear search highlight",
     },
-  })
-  require("which-key").add({
+})
+require("which-key").add({
     { "<localleader>c", desc = "Toggle cursorline cursorcolumn" },
     { "<localleader>cl", [[<CMD>set cursorline! <CR>]], desc = "Toggle highlight cursorline" },
     { "<localleader>cc", [[<CMD>set cursorcolumn! <CR>]], desc = "Toggle highlight cursorcolumn" },
-    { "<localleader>ca", [[<CMD>set cursorcolumn!  cursorline! <CR>]], desc = "Toggle highlight cursorcolumn and cursorline" },
-  })
+    {
+        "<localleader>ca",
+        [[<CMD>set cursorcolumn!  cursorline! <CR>]],
+        desc = "Toggle highlight cursorcolumn and cursorline",
+    },
+})
 --}}} Visualization
 
 --{{{ Search & Replace
-  mapping.register({
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "<localleader>r",
-      rhs = [[:%s/\<<C-r>=expand("<cword>")<CR>\>/]],
-      options = { silent = false },
-      description = "Replace all occurrence word",
+        mode = { "n" },
+        lhs = "<localleader>r",
+        rhs = [[:%s/\<<C-r>=expand("<cword>")<CR>\>/]],
+        options = { silent = false },
+        description = "Replace all occurrence word",
     },
-  })
+})
 --}}} Search & Replace
 
 --{{{ Copy & Paste
-  -- copio current file and line to clipboard
-  -- utile da usare con pry, per settare brekpoint
-  -- :break app/actions/forecast/connect_excel.rb:36
-  mapping.register({
+-- copio current file and line to clipboard
+-- utile da usare con pry, per settare brekpoint
+-- :break app/actions/forecast/connect_excel.rb:36
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "<localleader>y",
-      rhs = [[:let @+=substitute(fnamemodify(expand("%"), ":~:."),"\\","/", "g") . ':' . line(".")<CR>]],
-      options = { silent = false },
-      description = "Copy current file and line to clipboard",
+        mode = { "n" },
+        lhs = "<localleader>y",
+        rhs = [[:let @+=substitute(fnamemodify(expand("%"), ":~:."),"\\","/", "g") . ':' . line(".")<CR>]],
+        options = { silent = false },
+        description = "Copy current file and line to clipboard",
     },
-  })
+})
 --}}} Copy & Paste
 
 --{{{ QuickFix
-  mapping.register({
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "<F5>",
-      rhs = [[<CMD>lua require("sphynx.utils").toggle_qf()<CR>]],
-      options = { silent = false },
-      description = "Toggle quickfix",
+        mode = { "n" },
+        lhs = "<F5>",
+        rhs = [[<CMD>lua require("sphynx.utils").toggle_qf()<CR>]],
+        options = { silent = false },
+        description = "Toggle quickfix",
     },
-  })
-  mapping.register({
+})
+mapping.register({
     {
-      mode = { "n" },
-      lhs = "<F6>",
-      rhs = [[<CMD>cclose<CR>]],
-      options = { silent = false },
-      description = "Close quickfix",
+        mode = { "n" },
+        lhs = "<F6>",
+        rhs = [[<CMD>cclose<CR>]],
+        options = { silent = false },
+        description = "Close quickfix",
     },
-  })
+})
 --}}} QuickFix
 
 --{{{ Neovim Configuration
-  require("which-key").add({
+require("which-key").add({
     { "<leader>n", group = " Neovim" },
     { "<leader>ni", "<CMD>e " .. sphynx.path.nvim_config .. "/init.lua<CR>", desc = "Mi apre subito il init.lua" },
-    { "<leader>nc", "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/init.lua<CR>", desc = "Mi apre subito il core/init.lua" },
-    { "<leader>nm", "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/5-mapping.lua<CR>", desc = "Mi apre subito il core/5-mapping.lua" },
-    { "<leader>np",  "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/3-plugins.lua<CR>", desc = "Mi apre subito il core/3-plugins.lua" },
-    { "<leader>ng",  "<CMD>e " .. sphynx.path.nvim_config .. "/ginit.vim<CR>", desc = "Mi apre subito il ginit.vim" },
-  })
+    {
+        "<leader>nc",
+        "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/init.lua<CR>",
+        desc = "Mi apre subito il core/init.lua",
+    },
+    {
+        "<leader>nm",
+        "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/5-mapping.lua<CR>",
+        desc = "Mi apre subito il core/5-mapping.lua",
+    },
+    {
+        "<leader>np",
+        "<CMD>e " .. sphynx.path.nvim_config .. "/lua/sphynx/core/3-plugins.lua<CR>",
+        desc = "Mi apre subito il core/3-plugins.lua",
+    },
+    { "<leader>ng", "<CMD>e " .. sphynx.path.nvim_config .. "/ginit.vim<CR>", desc = "Mi apre subito il ginit.vim" },
+})
 --}}} Neovim Configuration
-
 
 return mapping

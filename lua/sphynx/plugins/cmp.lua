@@ -12,16 +12,15 @@ M.plugins = {
             "saadparwaiz1/cmp_luasnip",
             -- "hrsh7th/cmp-nvim-lsp-signature-help",
             "hrsh7th/cmp-nvim-lsp-document-symbol",
-            "hrsh7th/cmp-nvim-lua"
-
-        }
+            "hrsh7th/cmp-nvim-lua",
+        },
     },
 }
 
 M.setup = {
     ["nvim_cmp"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
@@ -29,7 +28,7 @@ M.configs = {
         local luasnip = require("luasnip")
 
         local has_words_before = function()
-            if vim.api.nvim_get_option_value('buftype', {}) == "prompt" then
+            if vim.api.nvim_get_option_value("buftype", {}) == "prompt" then
                 return false
             end
             local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -40,24 +39,25 @@ M.configs = {
             return vim.api.nvim_replace_termcodes(str, true, true, true)
         end
 
-        local get_all_buffers = function() return vim.api.nvim_list_bufs() end
+        local get_all_buffers = function()
+            return vim.api.nvim_list_bufs()
+        end
 
         vim.opt.completeopt = "menu,menuone,noselect"
-        vim.g.vsnip_snippet_dir = vim.fn.expand("$HOME" .. '/vimfiles/vsnip')
-
+        vim.g.vsnip_snippet_dir = vim.fn.expand("$HOME" .. "/vimfiles/vsnip")
 
         local cmp = require("cmp")
 
-        cmp.setup {
-            experimental = {ghost_text = {hl_group = 'CommandMode'}},
+        cmp.setup({
+            experimental = { ghost_text = { hl_group = "CommandMode" } },
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
-                end
+                end,
             },
             completion = {
                 keyword_length = 3,
-                completeopt = "menu,menuone,noinsert"
+                completeopt = "menu,menuone,noinsert",
             },
             formatting = {
                 fields = { "kind", "abbr", "menu" },
@@ -71,10 +71,10 @@ M.configs = {
             },
 
             window = {
-            -- completion = cmp.config.window.bordered(),
+                -- completion = cmp.config.window.bordered(),
                 documentation = {
-                border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-                winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
+                    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+                    winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
                 },
             },
 
@@ -111,7 +111,10 @@ M.configs = {
                         end
                     end,
                 }),
-                ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
+                ["<Down>"] = cmp.mapping(
+                    cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+                    { "i" }
+                ),
                 ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }), { "i" }),
                 ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
                 ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
@@ -184,19 +187,19 @@ M.configs = {
             sources = {
                 { name = "nvim_lsp", priority = 100, max_item_count = 7 },
                 { name = "luasnip", priority = 40, max_item_count = 3 },
-                { name = "buffer",
+                {
+                    name = "buffer",
                     option = {
-                    get_bufnrs = get_all_buffers,
-                    keyword_pattern = [[\k\+]] -- Include special characters in word match.
+                        get_bufnrs = get_all_buffers,
+                        keyword_pattern = [[\k\+]], -- Include special characters in word match.
                     },
                     priority = 10,
                     max_item_count = 3,
-
                 },
                 { name = "lazydev", max_item_count = 5, group_index = 0 },
                 { name = "path", priority = 80, max_item_count = 3 },
                 -- { name = 'nvim_lsp_signature_help' },
-                { max_item_count = 10 }
+                { max_item_count = 10 },
             },
             sorting = {
                 comparators = {
@@ -210,7 +213,7 @@ M.configs = {
                 },
             },
             preselect = cmp.PreselectMode.None,
-        }
+        })
 
         -- cmp.setup.filetype('lua', {
         --     sources = cmp.config.sources({
@@ -224,9 +227,9 @@ M.configs = {
         cmp.setup.cmdline(":", {
             completion = { autocomplete = false },
             sources = cmp.config.sources(
-            {{ name = "path", max_item_count = 6 },},
-            {{ name = "cmdline", max_item_count = 12 },},
-            {{ name = "lazydev", max_item_count = 9 }}
+                { { name = "path", max_item_count = 6 } },
+                { { name = "cmdline", max_item_count = 12 } },
+                { { name = "lazydev", max_item_count = 9 } }
             ),
         })
 
@@ -234,26 +237,24 @@ M.configs = {
         cmp.setup.cmdline("/", {
             completion = { autocomplete = false },
             sources = cmp.config.sources(
-            {{ name = "nvim_lsp_document_symbol", max_item_count = 8, keyword_length = 1 }},
-            {{ name = "buffer", max_item_count = 5, keyword_length = 2 }}
-            )
+                { { name = "nvim_lsp_document_symbol", max_item_count = 8, keyword_length = 1 } },
+                { { name = "buffer", max_item_count = 5, keyword_length = 2 } }
+            ),
         })
     end,
 }
 
 M.keybindings = function()
-    local cmp = require('cmp')
+    local cmp = require("cmp")
     local is_enabled = true
 
     local toggle_cmp = function()
         is_enabled = not is_enabled
         cmp.setup({ enabled = is_enabled })
-        print('CMP ' .. (is_enabled and 'ON' or 'OFF'))
+        print("CMP " .. (is_enabled and "ON" or "OFF"))
     end
 
-    vim.keymap.set('n', '<localleader>ct', toggle_cmp, { desc = 'Toggle autocompletamento' })
+    vim.keymap.set("n", "<localleader>ct", toggle_cmp, { desc = "Toggle autocompletamento" })
 end
 
-
 return M
-

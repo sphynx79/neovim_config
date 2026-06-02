@@ -4,7 +4,7 @@ M.plugins = {
     ["hop"] = {
         "smoka7/hop.nvim",
         lazy = true,
-        name = 'hop',
+        name = "hop",
         -- keys = {"è","ò","à","f"},
     },
 }
@@ -12,12 +12,12 @@ M.plugins = {
 M.setup = {
     ["hop"] = function()
         M.keybindings()
-    end
+    end,
 }
 
 M.configs = {
     ["hop"] = function()
-        require('hop').setup { keys = 'qwertyuiopasdfghjklzxcvbnm' }
+        require("hop").setup({ keys = "qwertyuiopasdfghjklzxcvbnm" })
     end,
 }
 
@@ -29,45 +29,45 @@ M.keybindings = function()
     })
     mapping.register({
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "<leader>hh",
             rhs = [[<Cmd>lua require'hop'.hint_words()<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion current buffer",
         },
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "<leader>h<UP>",
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion next and previeous current window",
         },
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "<leader>h<DOWN>",
             rhs = [[<Cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion next all",
         },
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "<leader>hs",
             rhs = [[<Cmd>lua require'hop'.hint_patterns()<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion search word",
         },
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "<leader>hH",
             rhs = [[<Cmd>lua require'hop'.hint_words({ multi_windows = true })<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion next and previeous all window",
         },
         {
-            mode = { "n"},
+            mode = { "n" },
             lhs = "f",
             rhs = [[<Cmd>lua require'hop'.hint_words({ current_line_only = true })<CR>]],
-            options = {silent = true },
+            options = { silent = true },
             description = "Easymotion word in current line",
         },
         -- {
@@ -95,4 +95,3 @@ M.keybindings = function()
 end
 
 return M
-

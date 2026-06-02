@@ -116,7 +116,6 @@ TODO:
 ============================================================================================
 ]]
 
-
 local M = {}
 
 M.plugins = {
@@ -124,16 +123,16 @@ M.plugins = {
         "kevinhwang91/nvim-bqf",
         lazy = true,
         name = "bqf",
-        ft = {"qf"},
+        ft = { "qf" },
         dependencies = {
-            'junegunn/fzf'
+            "junegunn/fzf",
         },
-    }
+    },
 }
 
 M.configs = {
     ["bqf"] = function()
-        require('bqf').setup({
+        require("bqf").setup({
             auto_enable = true,
             auto_resize_height = true, -- highly recommended enable
             preview = {
@@ -141,7 +140,7 @@ M.configs = {
                 win_vheight = 12,
                 delay_syntax = 80,
                 winblend = 5,
-                border = {'┏', '━', '┓', '┃', '┛', '━', '┗', '┃'},
+                border = { "┏", "━", "┓", "┃", "┛", "━", "┗", "┃" },
                 show_title = false,
                 should_preview_cb = function(bufnr, _)
                     local ret = true
@@ -150,55 +149,53 @@ M.configs = {
                     if fsize > 100 * 1024 then
                         -- skip file size greater than 100k
                         ret = false
-                    elseif bufname:match('^fugitive://') then
+                    elseif bufname:match("^fugitive://") then
                         -- skip fugitive buffer
                         ret = false
                     end
                     return ret
-                end
+                end,
             },
             func_map = {
                 -- Apertura elementi (navigazione)
-                open = '<CR>',       -- Apre l'elemento sotto il cursore
-                openc = 'O',         -- Apre l'elemento e chiude la finestra quickfix
-                drop = 'o',          -- Usa 'drop' per aprire l'elemento (salta alla finestra se già aperto) e chiude la quickfix
+                open = "<CR>", -- Apre l'elemento sotto il cursore
+                openc = "O", -- Apre l'elemento e chiude la finestra quickfix
+                drop = "o", -- Usa 'drop' per aprire l'elemento (salta alla finestra se già aperto) e chiude la quickfix
 
                 -- Gestione tab
-                tab = 't',           -- Apre l'elemento in una nuova tab
-                tabb = 'T',          -- Apre in nuova tab ma resta nella finestra quickfix
-                tabc = '<C-t>',      -- Apre in nuova tab e chiude la quickfix
+                tab = "t", -- Apre l'elemento in una nuova tab
+                tabb = "T", -- Apre in nuova tab ma resta nella finestra quickfix
+                tabc = "<C-t>", -- Apre in nuova tab e chiude la quickfix
 
                 -- Split
-                split = '<C-x>',     -- Apre l'elemento in split orizzontale
-                vsplit = '<C-v>',    -- Apre l'elemento in split verticale
+                split = "<C-x>", -- Apre l'elemento in split orizzontale
+                vsplit = "<C-v>", -- Apre l'elemento in split verticale
 
                 -- Navigazione tra file nella quickfix
-                prevfile = '<C-p>',  -- Va al file precedente nella quickfix
-                nextfile = '<C-n>',  -- Va al file successivo nella quickfix
+                prevfile = "<C-p>", -- Va al file precedente nella quickfix
+                nextfile = "<C-n>", -- Va al file successivo nella quickfix
 
                 -- Navigazione nella storia della quickfix
-                prevhist = '<',      -- Cicla alla lista quickfix precedente
-                nexthist = '>',      -- Cicla alla lista quickfix successiva
+                prevhist = "<", -- Cicla alla lista quickfix precedente
+                nexthist = ">", -- Cicla alla lista quickfix successiva
 
                 -- Gestione segni (filtering con signs)
-                stoggleup = '<S-Tab>',   -- Attiva/disattiva segno e sposta il cursore in su
-                stogglevm = '<Tab>',     -- Attiva/disattiva segni multipli in modalità visuale
-                sclear = 'z<Tab>',       -- Cancella i segni nella lista quickfix corrente
+                stoggleup = "<S-Tab>", -- Attiva/disattiva segno e sposta il cursore in su
+                stogglevm = "<Tab>", -- Attiva/disattiva segni multipli in modalità visuale
+                sclear = "z<Tab>", -- Cancella i segni nella lista quickfix corrente
 
                 -- Controllo finestra di anteprima
-                ptoggleitem = 'p',       -- Attiva/disattiva anteprima per un elemento
-                ptogglemode = 'P',       -- Alterna la finestra di anteprima tra dimensione normale e massima
-                pscrollup = '<PageUp>',  -- Scorri in su mezza pagina nella finestra di anteprima
-                pscrolldown = '<PageDown>',   -- Scorri in giù mezza pagina nella finestra di anteprima
-                pscrollorig = '<End>',      -- Torna alla posizione originale nella finestra di anteprima
+                ptoggleitem = "p", -- Attiva/disattiva anteprima per un elemento
+                ptogglemode = "P", -- Alterna la finestra di anteprima tra dimensione normale e massima
+                pscrollup = "<PageUp>", -- Scorri in su mezza pagina nella finestra di anteprima
+                pscrolldown = "<PageDown>", -- Scorri in giù mezza pagina nella finestra di anteprima
+                pscrollorig = "<End>", -- Torna alla posizione originale nella finestra di anteprima
 
                 -- Fzf search & filter
-                filter = 'zn',           -- Crea una nuova lista per gli elementi segnati
-                filterr = 'zN',          -- Crea una nuova lista per gli elementi non segnati
-                fzffilter = 'zf',        -- Entra in modalità fzf
-
+                filter = "zn", -- Crea una nuova lista per gli elementi segnati
+                filterr = "zN", -- Crea una nuova lista per gli elementi non segnati
+                fzffilter = "zf", -- Entra in modalità fzf
             },
-
         })
 
         vim.cmd(([[
@@ -208,36 +205,35 @@ M.configs = {
             aug END
         ]]):format([[call setqflist([], 'r', {'context': {'bqf': {'pattern_hl': '\%#' . getreg('/')}}})]]))
 
-
         -- Elenco dei tasti REALI di bqf (func_map) + tasti globali <F5>/<F6>.
         -- Tenere allineato con func_map sopra: è la sorgente della finestra di aiuto.
         local qf_help = {
-            { key = "<CR>",       desc = "Apri elemento sotto il cursore" },
-            { key = "o",          desc = "Apri (drop) e chiudi quickfix" },
-            { key = "O",          desc = "Apri e chiudi quickfix" },
-            { key = "t",          desc = "Apri in nuova tab" },
-            { key = "T",          desc = "Apri in tab (resta in quickfix)" },
-            { key = "<C-t>",      desc = "Apri in tab e chiudi quickfix" },
-            { key = "<C-x>",      desc = "Apri in split orizzontale" },
-            { key = "<C-v>",      desc = "Apri in split verticale" },
-            { key = "<C-p>",      desc = "File precedente" },
-            { key = "<C-n>",      desc = "File successivo" },
-            { key = "<",          desc = "Lista quickfix precedente" },
-            { key = ">",          desc = "Lista quickfix successiva" },
-            { key = "<Tab>",      desc = "Toggle segno (giù)" },
-            { key = "<S-Tab>",    desc = "Toggle segno (su)" },
-            { key = "z<Tab>",     desc = "Pulisci segni" },
-            { key = "p",          desc = "Toggle preview elemento" },
-            { key = "P",          desc = "Toggle preview max size" },
-            { key = "<PageUp>",   desc = "Scorri preview su" },
+            { key = "<CR>", desc = "Apri elemento sotto il cursore" },
+            { key = "o", desc = "Apri (drop) e chiudi quickfix" },
+            { key = "O", desc = "Apri e chiudi quickfix" },
+            { key = "t", desc = "Apri in nuova tab" },
+            { key = "T", desc = "Apri in tab (resta in quickfix)" },
+            { key = "<C-t>", desc = "Apri in tab e chiudi quickfix" },
+            { key = "<C-x>", desc = "Apri in split orizzontale" },
+            { key = "<C-v>", desc = "Apri in split verticale" },
+            { key = "<C-p>", desc = "File precedente" },
+            { key = "<C-n>", desc = "File successivo" },
+            { key = "<", desc = "Lista quickfix precedente" },
+            { key = ">", desc = "Lista quickfix successiva" },
+            { key = "<Tab>", desc = "Toggle segno (giù)" },
+            { key = "<S-Tab>", desc = "Toggle segno (su)" },
+            { key = "z<Tab>", desc = "Pulisci segni" },
+            { key = "p", desc = "Toggle preview elemento" },
+            { key = "P", desc = "Toggle preview max size" },
+            { key = "<PageUp>", desc = "Scorri preview su" },
             { key = "<PageDown>", desc = "Scorri preview giù" },
-            { key = "<End>",      desc = "Torna alla posizione originale" },
-            { key = "zn",         desc = "Filtra elementi segnati" },
-            { key = "zN",         desc = "Filtra elementi non segnati" },
-            { key = "zf",         desc = "Modalità FZF" },
-            { key = "<F5>",       desc = "Toggle quickfix (globale)" },
-            { key = "<F6>",       desc = "Chiudi quickfix (globale)" },
-            { key = "?",          desc = "Mostra/nascondi questo aiuto" },
+            { key = "<End>", desc = "Torna alla posizione originale" },
+            { key = "zn", desc = "Filtra elementi segnati" },
+            { key = "zN", desc = "Filtra elementi non segnati" },
+            { key = "zf", desc = "Modalità FZF" },
+            { key = "<F5>", desc = "Toggle quickfix (globale)" },
+            { key = "<F6>", desc = "Chiudi quickfix (globale)" },
+            { key = "?", desc = "Mostra/nascondi questo aiuto" },
         }
 
         -- Finestra flottante con i tasti reali utilizzabili nella quickfix (toggle con '?').
@@ -305,8 +301,7 @@ M.configs = {
                 })
             end,
         })
-
-    end
+    end,
 }
 
 return M

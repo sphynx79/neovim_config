@@ -21,9 +21,8 @@ M.plugins = {
         "p0deje/vim-ruby-interpolation",
         name = "ruby-interpolation",
         lazy = true,
-        ft = {"ruby"}
+        ft = { "ruby" },
     },
 }
 
 return M
-

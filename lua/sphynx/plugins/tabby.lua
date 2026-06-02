@@ -28,10 +28,10 @@ local function setup_tabby_theme()
         TabLineWinSep = { fg = colors.grey10, bg = colors.grey11 },
         TabLineBufCurModified = { fg = colors.yellow, bg = colors.bg1 },
         TabLineBufModified = { fg = colors.yellow, bg = colors.grey11 },
-        head = 'TabLine',
-        current_tab = { fg = colors.bg, bg = colors.blue, style = 'bold' },
+        head = "TabLine",
+        current_tab = { fg = colors.bg, bg = colors.blue, style = "bold" },
         tab = { fg = colors.grey4, bg = colors.grey9 },
-        current_buf = 'TabLineSel',
+        current_buf = "TabLineSel",
         buf = { fg = colors.grey8, bg = colors.grey12 },
         separator = { fg = colors.grey8, bg = colors.grey12 },
         TabLineTab = { fg = colors.grey9, bg = colors.bg },
@@ -41,8 +41,8 @@ local function setup_tabby_theme()
 
     local function createLogo(line)
         return {
-            { '  ', hl = theme.TabLineLogo },
-            { '', hl = theme.TabLineLogo },
+            { "  ", hl = theme.TabLineLogo },
+            { "", hl = theme.TabLineLogo },
         }
     end
 
@@ -50,25 +50,25 @@ local function setup_tabby_theme()
         local api = vim.api
         local current_tab = api.nvim_get_current_tabpage()
         local wins = api.nvim_tabpage_list_wins(current_tab)
-        local logo_width = 3       -- 1 spazio + icona + 1 spazio
+        local logo_width = 3 -- 1 spazio + icona + 1 spazio
 
         local nvimtree_width = 0
         local has_normal_window = false
 
         for _, win in ipairs(wins) do
             local buf = api.nvim_win_get_buf(win)
-            local ft = api.nvim_get_option_value('filetype', { buf = buf })
+            local ft = api.nvim_get_option_value("filetype", { buf = buf })
 
             -- finestra NvimTree: usiamo la sua larghezza come padding
-            if ft == 'NvimTree' then
+            if ft == "NvimTree" then
                 nvimtree_width = api.nvim_win_get_width(win) - logo_width
                 if nvimtree_width < 0 then
                     nvimtree_width = 0
                 end
             else
                 -- se c'è almeno una finestra "normale", la segniamo
-                local bt = api.nvim_get_option_value('buftype', { buf = buf })
-                if bt == '' then
+                local bt = api.nvim_get_option_value("buftype", { buf = buf })
+                if bt == "" then
                     has_normal_window = true
                 end
             end
@@ -79,7 +79,7 @@ local function setup_tabby_theme()
 
     local function filterBuffers(buf)
         local name = buf.name()
-        local excluded = { 'NvimTree', 'neo-tree', 'TelescopePrompt', 'qf', 'help' }
+        local excluded = { "NvimTree", "neo-tree", "TelescopePrompt", "qf", "help" }
         for _, pattern in ipairs(excluded) do
             if name:match(pattern) then
                 return false
@@ -91,22 +91,22 @@ local function setup_tabby_theme()
     -- Funzione per renderizzare un singolo buffer
     local function renderBuffer(buf, i, count, line)
         local hl, pre
-        local preSym = '▌'
-        local preSym_cur = '▏'
+        local preSym = "▌"
+        local preSym_cur = "▏"
 
         if buf.is_current() then
             hl = theme.TabLineWinCur
-            pre = { preSym .. ' ', hl = theme.TabLineWinSepCur }
+            pre = { preSym .. " ", hl = theme.TabLineWinSepCur }
         else
             hl = theme.TabLineWin
-            pre = { preSym_cur .. ' ', hl = theme.TabLineWinSep }
+            pre = { preSym_cur .. " ", hl = theme.TabLineWinSep }
         end
 
         local icon = buf.file_icon()
         if icon then
-            icon = icon .. ' '
+            icon = icon .. " "
         else
-            icon = ''
+            icon = ""
         end
 
         return {
@@ -114,7 +114,7 @@ local function setup_tabby_theme()
             icon,
             buf.name(),
             {
-                buf.is_changed() and '● ' or '  ',
+                buf.is_changed() and "● " or "  ",
                 hl = buf.is_current() and theme.TabLineBufCurModified or theme.TabLineBufModified,
             },
             hl = hl,
@@ -125,38 +125,38 @@ local function setup_tabby_theme()
         local hl = tab.is_current() and theme.current_tab or theme.tab
 
         -- Indicatore visuale diverso per stati diversi
-        local prefix = ''
+        local prefix = ""
         if tab.in_jump_mode() then
-            prefix = '[' .. tab.jump_key() .. '] ' -- [a] in jump mode
+            prefix = "[" .. tab.jump_key() .. "] " -- [a] in jump mode
         else
-            prefix = ''                            -- spazio per allineamento
+            prefix = "" -- spazio per allineamento
         end
 
         return {
             prefix,
             tab.name(),
-            tab.is_current() and '' or '', -- spazio extra per current
-            tab.close_btn('×'),
-            i < count and '  ' or '',
+            tab.is_current() and "" or "", -- spazio extra per current
+            tab.close_btn("×"),
+            i < count and "  " or "",
             hl = hl,
-            margin = ' ',
+            margin = " ",
         }
     end
 
     -- Componente tail per i tab
     local function createTabSection(line)
         return {
-            line.sep('', theme.head, theme.fill),
-            { '  ', hl = theme.head },
+            line.sep("", theme.head, theme.fill),
+            { "  ", hl = theme.head },
         }
     end
 
     require("tabby").setup({
         option = {
             buf_name = {
-                mode = 'unique',
+                mode = "unique",
                 name_fallback = function(bufid)
-                    return '[No Name]'
+                    return "[No Name]"
                 end,
             },
             tab_name = {
@@ -166,25 +166,25 @@ local function setup_tabby_theme()
                     if #wins > 0 then
                         local bufid = vim.api.nvim_win_get_buf(wins[1])
                         local path = vim.api.nvim_buf_get_name(bufid)
-                        if path ~= '' then
-                            local project = vim.fn.fnamemodify(path, ':p:h:t')
-                            return project ~= '' and project or 'Tab'
+                        if path ~= "" then
+                            local project = vim.fn.fnamemodify(path, ":p:h:t")
+                            return project ~= "" and project or "Tab"
                         end
                     end
-                    return 'Tab'
+                    return "Tab"
                 end,
             },
         },
         line = function(line)
-            local tab_count = vim.fn.tabpagenr('$')
+            local tab_count = vim.fn.tabpagenr("$")
             local show_tabs = tab_count > 1
 
             -- calcola padding dinamico in base a NvimTree
             local nvimtree_padding = get_nvimtree_padding()
-            local padding_node = ''
+            local padding_node = ""
 
             if nvimtree_padding > 0 then
-                padding_node = { string.rep(' ', nvimtree_padding), hl = theme.TabLineaPadding }
+                padding_node = { string.rep(" ", nvimtree_padding), hl = theme.TabLineaPadding }
             end
 
             return {
@@ -195,23 +195,21 @@ local function setup_tabby_theme()
                 padding_node,
 
                 -- Buffer section con filtro
-                line.bufs()
-                    .filter(filterBuffers)
-                    .foreach(renderBuffer),
+                line.bufs().filter(filterBuffers).foreach(renderBuffer),
 
                 -- Spacer centrale
                 line.spacer(),
 
                 -- Tab section
-                show_tabs and line.tabs().foreach(renderTab) or '',
+                show_tabs and line.tabs().foreach(renderTab) or "",
 
                 -- Tail
-                show_tabs and createTabSection(line) or '',
+                show_tabs and createTabSection(line) or "",
 
                 -- Background generale
                 hl = theme.fill,
             }
-        end
+        end,
     })
 end
 
@@ -223,12 +221,12 @@ M.configs = {
         setup_tabby_theme()
 
         -- Crea augroup per evitare autocmd duplicati
-        local augroup = vim.api.nvim_create_augroup('TabbyColorScheme', { clear = true })
+        local augroup = vim.api.nvim_create_augroup("TabbyColorScheme", { clear = true })
 
         -- Riconfigura Tabby quando cambia colorscheme
-        vim.api.nvim_create_autocmd('ColorScheme', {
+        vim.api.nvim_create_autocmd("ColorScheme", {
             group = augroup,
-            pattern = '*',
+            pattern = "*",
             callback = function()
                 vim.schedule(function()
                     setup_tabby_theme()
@@ -238,18 +236,18 @@ M.configs = {
 
         -- Settings
         vim.o.showtabline = 2
-        vim.opt.sessionoptions:append({ 'tabpages', 'globals' })
+        vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
         -- Chiudi tutti i buffer tranne il corrente
-        vim.api.nvim_create_user_command('BufOnly', function()
-            vim.cmd('%bdelete|edit#|bdelete#')
+        vim.api.nvim_create_user_command("BufOnly", function()
+            vim.cmd("%bdelete|edit#|bdelete#")
         end, {})
 
         -- Chiudi buffer senza chiudere finestra
-        vim.api.nvim_create_user_command('Bd', function()
-            local current = vim.fn.bufnr('%')
-            vim.cmd('bnext')
-            vim.cmd('bdelete ' .. current)
+        vim.api.nvim_create_user_command("Bd", function()
+            local current = vim.fn.bufnr("%")
+            vim.cmd("bnext")
+            vim.cmd("bdelete " .. current)
         end, {})
     end,
 }
@@ -260,9 +258,9 @@ M.keybindings = function()
     local prefix = "w"
 
     local function rename_tab()
-        vim.ui.input({ prompt = 'Nome tab: ' }, function(name)
-            if name and name ~= '' then
-                vim.cmd('Tabby rename_tab ' .. name)
+        vim.ui.input({ prompt = "Nome tab: " }, function(name)
+            if name and name ~= "" then
+                vim.cmd("Tabby rename_tab " .. name)
             end
         end)
     end
@@ -276,7 +274,11 @@ M.keybindings = function()
         { "<leader>" .. prefix .. "<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left [Tabby]" },
         { "<leader>" .. prefix .. "<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right [Tabby]" },
         { "<leader>" .. prefix .. "c", group = " Close [Tabby]" },
-        { "<leader>" .. prefix .. "c" .. "c", [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]], desc = "Close current tab [utils=>init.lua]" },
+        {
+            "<leader>" .. prefix .. "c" .. "c",
+            [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
+            desc = "Close current tab [utils=>init.lua]",
+        },
         { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
         { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
         { "<leader>" .. prefix .. "m" .. "<Left>", [[<Cmd>:-tabmove<CR>]], desc = "Move tab left [Tabby]" },
@@ -289,11 +291,10 @@ M.keybindings = function()
             {
                 "<leader>" .. prefix .. "c" .. tostring(i),
                 [[<Cmd>WS ]] .. tostring(i) .. [[ | lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
-                hidden = true
+                hidden = true,
             },
         }, mapping.opt_mappping)
     end
-
 end
 
 return M

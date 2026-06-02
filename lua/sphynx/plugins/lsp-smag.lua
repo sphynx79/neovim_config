@@ -1,4 +1,3 @@
-
 --[[
 ===============================================================================================
 Plugin: nvim-lsp-smag
@@ -39,7 +38,7 @@ M.plugins = {
         lazy = true,
         event = "LspAttach",
         pin = true,
-        commit = "38c52b6937cd8a1a49ba1b95530ad82c632e0ea9"
+        commit = "38c52b6937cd8a1a49ba1b95530ad82c632e0ea9",
     },
 }
 

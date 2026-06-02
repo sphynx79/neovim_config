@@ -15,4 +15,3 @@ M.configs = {
 }
 
 return M
-

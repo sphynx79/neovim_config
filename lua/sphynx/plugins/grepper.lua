@@ -91,18 +91,18 @@ M.setup = {
 M.configs = {
     ["grepper"] = function()
         vim.g.grepper = {
-            tools = {'rg', 'ag', 'pt', 'git'},
+            tools = { "rg", "ag", "pt", "git" },
             highlight = 1,
             side = 0,
             quickfix = 1,
             prompt = 1,
             searchreg = 1,
             -- con Tab cambio modalita di ricerca
-            prompt_mapping_tool = '<tab>',
-            prompt_mapping_side = '<c-s>',
-            prompt_mapping_dir = '<c-d>',
+            prompt_mapping_tool = "<tab>",
+            prompt_mapping_side = "<c-s>",
+            prompt_mapping_dir = "<c-d>",
             rg = {
-                grepprg = 'rg -H --color=never --no-heading --vimgrep --smart-case',
+                grepprg = "rg -H --color=never --no-heading --vimgrep --smart-case",
                 -- grepformat = '%f:%l:%c:%m,%f',
                 -- escape = '\\^$.*+?()[]{}|',
             },
@@ -114,21 +114,17 @@ M.configs = {
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "GrepperSide",
             group = grepper_augroup,
-            command = [[silent execute 'keeppatterns v#'.b:grepper_side.'#>' | silent normal! ggn]]
+            command = [[silent execute 'keeppatterns v#'.b:grepper_side.'#>' | silent normal! ggn]],
         })
         -- Evidenziazioni
-        vim.api.nvim_set_hl(0, 'Directory', {fg='#ffaf87', bg=nil})
+        vim.api.nvim_set_hl(0, "Directory", { fg = "#ffaf87", bg = nil })
         -- vim.api.nvim_set_hl(0, 'qfLineNr', {fg='#444444'})
         -- vim.api.nvim_set_hl(0, 'qfSeparator', {fg='#767676'})
-        vim.api.nvim_set_hl(0, 'GrepperSideFile', {fg='#ffaf87'})
+        vim.api.nvim_set_hl(0, "GrepperSideFile", { fg = "#ffaf87" })
 
-        vim.api.nvim_create_user_command(
-            "Todo",
-            function()
-                vim.cmd('Grepper -noprompt -tool rg -grepprg "git grep -nIi \'\\(TODO\\|FIXME\\)\'"')
-            end,
-            { desc = "Search for TODO or FIXME tags using git grep with Grepper" }
-        )
+        vim.api.nvim_create_user_command("Todo", function()
+            vim.cmd("Grepper -noprompt -tool rg -grepprg \"git grep -nIi '\\(TODO\\|FIXME\\)'\"")
+        end, { desc = "Search for TODO or FIXME tags using git grep with Grepper" })
     end,
 }
 
@@ -147,24 +143,47 @@ M.keybindings = function()
         { prefix .. "sG", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search with git" },
         { prefix .. "sg", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search word in current buffer with git" },
         { prefix .. "sR", [[<Cmd>Grepper -tool rg -quickfix<CR>]], desc = "Search with rg" },
-        { prefix .. "sr", [[<Cmd>Grepper -tool rg -quickfix -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
-        { prefix .. "sw", [[<Cmd>Grepper -tool rg -quickfix -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
-        { prefix .. "sW", [[<Cmd>Grepper -tool rg -quickfix -buffers -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
+        {
+            prefix .. "sr",
+            [[<Cmd>Grepper -tool rg -quickfix -cword -noprompt<CR>]],
+            desc = "Search word under cursor in all file",
+        },
+        {
+            prefix .. "sw",
+            [[<Cmd>Grepper -tool rg -quickfix -buffer -cword -noprompt<CR>]],
+            desc = "Search word in current buffer",
+        },
+        {
+            prefix .. "sW",
+            [[<Cmd>Grepper -tool rg -quickfix -buffers -cword -noprompt<CR>]],
+            desc = "Search word in current open buffer",
+        },
 
         -- Sottogruppo Grepper Side
         { prefix .. "S", group = " Grepper Side" },
         { prefix .. "SG", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search with git" },
         { prefix .. "Sg", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search word in current buffer with git" },
         { prefix .. "SR", [[<Cmd>Grepper -tool rg -side<CR>]], desc = "Search with rg" },
-        { prefix .. "Sr", [[<Cmd>Grepper -tool rg -side -cword -noprompt<CR>]], desc = "Search word under cursor in all file" },
-        { prefix .. "Sw", [[<Cmd>Grepper -tool rg -side -buffer -cword -noprompt<CR>]], desc = "Search word in current buffer" },
-        { prefix .. "SW", [[<Cmd>Grepper -tool rg -side -buffers -cword -noprompt<CR>]], desc = "Search word in current open buffer" },
-    }, mapping.opt_mappping )
+        {
+            prefix .. "Sr",
+            [[<Cmd>Grepper -tool rg -side -cword -noprompt<CR>]],
+            desc = "Search word under cursor in all file",
+        },
+        {
+            prefix .. "Sw",
+            [[<Cmd>Grepper -tool rg -side -buffer -cword -noprompt<CR>]],
+            desc = "Search word in current buffer",
+        },
+        {
+            prefix .. "SW",
+            [[<Cmd>Grepper -tool rg -side -buffers -cword -noprompt<CR>]],
+            desc = "Search word in current open buffer",
+        },
+    }, mapping.opt_mappping)
 
     -- Visual Mode: Seleziono testo gs e parte il grep sulla selezione
     -- Normal Mode: gs poi uso un movimento per aggiornare la ricerca
-    vim.keymap.set({ 'n', 'x' }, 'gs', '<Plug>(GrepperOperator)', { remap = true })
+    vim.keymap.set({ "n", "x" }, "gs", "<Plug>(GrepperOperator)", { remap = true })
 end
 
 return M
-
