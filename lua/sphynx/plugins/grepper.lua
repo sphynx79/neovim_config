@@ -35,7 +35,7 @@ Notes:
 Keymaps (Prefisso principale: <leader>s):
  - Gruppo " Grepper Quickfix" (risultati in quickfix, ideale con nvim-bqf):
     - <leader>ssG         → Cerca con `git` (quickfix)
-    - <leader>ssg         → Cerca parola nel buffer corrente con `git` (quickfix) *
+    - <leader>ssg         → Cerca parola sotto cursore nel repo con `git` (quickfix)
     - <leader>ssR         → Cerca con `rg` (quickfix, apre prompt)
     - <leader>ssr         → Cerca parola sotto cursore in tutti i file con `rg` (quickfix)
     - <leader>ssw         → Cerca parola nel buffer corrente con `rg` (quickfix)
@@ -43,7 +43,7 @@ Keymaps (Prefisso principale: <leader>s):
 
  - Gruppo " Grepper Side" (risultati in pannello laterale):
     - <leader>sSG         → Cerca con `git` (side panel)
-    - <leader>sSg         → Cerca parola nel buffer corrente con `git` (side panel) *
+    - <leader>sSg         → Cerca parola sotto cursore nel repo con `git` (side panel)
     - <leader>sSR         → Cerca con `rg` (side panel, apre prompt)
     - <leader>sSr         → Cerca parola sotto cursore in tutti i file con `rg` (side panel)
     - <leader>sSw         → Cerca parola nel buffer corrente con `rg` (side panel)
@@ -58,12 +58,7 @@ Keymaps (Prefisso principale: <leader>s):
     - v / s / t           → Apri risultato in vsplit / split / tab
     - q                   → Chiudi finestra Grepper/Quickfix
 
-   (* Nota: i mapping `ssg` e `SSg` nella configurazione attuale eseguono una ricerca generica con git.
-      Per "cerca parola nel buffer corrente con git", dovrebbero includere `-cword -buffer -noprompt`.)
-
 TODO:
- - [ ] Verificare e allineare i comandi dei mapping `<leader>ssg` e `<leader>sSg` con le loro
-       descrizioni, aggiungendo `-cword -buffer -noprompt` se l'intento è la ricerca specifica.
  - [ ] Esplorare ulteriori opzioni di `nvim-bqf` per personalizzare l'anteprima e l'integrazione
        con FZF, se necessario.
  - [ ] Valutare l'efficacia dell'autocomando per `GrepperSide` (selezione visuale) rispetto
@@ -77,7 +72,6 @@ M.plugins = {
     ["grepper"] = {
         "mhinz/vim-grepper",
         lazy = true,
-        event = "VeryLazy",
         cmd = "Grepper",
     },
 }
@@ -96,7 +90,7 @@ M.configs = {
             side = 0,
             quickfix = 1,
             prompt = 1,
-            searchreg = 1,
+            -- highlight = 1 implica gia searchreg
             -- con Tab cambio modalita di ricerca
             prompt_mapping_tool = "<tab>",
             prompt_mapping_side = "<c-s>",
@@ -116,11 +110,18 @@ M.configs = {
             group = grepper_augroup,
             command = [[silent execute 'keeppatterns v#'.b:grepper_side.'#>' | silent normal! ggn]],
         })
-        -- Evidenziazioni
-        vim.api.nvim_set_hl(0, "Directory", { fg = "#ffaf87", bg = nil })
-        -- vim.api.nvim_set_hl(0, 'qfLineNr', {fg='#444444'})
-        -- vim.api.nvim_set_hl(0, 'qfSeparator', {fg='#767676'})
-        vim.api.nvim_set_hl(0, "GrepperSideFile", { fg = "#ffaf87" })
+        -- Evidenziazioni (riapplicate a ogni ColorScheme, altrimenti uno switch di tema le azzera)
+        local set_grepper_hl = function()
+            vim.api.nvim_set_hl(0, "Directory", { fg = "#ffaf87", bg = nil })
+            -- vim.api.nvim_set_hl(0, 'qfLineNr', {fg='#444444'})
+            -- vim.api.nvim_set_hl(0, 'qfSeparator', {fg='#767676'})
+            vim.api.nvim_set_hl(0, "GrepperSideFile", { fg = "#ffaf87" })
+        end
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = grepper_augroup,
+            callback = set_grepper_hl,
+        })
+        set_grepper_hl()
 
         vim.api.nvim_create_user_command("Todo", function()
             vim.cmd("Grepper -noprompt -tool rg -grepprg \"git grep -nIi '\\(TODO\\|FIXME\\)'\"")
@@ -141,7 +142,11 @@ M.keybindings = function()
         -- Con F6  la chiuso qunado finito
         { prefix .. "s", group = " Grepper Quickfix" },
         { prefix .. "sG", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search with git" },
-        { prefix .. "sg", [[<Cmd>Grepper -tool git -quickfix<CR>]], desc = "Search word in current buffer with git" },
+        {
+            prefix .. "sg",
+            [[<Cmd>Grepper -tool git -quickfix -cword -noprompt<CR>]],
+            desc = "Search word under cursor with git",
+        },
         { prefix .. "sR", [[<Cmd>Grepper -tool rg -quickfix<CR>]], desc = "Search with rg" },
         {
             prefix .. "sr",
@@ -162,7 +167,11 @@ M.keybindings = function()
         -- Sottogruppo Grepper Side
         { prefix .. "S", group = " Grepper Side" },
         { prefix .. "SG", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search with git" },
-        { prefix .. "Sg", [[<Cmd>Grepper -tool git -side<CR>]], desc = "Search word in current buffer with git" },
+        {
+            prefix .. "Sg",
+            [[<Cmd>Grepper -tool git -side -cword -noprompt<CR>]],
+            desc = "Search word under cursor with git",
+        },
         { prefix .. "SR", [[<Cmd>Grepper -tool rg -side<CR>]], desc = "Search with rg" },
         {
             prefix .. "Sr",
