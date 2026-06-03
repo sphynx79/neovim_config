@@ -16,9 +16,9 @@ Notes:
  - Colori "rainbow" con 7 sfumature di grigio progressivamente più scure
  - Configurato per mostrare indentazione di tab con carattere dedicato (→)
  - Supporta linguaggi incorporati (es. JS in HTML) tramite injected_languages
- - Utilizza carattere "│" per l'indentazione standard
- - Configurazione specifica per nodi Lua aggiuntivi (return_statement, table_constructor)
- - Configurazione estesa per nodi Ruby (class, method, if, while, ecc.)
+ - Utilizza carattere "▏" per l'indentazione standard e "→" per i tab
+ - Scope esteso con nodi treesitter extra per lua, ruby, javascript, typescript e tsx
+   (node_type confrontati per uguaglianza esatta: usare i nomi reali dei nodi)
  - Utilizza la configurazione esterna per i filetypes da escludere
  - Priorità elevata (1024) per lo scope per assicurare visibilità
  - Trattamento specifico degli spazi bianchi con highlight dedicato
@@ -31,12 +31,6 @@ Keymaps:
  - :IBLEnableScope    → Attiva la funzionalità scope
  - :IBLDisableScope   → Disattiva la funzionalità scope
  - :IBLToggleScope    → Attiva/disattiva la funzionalità scope
-
-TODO:
- - [ ] Valutare l'aggiunta dell'hook scope_highlight_from_extmark per integrazione con plugin rainbow delimiters
- - [ ] Valutare l'abilitazione di repeat_linebreak per la visualizzazione su linee wrappate
- - [ ] Impostare highlight specifico per IblScope invece di usare IndentBlanklineContextChar
- - [ ] Ottimizzare configurazione scope.exclude per linguaggi specifici
 ===============================================================================================
 --]]
 
