@@ -30,78 +30,78 @@ local modules = {
 
     --{{{ UI
     "ufo",
-    "illuminate",                           -- OK - Evidenzia altre occorrenze della parola
-    "vim-mark",                             -- OK - Evidenzia parole/pattern con colori persistenti (stile evidenziatore)
-    "foldsigns",                            -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
-    "heirline",                             -- Ok - Statusline, Winbar
-    "indent-blankline",                     -- OK - Migliora indentazione mostrando linee visive
-    "devicons",                             -- OK - Aggiunge icone colorate per i file
-    "smoothcursor",                         -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
-    "bqf",                                  -- OK - Migliorare la finestra quickfix
-    "rainbow-delimiters",                   -- OK - Mostra le parentesi colorate
+    "illuminate", -- OK - Evidenzia altre occorrenze della parola
+    "vim-mark", -- OK - Evidenzia parole/pattern con colori persistenti (stile evidenziatore)
+    "foldsigns", -- Ok - Gestisce la visualizzazione dei segni (signs) nelle sezioni di codice piegate
+    "heirline", -- Ok - Statusline, Winbar
+    "indent-blankline", -- OK - Migliora indentazione mostrando linee visive
+    "devicons", -- OK - Aggiunge icone colorate per i file
+    "smoothcursor", -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
+    "bqf", -- OK - Migliorare la finestra quickfix
+    "rainbow-delimiters", -- OK - Mostra le parentesi colorate
     --}}} UI
 
     --{{{ MAPPING
-    "which-key",                            -- OK - Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
+    "which-key", -- OK - Visualizza una finestra popup con i possibili tasti e combinazioni disponibili
     --}}} MAPPING
 
     --{{{ LSP
-    "lspconfig",                            -- OK - Configurazione del Language Server Protocol (LSP)
-    "lazydev",                              -- OK - Migliore esperienza di sviluppo Lua in Neovim
-    "floating-tag-preview",                 -- OK - Visualizza i tag in una floating window vicino al cursore
-    "lsp-smag",                             -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
-    "dd",                                   -- OK - Si occupa di rimandare (defer) tutti i diagnostici
-    "goto-preview",                         -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
-    "glance",                               -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
+    "lspconfig", -- OK - Configurazione del Language Server Protocol (LSP)
+    "lazydev", -- OK - Migliore esperienza di sviluppo Lua in Neovim
+    "floating-tag-preview", -- OK - Visualizza i tag in una floating window vicino al cursore
+    "lsp-smag", -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
+    "dd", -- OK - Si occupa di rimandare (defer) tutti i diagnostici
+    "goto-preview", -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
+    "glance", -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
     --}}} LSP
 
     --{{{ COMPLETION
-    "blink",                                -- OK - Autocompletamento asincrono
-    "autopair",                             -- OK - Inserimento automatico e la gestione di coppie di caratteri
+    "blink", -- OK - Autocompletamento asincrono
+    "autopair", -- OK - Inserimento automatico e la gestione di coppie di caratteri
     --}}} COMPLETION
 
     --{{{ DEBUG
-    "dap",                                  -- OK - Debug
-    "dap-virtual-text",                     -- OK - Mostra valore variabili inline
-    "dap-telescope",                        -- OK - Integrazione dap con telescope
+    "dap", -- OK - Debug
+    "dap-virtual-text", -- OK - Mostra valore variabili inline
+    "dap-telescope", -- OK - Integrazione dap con telescope
     --}}} DEBUG
 
     --{{{ LANGUAGE
-    "ruby-interpolation",                   -- OK - Aggiunge l'interpolazione delle stringhe Ruby
-    "markdown-preview",                     -- OK - Anteprima live nel browser per i file Markdown
+    "ruby-interpolation", -- OK - Aggiunge l'interpolazione delle stringhe Ruby
+    "markdown-preview", -- OK - Anteprima live nel browser per i file Markdown
     --}}} LANGUAGE
 
     --{{{ FILE BROWSER AND NAVIGATION
-    "nvim-tree",                            -- OK - File explorer (sidebar)
-    "telescope",                            -- OK - Fuzzy finder estendibile: cerca, filtra, anteprima e seleziona file
-    "cybu",                                 -- OK - Switch buffer con Tab come windows
-    "nvim-window-picker",                   -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
-    "maximizer",                            -- OK - Massimizza/ripristina la finestra
+    "nvim-tree", -- OK - File explorer (sidebar)
+    "telescope", -- OK - Fuzzy finder estendibile: cerca, filtra, anteprima e seleziona file
+    "cybu", -- OK - Switch buffer con Tab come windows
+    "nvim-window-picker", -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
+    "maximizer", -- OK - Massimizza/ripristina la finestra
     "workspace",
-    "matchup",                              -- OK - Estende il % di Vim a parole specifiche del linguaggio
-    "hop",                                  -- OK - Motion plugin in stile EasyMotion
-    "marks",                                -- OK - Potenzia i mark nativi di Vim
+    "matchup", -- OK - Estende il % di Vim a parole specifiche del linguaggio
+    "hop", -- OK - Motion plugin in stile EasyMotion
+    "marks", -- OK - Potenzia i mark nativi di Vim
     --}}} FILE BROWSER AND NAVIGATION
 
     --{{{ SEARCH
-    "hlslens",
-    "grepper",
+    "hlslens", -- OK - Mostra indice/totale delle corrispondenze di ricerca accanto a ognuna (lens)
+    "grepper", -- OK - Ricerca testo (rg/git) con risultati in quickfix/side, integrato con nvim-bqf
     --}}} SEARCH
 
     --{{{ GIT
-    "gitsigns",                             -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
-    "diffview",                             -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
+    "gitsigns", -- OK - Segni git nel gutter, navigazione/preview/blame degli hunk
+    "diffview", -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
     --}}} GIT
 
     --{{{ EDITING
-    "comment",                              -- OK - Commenta e decommenta righe singole e selezioni visuali
-    "spaceless",                            -- OK - Rimuove automaticamente gli spazi finali
-    "treehopper",                           -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
+    "comment", -- OK - Commenta e decommenta righe singole e selezioni visuali
+    "spaceless", -- OK - Rimuove automaticamente gli spazi finali
+    "treehopper", -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
     --}}} EDITING
 
     -- {{{ MISC
-    "treesitter",                           -- OK - Parsing incrementale del codice per evidenziazione sintattica
-    "treesitter-textobjects",               -- OK - mi permette di selezionare metodi o classi usando treesitter
+    "treesitter", -- OK - Parsing incrementale del codice per evidenziazione sintattica
+    "treesitter-textobjects", -- OK - mi permette di selezionare metodi o classi usando treesitter
     "noice",
     "color",
     "neoformat",
@@ -111,12 +111,12 @@ local modules = {
     "sorround",
     "todo-comments",
     "trouble",
-    "aerial",                               -- OK - Mostra una finestra con la struttura (outline) del codice
+    "aerial", -- OK - Mostra una finestra con la struttura (outline) del codice
     "chatgpt",
     "nvim-pasta",
     "sayonara",
-    "virtcolumn",                           -- OK - Disegna una colonna verticale per mostrami quando riga troppo lunga
-    "tabby",                                -- OK - Line buffer e tab
+    "virtcolumn", -- OK - Disegna una colonna verticale per mostrami quando riga troppo lunga
+    "tabby", -- OK - Line buffer e tab
     -- --}}} MISC
 
     -- ============================================================
@@ -162,7 +162,6 @@ local modules = {
     -- "symbols-outline",
     -- "vista",
     --}}} DISABLED MISC
-
 }
 
 -- Install Lazy if not found
