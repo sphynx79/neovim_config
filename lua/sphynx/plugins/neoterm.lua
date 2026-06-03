@@ -17,7 +17,7 @@ M.plugins = {
     ["neoterm"] = {
         "kassio/neoterm",
         lazy = true,
-        cmd = { "T" },
+        cmd = { "T", "Tnew", "Topen", "Ttoggle", "TREPLSendSelection", "TREPLSendLine", "TREPLSendFile" },
     },
 }
 
