@@ -104,7 +104,7 @@ local modules = {
     "noice",                    -- OK - Sostituisce la UI di messaggi/cmdline/popupmenu
     "color",                    -- OK - Color picker grafico (Oklch) + highlight async dei colori nel buffer
     "neoformat",                -- OK - Formattatore multi-linguaggio (tsfmt per TS, shfmt per sh/bash), <F8>
-    "neoterm",
+    "neoterm",                  -- OK - Terminale integrato per debug Ruby con PRY (:T, invio a REPL, breakpoint)
     "neoscroll",
     "neoclip",
     "sorround",
