@@ -115,8 +115,8 @@ local modules = {
     "chatgpt",
     "nvim-pasta",
     "sayonara",
-    "virtcolumn",
-    "tabby",                                -- OK -- Line buffer e tab
+    "virtcolumn",                           -- OK - Disegna una colonna verticale per mostrami quando riga troppo lunga
+    "tabby",                                -- OK - Line buffer e tab
     -- --}}} MISC
 
     -- ============================================================
