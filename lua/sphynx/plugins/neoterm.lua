@@ -1,15 +1,31 @@
--- NOTE:PLUGIN: neoterm.lua
--- DESCRIZIONE:
--- Avvia sessione di debug con PRY
--- OSSERVAZIONI:
--- Setto un'interuzzione nel codice con:
--- binding.pry
--- In Neovim avvio il Debug com il comando per chiamare l'avvio del programma
--- :T ruby application.rb args*
--- Ora sono dentro la sessione di Debug con PRY, posso lanciare qualsiasi comandi pry da quindi
--- Per settare un breakpoint nel codice ho creato una funzione SetBreakPoint, che invia a PRY il nome del
--- file e la riga e setta il breakpoint
--- per settarlo ho settato la map <localleader>nb
+--[[
+===============================================================================================
+Plugin: kassio/neoterm
+===============================================================================================
+Description: Wrapper del terminale di Neovim, qui configurato per il workflow di debug Ruby con
+             PRY. Permette di eseguire comandi in un terminale integrato (`:T`), inviare codice a
+             un REPL e gestire breakpoint PRY dall'editor.
+Status: Active
+Author: Sphynx (configurazione) / kassio (plugin)
+Repository: https://github.com/kassio/neoterm
+Notes:
+ - Workflow debug PRY: si inserisce `binding.pry` nel codice come interruzione, poi si avvia il
+   programma con `:T ruby application.rb args*`. Dentro la sessione PRY si lancia qualsiasi
+   comando pry.
+ - Shell: `pwsh` (`g:neoterm_shell`); su Windows l'EOF è "\r" (`g:neoterm_eof`); REPL Ruby = `pry`
+   (`g:neoterm_repl_ruby`).
+ - Callback `before_new`: apre il terminale in split verticale se la finestra è larga >100
+   colonne, altrimenti in split orizzontale (entrambi `botright`).
+ - Callback `before_exec`: salva tutti i buffer (`wall`) prima di ogni `:T`.
+ - `SetBreakPoint()`: invia a PRY un breakpoint sul file:riga correnti (`break path:line`).
+ - Lazy-load su comandi `:T`, `:Tnew`, `:Topen`, `:Ttoggle`, `:TREPLSend*`.
+
+Keymaps:
+ - <leader>Ts   (visual) → invia la selezione al REPL (`TREPLSendSelection`)
+ - <leader>Tl   (normal) → invia la riga al REPL (`TREPLSendLine`)
+ - <localleader>nb (normal) → setta un breakpoint PRY su file:riga corrente
+===============================================================================================
+--]]
 
 local M = {}
 
@@ -55,7 +71,7 @@ M.configs = {
         vim.cmd([[
             function! SetBreakPoint() abort
                 let l:path_and_line = substitute(fnamemodify(expand("%"), ":~:."),"\\","/", "g") . ':' . line(".")
-                echom "Set break Point" . l:path_and_line
+                echom "Set break Point " . l:path_and_line
                 execute "T break " . l:path_and_line
             endfunction
             nnoremap <silent> <localleader>nb :<C-U>call SetBreakPoint()<CR>
