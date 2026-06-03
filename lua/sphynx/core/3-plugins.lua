@@ -103,7 +103,7 @@ local modules = {
     "treesitter",               -- OK - Parsing incrementale del codice per evidenziazione sintattica
     "treesitter-textobjects",   -- OK - mi permette di selezionare metodi o classi usando treesitter
     "noice",                    -- OK - Sostituisce la UI di messaggi/cmdline/popupmenu con viste configurabili (toast su nvim-notify)
-    "color",
+    "color",                    -- OK - Color picker grafico (Oklch) + highlight async dei colori nel buffer
     "neoformat",
     "neoterm",
     "neoscroll",
