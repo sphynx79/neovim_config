@@ -95,7 +95,6 @@ local modules = {
 
     --{{{ EDITING
     "comment",                  -- OK - Commenta e decommenta righe singole e selezioni visuali
-    "spaceless",                -- OK - Rimuove automaticamente gli spazi finali
     "treehopper",               -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
     --}}} EDITING
 
@@ -153,6 +152,10 @@ local modules = {
     -- "scope",
     -- "clap",
     --}}} DISABLED FILE BROWSER AND NAVIGATION
+
+    --{{{ DISABLED EDITING
+    -- "spaceless", -- Rimuove automaticamente gli spazi finali
+    --}}} DISABLED EDITING
 
     --{{{ DISABLED MISC
     -- "faster",

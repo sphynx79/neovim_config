@@ -14,6 +14,11 @@ Notes:
    primo `:Neoformat` (le keymap <F8> lo invocano, quindi fungono da trigger).
  - Le `vim.g.neoformat_*` sono impostate in `M.setup`/`init` (eseguito all'avvio) perché
    il plugin le legge al caricamento.
+ - Opzioni globali:
+    - `only_msg_on_error = 1` → messaggio solo in caso di errore (meno rumore a ogni format).
+    - `basic_format_trim = 1` → rimuove il trailing whitespace per i filetype SENZA formatter
+      dedicato (rimpiazza il plugin `spaceless`, ora disabilitato). NB: agisce solo quando
+      lanci `:Neoformat`/<F8>, NON automaticamente al salvataggio come faceva spaceless.
  - Formatter configurati per filetype:
     - **TypeScript** → `tsfmt`            (`g:neoformat_enabled_typescript`)
     - **sh / bash**  → `shfmt.exe` via stdin, args `-i 4 -ci -bn -sr`:
@@ -46,6 +51,10 @@ M.plugins = {
 
 M.setup = {
     ["neoformat"] = function()
+        -- Opzioni globali
+        vim.g.neoformat_only_msg_on_error = 1
+        vim.g.neoformat_basic_format_trim = 1
+
         vim.g.neoformat_enabled_typescript = { "tsfmt" }
 
         -- Bash/shell: formatta con shfmt
