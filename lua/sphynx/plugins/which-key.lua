@@ -80,9 +80,6 @@ M.configs = {
                 { "w", mode = "n" },
                 { "b", mode = "n" },
                 { "t", mode = "n" },
-                { "e", mode = "n" },
-                { "m", mode = "n" },
-                { "q", mode = "n" },
             },
             plugins = {
                 marks = false, -- shows a list of your marks on ' and `
@@ -112,7 +109,6 @@ M.configs = {
             layout = {
                 width = { min = 20 }, -- min and max width of the columns
                 spacing = 4, -- spacing between columns
-                align = "center", -- align columns left, center or right
             },
             icons = {
                 breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
