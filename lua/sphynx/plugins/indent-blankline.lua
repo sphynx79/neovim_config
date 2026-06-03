@@ -83,6 +83,46 @@ M.configs = {
             vim.api.nvim_set_hl(0, "IndentBlanklineContextChar", { fg = "#ff8349" })
         end)
 
+        -- Nodi treesitter usati come "scope" per linguaggio (nomi verificati sui folds.scm
+        -- di nvim-treesitter; ibl confronta i node_type con uguaglianza esatta, niente pattern)
+        local ruby_scope = {
+            "class",
+            "module",
+            "method",
+            "singleton_method",
+            "do_block",
+            "block",
+            "if",
+            "case",
+            "when",
+            "while",
+            "for",
+            "until",
+        }
+        local js_scope = {
+            "function_declaration",
+            "function_expression",
+            "arrow_function",
+            "method_definition",
+            "class_declaration",
+            "if_statement",
+            "for_statement",
+            "for_in_statement",
+            "while_statement",
+            "switch_statement",
+            "try_statement",
+            "catch_clause",
+        }
+        local ts_scope = vim.list_extend(vim.deepcopy(js_scope), {
+            "interface_declaration",
+            "type_alias_declaration",
+            "enum_declaration",
+        })
+        local tsx_scope = vim.list_extend(vim.deepcopy(ts_scope), {
+            "jsx_element",
+            "jsx_self_closing_element",
+        })
+
         require("ibl").setup({
             enabled = true,
             debounce = 200, -- Millisecondi di debounce
@@ -112,32 +152,10 @@ M.configs = {
                 include = {
                     node_type = {
                         lua = { "return_statement", "table_constructor" },
-                        ruby = {
-                            "class",
-                            "singleton_method",
-                            "module",
-                            "return",
-                            "function",
-                            "method",
-                            "^if",
-                            "^while",
-                            "case",
-                            "when",
-                            "jsx_element",
-                            "^for",
-                            "^object",
-                            "^table",
-                            "block",
-                            "arguments",
-                            "if_statement",
-                            "else_clause",
-                            "jsx_element",
-                            "jsx_self_closing_element",
-                            "try_statement",
-                            "catch_clause",
-                            "import_statement",
-                            "operation_type",
-                        },
+                        ruby = ruby_scope,
+                        javascript = js_scope,
+                        typescript = ts_scope,
+                        tsx = tsx_scope,
                     },
                 },
             },
