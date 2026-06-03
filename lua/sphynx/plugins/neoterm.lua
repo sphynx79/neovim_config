@@ -38,6 +38,9 @@ M.configs = {
                 let g:neoterm_default_mod = 'botright'
             end
             endfunction
+            function! g:neoterm_callbacks.before_exec()
+                wall
+            endfunction
             let g:neoterm_shell = 'pwsh'
 
             if has("win32")
