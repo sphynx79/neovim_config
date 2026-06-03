@@ -95,7 +95,7 @@ local modules = {
 
     --{{{ EDITING
     "comment",                              -- OK - Commenta e decommenta righe singole e selezioni visuali
-    "spaceless",
+    "spaceless",                            -- OK - Rimuove automaticamente gli spazi finali
     "treehopper",                           -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
     --}}} EDITING
 
