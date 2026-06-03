@@ -102,7 +102,7 @@ local modules = {
     -- {{{ MISC
     "treesitter",               -- OK - Parsing incrementale del codice per evidenziazione sintattica
     "treesitter-textobjects",   -- OK - mi permette di selezionare metodi o classi usando treesitter
-    "noice",
+    "noice",                    -- OK - Sostituisce la UI di messaggi/cmdline/popupmenu con viste configurabili (toast su nvim-notify)
     "color",
     "neoformat",
     "neoterm",

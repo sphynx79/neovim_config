@@ -1,3 +1,34 @@
+--[[
+===============================================================================================
+Plugin: folke/noice.nvim
+===============================================================================================
+Description: Rimpiazza completamente la UI di Neovim per messaggi (`messages`), riga di comando
+             (`cmdline`) e menu di completamento (`popupmenu`), usando viste configurabili
+             (popup, split, notify, mini, virtualtext). Notifiche e messaggi vengono instradati
+             a viste diverse tramite filtri/route.
+Status: Active
+Author: Sphynx (configurazione) / folke (plugin)
+Repository: https://github.com/folke/noice.nvim
+Dependencies: MunifTanjim/nui.nvim (rendering viste), rcarriga/nvim-notify (vista notify)
+Notes:
+ - Schema di config PIATTO: `cmdline`, `messages`, `popupmenu`, `redirect`, `lsp`, `views`,
+   `routes` sono chiavi TOP-LEVEL (fratelli). Le chiavi messe nel nodo sbagliato vengono
+   ignorate silenziosamente da noice (nessun errore) → attenzione all'annidamento.
+ - Notifiche e messaggi nativi di Vim sono instradati alla vista `notify` (nvim-notify), che è
+   il default: appaiono come toast in alto a destra. La funzione globale `vim.notify` è
+   impostata su nvim-notify all'inizio di M.configs.
+ - `lazyredraw = false`: forzato perché `lazyredraw` è incompatibile con noice.
+ - `lsp.override`: la resa markdown dei documenti LSP (hover/signature) passa per Treesitter.
+ - `lsp.progress`: avanzamento LSP mostrato nella vista custom `lsp-view` (in alto a destra).
+ - `lsp.signature` disabilitata; `lsp.hover` abilitato (max 170x120).
+ - `cmdline`: popup centrale (`cmdline_popup`) con icone e syntax highlight per : / ricerca /
+   lua / shell / help; conceal del testo cmdline attivo.
+ - `presets`: `bottom_search` (ricerca classica in basso) e `long_message_to_split` attivi.
+ - `routes`: filtri con `skip = true` per nascondere messaggi rumorosi (scrittura/lettura file,
+   conteggio ricerche, "pattern not found", tag mancanti, righe modificate, ecc.).
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
@@ -196,29 +227,6 @@ M.configs = {
                     help = { conceal = enable_conceal, pattern = "^:%s*he?l?p?%s+", icon = "󰋖" },
                     input = { conceal = enable_conceal },
                 },
-                messages = {
-                    -- NOTE: If you enable messages, then the cmdline is enabled automatically.
-                    -- This is a current Neovim limitation.
-                    enabled = true, -- enables the Noice messages UI
-                    view = "mini", -- default view for messages
-                    view_error = "mini", -- view for errors
-                    view_warn = "mini", -- view for warnings
-                    view_history = "messages", -- view for :messages
-                    -- view_search = 'virtualtext', -- view for search count messages. Set to `false` to disable
-                    view_search = false, -- view for search count messages. Set to `false` to disable
-                },
-
-                popupmenu = {
-                    enabled = true, -- enables the Noice popupmenu UI
-                    ---@type 'nui'|'cmp'
-                    backend = "nui", -- backend to use to show regular cmdline completions
-                    -- Icons for completion item kinds (see defaults at noice.config.icons.kinds)
-                    kind_icons = {}, -- set to `false` to disable icons
-                },
-
-                -- default options for require('noice').redirect
-                -- see the section on Command Redirection
-                redirect = { view = "popup", filter = { event = "msg_show" } },
             },
 
             presets = {
@@ -280,27 +288,6 @@ M.configs = {
                     --         FloatBorder = "DiagnosticInfo"
                     --     }
                     -- },
-                },
-                mini = {
-                    reverse = false,
-                    align = "message-left",
-                    timeout = 3000,
-                    position = { row = -2, col = -2 }, -- bottom-right of window
-                    format = { "{date} ", "{title} ", "▏{message}" },
-
-                    size = {
-                        max_height = math.ceil(0.2 * vim.o.lines),
-                        max_width = math.ceil(0.9 * vim.o.columns),
-                        min_width = 30,
-                        width = "auto",
-                        height = "auto",
-                    },
-
-                    border = {
-                        text = { top = "", top_align = "left", bottom = "" },
-                        padding = { top = 0, bottom = 0, left = 1, right = 0 },
-                    },
-                    win_options = { winblend = 0 },
                 },
                 -- ['cmdline'] = {
                 --     backend = 'mini',
