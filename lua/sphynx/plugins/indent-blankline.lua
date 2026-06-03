@@ -13,7 +13,9 @@ Notes:
  - Supporta scope per evidenziare il contesto semantico corrente (es. funzioni, blocchi)
  - Debounce impostato a 200ms per evitare aggiornamenti troppo frequenti
  - La viewport è configurata per processare 150 linee sopra/sotto la vista corrente
- - Colori "rainbow" con 7 sfumature di grigio progressivamente più scure
+ - Indentazione con 7 sfumature di grigio progressivamente più scure (gruppi Rainbow*)
+ - Guida di scope sincronizzata con rainbow-delimiters tramite l'hook
+   scope_highlight_from_extmark: il colore dello scope segue la parentesi rainbow del livello
  - Configurato per mostrare indentazione di tab con carattere dedicato (→)
  - Supporta linguaggi incorporati (es. JS in HTML) tramite injected_languages
  - Utilizza carattere "▏" per l'indentazione standard e "→" per i tab
@@ -74,8 +76,22 @@ M.configs = {
             vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#4A5264" })
             vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#3F4656" })
             vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#333946" })
-            vim.api.nvim_set_hl(0, "IndentBlanklineContextChar", { fg = "#ff8349" })
         end)
+
+        -- Gruppi highlight di rainbow-delimiters (stessi nomi/ordine del suo setup):
+        -- l'hook scope_highlight_from_extmark legge l'extmark della parentesi rainbow al
+        -- confine dello scope e colora la guida di scope con lo stesso colore del livello,
+        -- sincronizzando ibl con rainbow-delimiters.
+        local rainbow_delimiters_hl = {
+            "RainbowDelimiterRed",
+            "RainbowDelimiterYellow",
+            "RainbowDelimiterBlue",
+            "RainbowDelimiterOrange",
+            "RainbowDelimiterGreen",
+            "RainbowDelimiterViolet",
+            "RainbowDelimiterCyan",
+        }
+        hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 
         -- Nodi treesitter usati come "scope" per linguaggio (nomi verificati sui folds.scm
         -- di nvim-treesitter; ibl confronta i node_type con uguaglianza esatta, niente pattern)
@@ -141,7 +157,7 @@ M.configs = {
                 show_start = true, -- Mostra una sottolineatura all'inizio dello scope
                 show_end = true, -- Mostra una sottolineatura alla fine dello scope
                 injected_languages = true, -- Supporta scope in linguaggi incorporati (es. JS in HTML)
-                highlight = "IndentBlanklineContextChar", -- Gruppo di evidenziazione usato per lo scope
+                highlight = rainbow_delimiters_hl, -- colore preso dalla parentesi rainbow al confine (hook scope_highlight_from_extmark)
                 priority = 1024, -- Priorità alta per assicurare che sia sempre visibile
                 include = {
                     node_type = {
