@@ -18,7 +18,7 @@ M.configs = {
         vim.g.matchup_matchparen_nomode = "i"
         vim.g.matchup_matchparen_timeout = 250
         vim.g.matchup_matchparen_insert_timeout = 40
-        vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+        vim.g.matchup_matchparen_offscreen = {}
         vim.cmd([[hi MatchParen ctermbg=blue guibg=#5c6370 cterm=italic gui=italic]])
     end,
 }
