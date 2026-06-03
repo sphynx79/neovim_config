@@ -104,7 +104,7 @@ local modules = {
     "treesitter-textobjects",   -- OK - mi permette di selezionare metodi o classi usando treesitter
     "noice",                    -- OK - Sostituisce la UI di messaggi/cmdline/popupmenu
     "color",                    -- OK - Color picker grafico (Oklch) + highlight async dei colori nel buffer
-    "neoformat",
+    "neoformat",                -- OK - Formattatore multi-linguaggio (tsfmt per TS, shfmt per sh/bash), <F8>
     "neoterm",
     "neoscroll",
     "neoclip",
