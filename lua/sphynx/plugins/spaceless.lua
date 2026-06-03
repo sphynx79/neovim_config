@@ -14,10 +14,4 @@ M.setup = {
     end,
 }
 
-M.configs = {
-    ["spaceless"] = function()
-        require("spaceless").setup()
-    end,
-}
-
 return M
