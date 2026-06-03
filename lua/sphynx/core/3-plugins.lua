@@ -78,7 +78,7 @@ local modules = {
     "nvim-window-picker",                   -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
     "maximizer",                            -- OK - Massimizza/ripristina la finestra
     "workspace",
-    "matchup",
+    "matchup",                              -- OK - Estende il % di Vim a parole specifiche del linguaggio
     "hop",                                  -- OK - Motion plugin in stile EasyMotion
     "marks",                                -- OK - Potenzia i mark nativi di Vim
     --}}} FILE BROWSER AND NAVIGATION
@@ -94,7 +94,7 @@ local modules = {
     --}}} GIT
 
     --{{{ EDITING
-    "comment",
+    "comment",                              -- OK - Commenta e decommenta righe singole e selezioni visuali
     "spaceless",
     "treehopper",                           -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
     --}}} EDITING
