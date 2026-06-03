@@ -12,17 +12,17 @@ Notes:
  - Ritardo impostato a 500ms per evitare popup indesiderati durante la digitazione veloce
  - Filtro per escludere mappature senza descrizione
  - Trigger automatici in modalità normale, visual, operatore, selezione e terminale
- - Trigger aggiuntivi per tasti singoli: w, b, t, e, m, q in modalità normale
+ - Trigger aggiuntivi per tasti singoli con mapping reali: h (Hop), w (Window), b (Buffers),
+   t (Tags/Telescope) in modalità normale
  - Plugin integrati disabilitati (marks, registers, spelling, presets)
  - Finestra popup configurata con bordo "single" e non si sovrappone al cursore
- - Layout centrato con spaziatura di 4 e larghezza minima di 20 caratteri
+ - Layout con spaziatura di 4 e larghezza minima di 20 caratteri
  - Icone personalizzate per tasti speciali come Space → "SPC", Tab → "TAB"
  - Icone per mappature disabilitate (mappings = false)
 
 Caratteristiche abilitate:
  - Notifiche per problemi nelle mappature (notify = true)
  - Finestra senza sovrapposizione al cursore (no_overlap = true)
- - Visualizzazione centrata (align = "center")
  - Tasti speciali con icone personalizzate (Space = "SPC", Tab = "TAB", ecc.)
 
 Caratteristiche disabilitate:
@@ -40,11 +40,6 @@ Keymaps disponibili durante popup:
  - <bs>    → Torna al livello precedente
  - <c-d>   → Scorre verso il basso
  - <c-u>   → Scorre verso l'alto
-
-TODO:
- - [ ] Valutare se attivare plugin integrati come marks o registers
- - [ ] Considerare l'aggiunta del tasto leader come trigger (<leader>, mode = "nxsotv")
- - [ ] Aggiungere opzioni di ordinamento (sort) e espansione (expand)
 ===============================================================================================
 --]]
 
