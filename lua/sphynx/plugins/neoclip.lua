@@ -21,8 +21,8 @@ Notes:
     - `preview = true`      → anteprima della voce selezionata (utile per yank multiriga).
     - `default_register = '"'` → registro di default in cui incollare/ripristinare.
     - `on_paste = { set_reg = false }` → incollando dal picker NON popola anche il registro.
- - Macro: `enable_macro_history` è attivo di default → i macro registrati vengono salvati e
-   sono consultabili con `:Telescope macroscope` (al momento senza keymap dedicata).
+ - Macro: `enable_macro_history = false` → i macro registrati NON vengono salvati (feature non
+   usata, disabilitata di proposito; `:Telescope macroscope` resterebbe vuoto).
  - Il titolo dinamico dell'anteprima richiede `dynamic_preview_title = true` lato Telescope
    (impostato in `telescope.lua`).
 
@@ -48,6 +48,7 @@ M.configs = {
         require("neoclip").setup({
             history = 50,
             enable_persistent_history = false,
+            enable_macro_history = false,
             db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
             filter = nil,
             preview = true,
