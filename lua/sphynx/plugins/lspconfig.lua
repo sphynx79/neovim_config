@@ -343,6 +343,9 @@ M.configs = {
                             checkThirdParty = false,
                             -- Make the server aware of Neovim runtime files
                             library = vim.api.nvim_get_runtime_file("", true),
+                            -- Non scansionare .git (e .vscode) per evitare ri-scan a ogni
+                            -- operazione git mentre nvim e' aperto
+                            ignoreDir = { ".vscode", ".git" },
                             -- adjust these two values if your performance is not optimal
                             maxPreload = 2000,
                             preloadFileSize = 1000,
