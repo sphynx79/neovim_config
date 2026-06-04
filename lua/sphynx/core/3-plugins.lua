@@ -105,7 +105,7 @@ local modules = {
     "color",                    -- OK - Color picker grafico (Oklch) + highlight async dei colori nel buffer
     "neoformat",                -- OK - Formattatore multi-linguaggio (tsfmt per TS, shfmt per sh/bash), <F8>
     "neoterm",                  -- OK - Terminale integrato per debug Ruby con PRY (:T, invio a REPL, breakpoint)
-    "neoscroll",
+    "neoscroll",                -- OK - Scrolling fluido animato (smooth scroll) su <localleader>+frecce
     "neoclip",
     "sorround",
     "todo-comments",
