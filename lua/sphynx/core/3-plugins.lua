@@ -108,7 +108,7 @@ local modules = {
     "neoscroll",                -- OK - Scrolling fluido animato (smooth scroll) su <localleader>+frecce
     "neoclip",                  -- OK - Clipboard manager: cronologia degli yank via Telescope (<leader>ty)
     "surround",                 -- OK - Surround di coppie (virgolette/parentesi/tag); in Visual seleziona e premi il delimitatore
-    "todo-comments",
+    "todo-comments",            -- OK - Evidenzia/cerca i commenti TODO/FIX/HACK; jump con <leader>x frecce
     "trouble",
     "aerial",                   -- OK - Mostra una finestra con la struttura (outline) del codice
     "chatgpt",
