@@ -107,7 +107,7 @@ local modules = {
     "neoterm",                  -- OK - Terminale integrato per debug Ruby con PRY (:T, invio a REPL, breakpoint)
     "neoscroll",                -- OK - Scrolling fluido animato (smooth scroll) su <localleader>+frecce
     "neoclip",                  -- OK - Clipboard manager: cronologia degli yank via Telescope (<leader>ty)
-    "sorround",
+    "surround",
     "todo-comments",
     "trouble",
     "aerial",                   -- OK - Mostra una finestra con la struttura (outline) del codice
