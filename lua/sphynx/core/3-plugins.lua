@@ -106,7 +106,7 @@ local modules = {
     "neoformat",                -- OK - Formattatore multi-linguaggio (tsfmt per TS, shfmt per sh/bash), <F8>
     "neoterm",                  -- OK - Terminale integrato per debug Ruby con PRY (:T, invio a REPL, breakpoint)
     "neoscroll",                -- OK - Scrolling fluido animato (smooth scroll) su <localleader>+frecce
-    "neoclip",
+    "neoclip",                  -- OK - Clipboard manager: cronologia degli yank via Telescope (<leader>ty)
     "sorround",
     "todo-comments",
     "trouble",
