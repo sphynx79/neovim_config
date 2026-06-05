@@ -242,7 +242,7 @@ M.keybindings = function()
         { "<leader>k", group = " Trouble" },
         { "<leader>kt", [[<Cmd>Trouble diagnostics toggle filter.buf=0<CR>]], desc = "Buffer Diagnostics" },
         { "<leader>kw", [[<Cmd>Trouble diagnostics toggle<cr>]], desc = "Workspace Diagnostics" },
-        { "<leader>kd", [[<Cmd>Trouble symbols toggle focus=false<CR>]], desc = "Symbols" },
+        { "<leader>kd", [[<Cmd>Trouble symbols toggle<CR>]], desc = "Symbols" },
         { "<leader>kl", [[<Cmd>Trouble loclist toggle<cr>]], desc = "Location List" },
         { "<leader>kq", [[<Cmd>Trouble qflist toggle<CR>]], desc = "Quickfix List" },
         {
