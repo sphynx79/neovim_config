@@ -587,9 +587,6 @@ vim.api.nvim_create_user_command("ToggleWrap", function()
     print("Wrap è " .. (vim.opt_local.wrap:get() and "attivo" or "disattivo"))
 end, {})
 
--- Mappatura rapida per toggleare il wrap
-vim.keymap.set("n", "<leader>w", ":ToggleWrap<CR>", { noremap = true, silent = true })
-
 --}}} Test
 
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()" -- TreeSitter folding
