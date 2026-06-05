@@ -160,7 +160,6 @@ local function setup_tabby_theme()
         return {
             prefix,
             tab.name(),
-            tab.is_current() and "" or "", -- spazio extra per current
             tab.close_btn("×"),
             i < count and "  " or "",
             hl = hl,
