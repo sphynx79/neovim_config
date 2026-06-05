@@ -109,7 +109,7 @@ local modules = {
     "neoclip",                  -- OK - Clipboard manager: cronologia degli yank via Telescope (<leader>ty)
     "surround",                 -- OK - Surround di coppie (virgolette/parentesi/tag); in Visual seleziona e premi il delimitatore
     "todo-comments",            -- OK - Evidenzia/cerca i commenti TODO/FIX/HACK; jump con <leader>x frecce
-    "trouble",
+    "trouble",                  -- OK - Lista navigabile di diagnostics, riferimenti LSP, symbols e quickfix/loclist; <leader>k
     "aerial",                   -- OK - Mostra una finestra con la struttura (outline) del codice
     "chatgpt",
     "nvim-pasta",
