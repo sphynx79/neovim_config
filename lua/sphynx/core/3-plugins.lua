@@ -113,7 +113,7 @@ local modules = {
     "aerial",                   -- OK - Mostra una finestra con la struttura (outline) del codice
     "chatgpt",
     "nvim-pasta",
-    "sayonara",
+    "sayonara",                 -- OK - Chiusura intelligente di buffer/finestra; bc mantiene la finestra, bC la chiude
     "virtcolumn",               -- OK - Disegna una colonna verticale per mostrami quando riga troppo lunga
     "tabby",                    -- OK - Line buffer e tab
     -- --}}} MISC
