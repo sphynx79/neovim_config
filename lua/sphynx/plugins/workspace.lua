@@ -41,24 +41,16 @@ M.keybindings = function()
     local wk = require("which-key")
     local prefix = "w"
 
+    -- NOTA: i bind condivisi con tabby (wr, wn, w<Left>, w<Right>, wcc, wc.N)
+    -- sono gestiti da tabby.lua per evitare conflitti sul prefisso <leader>w.
+    -- Qui restano solo le funzioni proprie di workspace.vim (WS / WSbmv / back-forth).
     wk.add({
         { "<leader>" .. prefix, group = "  Workspace" },
         { "<leader>" .. prefix .. "s", [[<Cmd>call WS_Backforth()<CR>]], desc = "Switch from two tab [Workspace]" },
         { "<leader>" .. prefix .. "p", [[<Cmd>echo WS_Line()<CR>]], desc = "Print the tab status [Workspace]" },
-        { "<leader>" .. prefix .. "<Left>", [[<Cmd>tabprevious<CR>]], desc = "Tab left [Workspace]" },
-        { "<leader>" .. prefix .. "<Right>", [[<Cmd>tabnext<CR>]], desc = "Tab right [Workspace]" },
-        { "<leader>" .. prefix .. "r", [[<Cmd>TabRename<CR>]], desc = "Rename current Tab [ui/tabbufline/lazyload]" },
-        { "<leader>" .. prefix .. "n", [[<Cmd>tabnew<CR>]], desc = "Tab new [Workspace]" },
         { "<leader>" .. prefix .. "#", desc = "New tab or move exist tab .N [Workspace]" },
         { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
         { "<leader>" .. prefix .. "m" .. "#", desc = "Move buffer to tab .N [Workspace]" },
-        { "<leader>" .. prefix .. "c", group = " Close [Workspace]" },
-        {
-            "<leader>" .. prefix .. "c" .. "c",
-            [[<Cmd>lua require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
-            desc = "Close current tab [utils=>init.lua]",
-        },
-        { "<leader>" .. prefix .. "c" .. "#", desc = "Close tab .N [Workspace]" },
     }, mapping.opt_mappping)
 
     -- New or go to if exist tab .N
@@ -72,17 +64,6 @@ M.keybindings = function()
     for i = 1, 10 do
         wk.add({
             { "<leader>" .. prefix .. "m" .. tostring(i), [[<Cmd>WSbmv ]] .. tostring(i) .. [[<CR>]], hidden = true },
-        }, mapping.opt_mappping)
-    end
-
-    -- Close tab .N
-    for i = 1, 10 do
-        wk.add({
-            {
-                "<leader>" .. prefix .. "c" .. tostring(i),
-                [[<Cmd>lua vim.cmd("WS ]] .. tostring(i) .. [[") require('sphynx.utils').closeAllBufs('closeTab')<CR>]],
-                hidden = true,
-            },
         }, mapping.opt_mappping)
     end
 end
