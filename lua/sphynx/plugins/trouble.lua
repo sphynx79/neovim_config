@@ -1,10 +1,39 @@
+--[[
+===============================================================================================
+Plugin: trouble.nvim
+===============================================================================================
+Description: Raccoglie diagnostics, riferimenti/definizioni LSP, document symbols, quickfix e
+             location list in una finestra ad albero navigabile, con anteprima, filtri e fold.
+Status: Active
+Author: folke
+Repository: https://github.com/folke/trouble.nvim
+Notes:
+ - Caricamento lazy sul comando "Trouble" (v3: il vecchio "TroubleToggle" non esiste piu').
+ - auto_preview = true con preview.type = "main": l'anteprima compare nella finestra principale;
+   scratch = true usa un buffer temporaneo finche' il file non e' ancora caricato.
+ - follow = true e restore = true: segue l'item sotto il cursore e ripristina l'ultima posizione.
+ - max_items = 200 per sezione, multiline = true per i messaggi su piu' righe.
+ - Modo custom "symbols" estende lsp_document_symbols: si apre a destra e filtra i kind utili,
+   togliendo Package per Lua (luals lo usa per il control-flow).
+ - Custom action "s" cicla il filtro per severity; "gb" alterna il filtro sul buffer corrente.
+ - Mappe within-window e modi definiti in M.configs; mappe globali via which-key in M.setup.
+Keymaps:
+ - <leader>kt  → Trouble diagnostics toggle filter.buf=0   (diagnostics del buffer)
+ - <leader>kw  → Trouble diagnostics toggle                (diagnostics del workspace)
+ - <leader>kd  → Trouble symbols toggle                    (document symbols, finestra a destra)
+ - <leader>kl  → Trouble loclist toggle                    (location list)
+ - <leader>kq  → Trouble qflist toggle                     (quickfix list)
+ - <leader>kr  → Trouble lsp toggle                        (def/rif/impl/type/decl, a destra)
+===============================================================================================
+--]]
+
 local M = {}
 
 M.plugins = {
     ["trouble"] = {
         "folke/trouble.nvim",
         lazy = true,
-        cmd = { "TroubleToggle", "Trouble" },
+        cmd = { "Trouble" },
     },
 }
 
