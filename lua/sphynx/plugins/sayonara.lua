@@ -4,7 +4,7 @@ M.plugins = {
     ["sayonara"] = {
         "mhinz/vim-sayonara",
         lazy = true,
-        event = "VeryLazy",
+        cmd = "Sayonara",
     },
 }
 
