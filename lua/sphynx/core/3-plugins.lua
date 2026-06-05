@@ -77,7 +77,7 @@ local modules = {
     "cybu",                     -- OK - Switch buffer con Tab come windows
     "nvim-window-picker",       -- OK - Mi permette di passage da una finestra all'altra in modo molto rapido
     "maximizer",                -- OK - Massimizza/ripristina la finestra
-    "workspace",
+    "workspace",                -- OK - Tab come workspace stile i3 (buffer isolati per tab); comandi WS/WSbmv, <leader>w
     "matchup",                  -- OK - Estende il % di Vim a parole specifiche del linguaggio
     "hop",                      -- OK - Motion plugin in stile EasyMotion
     "marks",                    -- OK - Potenzia i mark nativi di Vim
