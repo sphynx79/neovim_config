@@ -37,6 +37,7 @@ local modules = {
     "indent-blankline",         -- OK - Migliora indentazione mostrando linee visive
     "devicons",                 -- OK - Aggiunge icone colorate per i file
     "smoothcursor",             -- OK - Animazione sulla barra sinistra quando mi sposto, miglioramento visivo
+    "colorful-winsep",          -- OK - Colora il bordo della finestra attiva (split con focus)
     "bqf",                      -- OK - Migliorare la finestra quickfix
     "rainbow-delimiters",       -- OK - Mostra le parentesi colorate
     --}}} UI
