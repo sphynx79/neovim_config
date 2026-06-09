@@ -47,10 +47,10 @@ M.configs = {
             excluded_ft = { "TelescopePrompt", "NvimTree", "aerial", "trouble", "lazy" },
             highlight = "#81A1C1", -- Nord frost: usato come fg, bg ereditato da "Normal"
             animate = {
-                enabled = "shift", -- "shift" | "progressive" | false
+                enabled = false, -- "shift" | "progressive" | false
             },
             indicator_for_2wins = {
-                position = "center", -- false | "center" | "start" | "end" | "both"
+                position = false, -- false | "center" | "start" | "end" | "both"
             },
         })
     end,
