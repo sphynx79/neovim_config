@@ -14,7 +14,19 @@ Notes:
  - Stato git abilitato; git.timeout alzato a 5000ms perche' su Windows "git status"
    in questo repo impiega ~2.4s e il default (400ms) andava sempre in timeout
  - update_focused_file.enable = false: l'albero NON segue automaticamente il file attivo
- - Filtri custom: nasconde .git, node_modules, .cargo, .cache
+ - Filtri custom (project_custom_filter): nasconde sempre .git, node_modules, .cargo, .cache
+   e in piu' gli elementi elencati in "hide" del .nvim-tree.toml (per nome o per path)
+ - Config progetto unificata: crea .nvim-tree.toml nella root del progetto
+   Campi supportati:
+     sort = "manual" | "name" | "created-desc" | "created-asc" | "modified-desc" | "modified-asc"
+     fallback_sort = "name" | "created-desc" | "created-asc" | "modified-desc" | "modified-asc"
+     order = ["README.md", "src", "src/main.lua"]
+     hide = ["dist", "coverage", "frontend/.next"]
+   Comportamento (project_tree_sorter):
+     - senza file di config: ordine "name" (cartelle prima, poi alfabetico)
+     - "order" impone un ordine manuale agli elementi elencati; il resto segue fallback_sort
+     - "created" usa la data di creazione (birthtime) con fallback su mtime quando assente
+     - il .nvim-tree.toml e' ri-letto solo se cambia (cache su mtime); valori non validi → warning
  - Aggiornamento albero: usa "R" sull'albero (api.tree.reload) per il refresh manuale
  - "C" = cambia root (CD), "G" = toggle git-clean filter (mostra solo i file modificati)
 
@@ -57,6 +69,511 @@ M.setup = {
 
 M.configs = {
     ["nvim-tree.lua"] = function()
+        local project_config_file = ".nvim-tree.toml"
+
+        local sort_mode_aliases = {
+            manual = "manual",
+            order = "manual",
+
+            name = "name",
+            alpha = "name",
+            alphabetical = "name",
+
+            created = "created-desc",
+            creation = "created-desc",
+            birthtime = "created-desc",
+            newest = "created-desc",
+            ["created-desc"] = "created-desc",
+            ["creation-desc"] = "created-desc",
+            ["birthtime-desc"] = "created-desc",
+
+            oldest = "created-asc",
+            ["created-asc"] = "created-asc",
+            ["creation-asc"] = "created-asc",
+            ["birthtime-asc"] = "created-asc",
+
+            modified = "modified-desc",
+            mtime = "modified-desc",
+            ["modified-desc"] = "modified-desc",
+            ["mtime-desc"] = "modified-desc",
+
+            ["modified-asc"] = "modified-asc",
+            ["mtime-asc"] = "modified-asc",
+        }
+
+        local function normalize_path(path)
+            if vim.fs and vim.fs.normalize then
+                return vim.fs.normalize(path)
+            end
+
+            return path:gsub("\\", "/")
+        end
+
+        local function relative_to_root(path, root)
+            path = normalize_path(path)
+            root = normalize_path(root):gsub("/+$", "")
+
+            local prefix = root .. "/"
+            if path:sub(1, #prefix) == prefix then
+                return path:sub(#prefix + 1)
+            end
+
+            return path
+        end
+
+        local function default_tree_sort(a, b)
+            if a.type ~= b.type then
+                return a.type == "directory"
+            end
+
+            return a.name:lower() < b.name:lower()
+        end
+
+        local function time_to_seconds(time_table)
+            if type(time_table) ~= "table" then
+                return nil
+            end
+
+            return tonumber(time_table.sec) or tonumber(time_table.tv_sec)
+        end
+
+        local stat_cache = {}
+
+        local function node_stat(path)
+            path = normalize_path(path or "")
+
+            if stat_cache[path] ~= nil then
+                return stat_cache[path]
+            end
+
+            local uv = vim.uv or vim.loop
+            local ok, stat = pcall(uv.fs_stat, path)
+
+            if ok then
+                stat_cache[path] = stat or false
+            else
+                stat_cache[path] = false
+            end
+
+            return stat_cache[path]
+        end
+
+        local function node_time(node, kind)
+            local stat = node_stat(node.absolute_path or node.name)
+
+            if not stat then
+                return 0
+            end
+
+            if kind == "created" then
+                -- birthtime e' la vera data di creazione quando il filesystem la espone.
+                -- Su alcuni filesystem puo' mancare o valere 0: in quel caso usiamo mtime.
+                local birthtime = time_to_seconds(stat.birthtime)
+                if birthtime and birthtime > 0 then
+                    return birthtime
+                end
+            end
+
+            return time_to_seconds(stat.mtime) or 0
+        end
+
+        local function tree_sort_by_time(kind, descending)
+            return function(a, b)
+                if a.type ~= b.type then
+                    return a.type == "directory"
+                end
+
+                local a_time = node_time(a, kind)
+                local b_time = node_time(b, kind)
+
+                if a_time ~= b_time then
+                    if descending then
+                        return a_time > b_time
+                    end
+
+                    return a_time < b_time
+                end
+
+                return a.name:lower() < b.name:lower()
+            end
+        end
+
+        local function comparator_for_sort_mode(sort_mode)
+            if sort_mode == "created-desc" then
+                return tree_sort_by_time("created", true)
+            end
+
+            if sort_mode == "created-asc" then
+                return tree_sort_by_time("created", false)
+            end
+
+            if sort_mode == "modified-desc" then
+                return tree_sort_by_time("modified", true)
+            end
+
+            if sort_mode == "modified-asc" then
+                return tree_sort_by_time("modified", false)
+            end
+
+            if sort_mode == "name" or not sort_mode then
+                return default_tree_sort
+            end
+
+            return nil
+        end
+
+        local function strip_toml_comment(line)
+            local in_single = false
+            local in_double = false
+            local escaped = false
+
+            for i = 1, #line do
+                local char = line:sub(i, i)
+
+                if in_double then
+                    if escaped then
+                        escaped = false
+                    elseif char == "\\" then
+                        escaped = true
+                    elseif char == '"' then
+                        in_double = false
+                    end
+                elseif in_single then
+                    if char == "'" then
+                        in_single = false
+                    end
+                else
+                    if char == '"' then
+                        in_double = true
+                    elseif char == "'" then
+                        in_single = true
+                    elseif char == "#" then
+                        return line:sub(1, i - 1)
+                    end
+                end
+            end
+
+            return line
+        end
+
+        local function parse_toml_strings(value)
+            local result = {}
+            local i = 1
+
+            while i <= #value do
+                local char = value:sub(i, i)
+
+                if char == '"' then
+                    local j = i + 1
+                    local escaped = false
+                    local buffer = {}
+
+                    while j <= #value do
+                        local current = value:sub(j, j)
+
+                        if escaped then
+                            local replacements = {
+                                n = "\n",
+                                r = "\r",
+                                t = "\t",
+                                ['"'] = '"',
+                                ["\\"] = "\\",
+                            }
+                            table.insert(buffer, replacements[current] or current)
+                            escaped = false
+                        elseif current == "\\" then
+                            escaped = true
+                        elseif current == '"' then
+                            break
+                        else
+                            table.insert(buffer, current)
+                        end
+
+                        j = j + 1
+                    end
+
+                    table.insert(result, table.concat(buffer))
+                    i = j + 1
+                elseif char == "'" then
+                    local j = i + 1
+
+                    while j <= #value and value:sub(j, j) ~= "'" do
+                        j = j + 1
+                    end
+
+                    table.insert(result, value:sub(i + 1, j - 1))
+                    i = j + 1
+                else
+                    i = i + 1
+                end
+            end
+
+            return result
+        end
+
+        local function parse_toml_scalar(value)
+            value = vim.trim(value or "")
+
+            if value == "true" then
+                return true
+            end
+
+            if value == "false" then
+                return false
+            end
+
+            local quoted = parse_toml_strings(value)
+            if quoted[1] then
+                return quoted[1]
+            end
+
+            local bare = value:match("^([%w_%-]+)$")
+            return bare
+        end
+
+        local function parse_project_toml(lines)
+            local parsed = {}
+            local collecting_key = nil
+            local collecting_parts = {}
+
+            local function finish_array()
+                parsed[collecting_key] = parse_toml_strings(table.concat(collecting_parts, "\n"))
+                collecting_key = nil
+                collecting_parts = {}
+            end
+
+            for _, raw_line in ipairs(lines) do
+                local line = vim.trim(strip_toml_comment(raw_line or ""))
+
+                if line ~= "" then
+                    if collecting_key then
+                        table.insert(collecting_parts, line)
+
+                        if line:find("%]") then
+                            finish_array()
+                        end
+                    elseif not line:match("^%[.+%]$") then
+                        local key, value = line:match("^([%w_%-]+)%s*=%s*(.+)$")
+
+                        if key and value then
+                            key = key:gsub("-", "_")
+                            value = vim.trim(value)
+
+                            if value:sub(1, 1) == "[" then
+                                collecting_key = key
+                                collecting_parts = { value }
+
+                                if value:find("%]") then
+                                    finish_array()
+                                end
+                            else
+                                parsed[key] = parse_toml_scalar(value)
+                            end
+                        end
+                    end
+                end
+            end
+
+            if collecting_key then
+                finish_array()
+            end
+
+            return parsed
+        end
+
+        local function build_project_config(parsed)
+            local config = {
+                sort = nil,
+                fallback_sort = nil,
+                order_rank = nil,
+                hidden_names = {},
+                hidden_paths = {},
+            }
+
+            if type(parsed.sort) == "string" then
+                local raw_sort = parsed.sort:lower()
+                config.sort = sort_mode_aliases[raw_sort] or raw_sort
+            end
+
+            if type(parsed.fallback_sort) == "string" then
+                local raw_fallback_sort = parsed.fallback_sort:lower()
+                config.fallback_sort = sort_mode_aliases[raw_fallback_sort] or raw_fallback_sort
+
+                -- Il fallback serve solo per gli elementi non ordinati manualmente.
+                -- Evitiamo la ricorsione logica di fallback_sort = "manual".
+                if config.fallback_sort == "manual" then
+                    config.fallback_sort = "name"
+                end
+            end
+
+            local order_entries = parsed.order or parsed.manual_order
+            if type(order_entries) == "table" and #order_entries > 0 then
+                config.order_rank = {}
+
+                for _, entry in ipairs(order_entries) do
+                    entry = normalize_path(vim.trim(tostring(entry or "")):gsub("^%./", ""))
+
+                    if entry ~= "" and not config.order_rank[entry] then
+                        config.order_rank[entry] = vim.tbl_count(config.order_rank) + 1
+                    end
+                end
+            end
+
+            local hide_entries = parsed.hide or parsed.hidden or parsed.ignore
+            if type(hide_entries) == "table" then
+                for _, entry in ipairs(hide_entries) do
+                    entry = normalize_path(vim.trim(tostring(entry or "")):gsub("^%./", ""):gsub("/+$", ""))
+
+                    if entry ~= "" then
+                        if entry:find("/", 1, true) then
+                            config.hidden_paths[entry] = true
+                        else
+                            config.hidden_names[entry] = true
+                        end
+                    end
+                end
+            end
+
+            return config
+        end
+
+        local project_config_cache = {
+            root = nil,
+            mtime = nil,
+            config = nil,
+        }
+
+        local function empty_project_config()
+            return {
+                sort = nil,
+                fallback_sort = nil,
+                order_rank = nil,
+                hidden_names = {},
+                hidden_paths = {},
+            }
+        end
+
+        local function load_project_config(root)
+            local config_path = root .. "/" .. project_config_file
+            local mtime = vim.fn.getftime(config_path)
+
+            if project_config_cache.root == root and project_config_cache.mtime == mtime then
+                return project_config_cache.config
+            end
+
+            local config = empty_project_config()
+
+            if mtime ~= -1 then
+                local ok, lines = pcall(vim.fn.readfile, config_path)
+
+                if ok then
+                    config = build_project_config(parse_project_toml(lines))
+                else
+                    vim.notify(
+                        "nvim-tree: impossibile leggere " .. config_path .. ", uso configurazione predefinita",
+                        vim.log.levels.WARN
+                    )
+                end
+            end
+
+            project_config_cache.root = root
+            project_config_cache.mtime = mtime
+            project_config_cache.config = config
+
+            return config
+        end
+
+        local function project_tree_sorter(nodes)
+            stat_cache = {}
+
+            local root = vim.fn.getcwd()
+            local project_config = load_project_config(root)
+            local sort_mode = project_config.sort
+            local fallback_sort_mode = project_config.fallback_sort or "name"
+            local rank = project_config.order_rank
+
+            -- Se c'e' un ordine manuale ma non e' stato indicato sort, assumiamo manual.
+            if not sort_mode and rank then
+                sort_mode = "manual"
+            end
+
+            local fallback_comparator = comparator_for_sort_mode(fallback_sort_mode)
+
+            if not fallback_comparator then
+                vim.notify(
+                    "nvim-tree: valore fallback_sort non valido in "
+                        .. project_config_file
+                        .. ": "
+                        .. tostring(fallback_sort_mode)
+                        .. ", uso name",
+                    vim.log.levels.WARN
+                )
+                fallback_comparator = default_tree_sort
+            end
+
+            if sort_mode ~= "manual" then
+                local comparator = comparator_for_sort_mode(sort_mode)
+
+                if comparator then
+                    table.sort(nodes, comparator)
+                    return
+                end
+
+                if sort_mode then
+                    vim.notify(
+                        "nvim-tree: valore sort non valido in " .. project_config_file .. ": " .. sort_mode .. ", uso fallback_sort",
+                        vim.log.levels.WARN
+                    )
+                end
+
+                table.sort(nodes, fallback_comparator)
+                return
+            end
+
+            if not rank then
+                table.sort(nodes, fallback_comparator)
+                return
+            end
+
+            table.sort(nodes, function(a, b)
+                local a_relative_path = relative_to_root(a.absolute_path or a.name, root)
+                local b_relative_path = relative_to_root(b.absolute_path or b.name, root)
+                local a_rank = rank[a_relative_path] or rank[a.name] or math.huge
+                local b_rank = rank[b_relative_path] or rank[b.name] or math.huge
+
+                -- Gli elementi dichiarati in order vincono sempre.
+                if a_rank ~= b_rank then
+                    return a_rank < b_rank
+                end
+
+                -- Tutto cio' che non e' dichiarato in order usa fallback_sort.
+                -- Esempio: root manuale, contenuto delle cartelle per created-desc.
+                return fallback_comparator(a, b)
+            end)
+        end
+
+        local global_hidden_names = {
+            [".git"] = true,
+            ["node_modules"] = true,
+            [".cargo"] = true,
+            [".cache"] = true,
+        }
+
+        local function project_custom_filter(absolute_path)
+            local root = vim.fn.getcwd()
+            local project_config = load_project_config(root)
+            local path = normalize_path(absolute_path)
+            local name = vim.fn.fnamemodify(path, ":t")
+
+            if global_hidden_names[name] then
+                return true
+            end
+
+            local relative_path = relative_to_root(path, root):gsub("/+$", "")
+
+            return project_config.hidden_names[name] == true or project_config.hidden_paths[relative_path] == true
+        end
+
         local function on_attach(bufnr)
             local api = require("nvim-tree.api")
             local preview = require("nvim-tree-preview")
@@ -154,11 +671,14 @@ M.configs = {
             disable_netrw = true,
             hijack_netrw = false,
             sync_root_with_cwd = true, -- ex "update_cwd" (deprecato): la root segue la cwd di Neovim
+            sort = {
+                sorter = project_tree_sorter,
+            },
             update_focused_file = {
                 enable = false,
             },
             filters = {
-                custom = { ".git", "node_modules", ".cargo", "\\.cache" },
+                custom = project_custom_filter,
             },
             git = {
                 enable = true,
