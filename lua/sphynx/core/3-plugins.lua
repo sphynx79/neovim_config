@@ -70,7 +70,7 @@ local modules = {
     --{{{ LANGUAGE
     "ruby-interpolation",       -- OK - Aggiunge l'interpolazione delle stringhe Ruby
     "render-markdown",          -- OK - Rendering Markdown nel buffer (heading, code, callout, checkbox)
-    "image",                    -- OK - Rendering immagini inline (Sixel) nei file Markdown
+    -- "image",                 -- OK - Rendering immagini inline (Sixel) nei file Markdown
     --}}} LANGUAGE
 
     --{{{ FILE BROWSER AND NAVIGATION
@@ -145,8 +145,8 @@ local modules = {
 
     --{{{ DISABLED LANGUAGE
     -- "nim",
-    -- "markdown",              -- vim-markdown: conceal in conflitto con render-markdown, tenuto disabilitato
     -- "markdown-preview",         -- OK - Anteprima live nel browser per i file Markdown
+    -- "markdown",                 -- vim-markdown: conceal in conflitto con render-markdown, tenuto disabilitato
     --}}} DISABLED LANGUAGE
 
     --{{{ DISABLED FILE BROWSER AND NAVIGATION

@@ -59,7 +59,7 @@ M.plugins = {
 
 M.configs = {
     ["render-markdown"] = function()
-        require("render-markdown").setup({
+        local opts = {
             render_modes = { "n" },
             completions = {
                 lsp = { enabled = true }, -- blink.cmp completa callout/checkbox/link nei .md
@@ -218,7 +218,34 @@ M.configs = {
             --         virtual_lines = true,
             --     },
             -- },
-        })
+        }
+
+        -- Il terminale di Obsidian (ConPTY+xterm.js) corrompe i caratteri non-BMP
+        -- (icone Nerd Font Plane 15). Con OBSIDIAN_TERMINAL=1 (impostata nei profili
+        -- del plugin terminal) il rendering resta attivo ma si tolgono le sole icone
+        -- non-BMP; bullet/quote/dash (BMP) restano. WezTerm e altri terminali: invariati.
+        if vim.env.OBSIDIAN_TERMINAL then
+            local default = require("render-markdown").default or {}
+            opts.heading.icons = { "", "", "", "", "", "" } -- icona vuota: nasconde i # senza glifo non-BMP
+            opts.code.language_icon = false     -- icone devicons per linguaggio
+            opts.checkbox = { enabled = false } -- 󰄱/󰱒 → raw [ ] / [x]
+            opts.link.image = ""
+            opts.link.email = ""
+            opts.link.hyperlink = ""
+            opts.link.wiki.icon = ""
+            opts.link.custom = {}               -- mappa con chiavi: override per nome
+            for name in pairs((default.link or {}).custom or {}) do
+                opts.link.custom[name] = { icon = "" }
+            end
+            opts.callout = {}                   -- 󰋽 Note, 󰌶 Tip… icona dentro 'rendered'
+            for name, cfg in pairs(default.callout or {}) do
+                if type(cfg) == "table" and type(cfg.rendered) == "string" then
+                    opts.callout[name] = { rendered = cfg.rendered:gsub("^%S+%s+", "") }
+                end
+            end
+        end
+
+        require("render-markdown").setup(opts)
 
         -- Colori heading in palette Nord Aurora: stesso colore per icona e testo, per livello.
         -- RenderMarkdownHN colora l'icona; @markup.heading.N.markdown colora il testo (treesitter).
