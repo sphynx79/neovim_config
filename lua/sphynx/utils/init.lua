@@ -197,14 +197,70 @@ function utils.tabuflinePrev()
     end
 end
 
--- closes tab + all of its buffers
--- action: "closeTab" → chiude solo buffer del tab corrente + tabclose
+-- Chiude il tab corrente e SOLO i buffer che gli appartengono, lasciando
+-- invariati gli altri tab.
+--
+-- In questo config i buffer sono associati ai tab da workspace.vim:
+-- ogni tab ha `t:WS` e ogni buffer ha `b:WS` = workspace di appartenenza.
+-- Per questo NON basta tabpagebuflist() (solo buffer in finestra): i buffer
+-- nascosti del tab resterebbero orfani e workspace.vim (s:tabclosed) li
+-- migrerebbe in un altro tab → anomalie. Qui li raccogliamo tutti via b:WS,
+-- chiudiamo il tab e li eliminiamo per bufnr (la migrazione diventa irrilevante).
+function utils.closeTab()
+    if fn.tabpagenr("$") <= 1 then
+        utils.warn("È l'ultimo tab rimasto: non lo chiudo", "closeTab")
+        return
+    end
+
+    local tWS = vim.t.WS -- workspace del tab corrente (workspace.vim)
+
+    -- Raccogli i buffer appartenenti a questo tab/workspace.
+    local tab_bufs = {}
+    for _, b in ipairs(api.nvim_list_bufs()) do
+        local belongs
+        if tWS ~= nil then
+            local ok, bWS = pcall(api.nvim_buf_get_var, b, "WS")
+            belongs = ok and bWS == tWS
+        else
+            -- Fallback (workspace.vim non attivo): buffer in finestra del tab
+            belongs = vim.tbl_contains(fn.tabpagebuflist(0), b)
+        end
+
+        if belongs
+            and api.nvim_buf_is_valid(b)
+            and vim.bo[b].buftype == ""
+            and not api.nvim_buf_get_name(b):match("^NvimTree_%d+$") then
+            tab_bufs[#tab_bufs + 1] = b
+        end
+    end
+
+    -- Non chiudere se c'è un buffer modificato: si perderebbero dati.
+    for _, b in ipairs(tab_bufs) do
+        if vim.bo[b].modified then
+            utils.warn("Buffer modificato: salvalo prima di chiudere il tab", "closeTab")
+            return
+        end
+    end
+
+    -- Chiudi prima il tab, poi elimina i buffer catturati per bufnr:
+    -- così l'eventuale migrazione di workspace.vim non lascia buffer orfani.
+    vim.cmd("tabclose")
+
+    for _, b in ipairs(tab_bufs) do
+        if api.nvim_buf_is_valid(b) then
+            pcall(api.nvim_buf_delete, b, { force = false })
+        end
+    end
+end
+
+-- closes all buffers
+-- action: "closeTab" → delega a utils.closeTab (chiude tab + suoi buffer)
 --         "enew"     → chiude tutti i buffer globali + enew
 --         nil        → chiude tutti i buffer globali, nessuna azione finale
 function utils.closeAllBufs(action)
-    local source_bufs = (action == "closeTab")
-        and vim.fn.tabpagebuflist(0)  -- solo buffer visibili nel tab corrente
-        or vim.api.nvim_list_bufs()            -- tutti i buffer globali
+    if action == "closeTab" then
+        return utils.closeTab()
+    end
 
     local bufs = vim.tbl_filter(function(b)
         if not api.nvim_buf_is_valid(b) then
@@ -222,15 +278,13 @@ function utils.closeAllBufs(action)
             return false
         end
         return true
-    end, source_bufs)
+    end, vim.api.nvim_list_bufs())
 
     for _, buf in ipairs(bufs) do
         utils.close_buffer(buf)
     end
 
-    if action == "closeTab" then
-        vim.cmd("tabclose")
-    elseif action == "enew" then
+    if action == "enew" then
         vim.cmd("enew")
     end
 end
