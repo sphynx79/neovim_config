@@ -198,6 +198,7 @@ function utils.tabuflinePrev()
 end
 
 -- closes tab + all of its buffers
+-- action: "closeTab" → tabclose finale, "enew" → enew finale, nil → nessuna azione finale
 function utils.closeAllBufs(action)
     local bufs = vim.tbl_filter(function(b)
         if not fn.buflisted(b) then
@@ -219,7 +220,11 @@ function utils.closeAllBufs(action)
         utils.close_buffer(buf)
     end
 
-    vim.cmd(action == "closeTab" and "tabclose" or "enew")
+    if action == "closeTab" then
+        vim.cmd("tabclose")
+    elseif action == "enew" then
+        vim.cmd("enew")
+    end
 end
 
 function utils.log(msg, hl, name)
