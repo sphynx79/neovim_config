@@ -119,9 +119,11 @@ function utils.check_time()
 end
 
 function utils.close_buffer(bufnr)
-    if vim.bo.buftype == "terminal" then
-        if vim.bo.buflisted then
-            vim.bo.buflisted = false
+    bufnr = bufnr or api.nvim_get_current_buf()
+
+    if vim.bo[bufnr].buftype == "terminal" then
+        if vim.bo[bufnr].buflisted then
+            vim.bo[bufnr].buflisted = false
             vim.cmd("enew")
         else
             vim.cmd("hide")
@@ -129,16 +131,34 @@ function utils.close_buffer(bufnr)
         return
     end
 
+    -- non chiudere mai NvimTree
+    if api.nvim_buf_get_name(bufnr):match("^NvimTree_%d+$") then
+        return
+    end
+
     -- if file doesnt exist & its modified
-    if vim.bo.modified then
+    if vim.bo[bufnr].modified then
         print("save the file!")
         return
     end
 
-    bufnr = bufnr or api.nvim_get_current_buf()
     require("sphynx.utils").tabuflinePrev()
-    -- vim.cmd("bd" .. bufnr)
-    vim.api.nvim_buf_delete(bufnr, { force = false })
+
+    -- se tabuflinePrev non ha cambiato buffer, cerca un'alternativa
+    if api.nvim_get_current_buf() == bufnr then
+        for _, b in ipairs(api.nvim_list_bufs()) do
+            if b ~= bufnr
+                and api.nvim_buf_is_valid(b)
+                and vim.bo[b].buftype == ""
+                and fn.buflisted(b)
+                and not api.nvim_buf_get_name(b):match("^NvimTree_%d+$") then
+                pcall(api.nvim_set_current_buf, b)
+                break
+            end
+        end
+    end
+
+    pcall(vim.api.nvim_buf_delete, bufnr, { force = false })
 end
 
 function utils.bufilter()
