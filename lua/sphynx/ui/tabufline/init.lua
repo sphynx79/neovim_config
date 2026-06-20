@@ -82,33 +82,9 @@ M.close_buffer = function(bufnr)
     vim.cmd("redrawtabline")
 end
 
--- closes tab + all of its buffers
-M.closeAllBufs = function(include_cur_buf)
-    local bufs = get_listed_bufs()
-
-    -- esclude NvimTree e buffer speciali non-file dalla chiusura
-    bufs = vim.tbl_filter(function(bufnr)
-        if not api.nvim_buf_is_valid(bufnr) then
-            return false
-        end
-        local bt = vim.bo[bufnr].buftype
-        if bt ~= "" then
-            return false
-        end
-        local name = api.nvim_buf_get_name(bufnr)
-        if name:match("^NvimTree_%d+$") then
-            return false
-        end
-        return true
-    end, bufs)
-
-    if include_cur_buf ~= nil and not include_cur_buf then
-        table.remove(bufs, buf_index(cur_buf()))
-    end
-
-    for _, buf in ipairs(bufs) do
-        M.close_buffer(buf)
-    end
+-- Delega a utils.closeAllBufs (versione unificata con filtro NvimTree/buffer speciali)
+M.closeAllBufs = function()
+    require("sphynx.utils").closeAllBufs()
 end
 
 M.goto_buf = function(bufnr)
