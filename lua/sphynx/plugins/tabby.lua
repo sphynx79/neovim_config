@@ -30,7 +30,7 @@ Keymaps (prefisso <leader>w = workspace):
  - <leader>w<Right>  → Tab successivo
  - <leader>wm<Left>  → Sposta il tab a sinistra
  - <leader>wm<Right> → Sposta il tab a destra
- - <leader>wcc       → Chiude il tab corrente (utils.closeAllBufs)
+ - <leader>wcc       → Chiude il tab corrente e i suoi buffer (solo tab corrente)
  - <leader>wc1..wc0  → Chiude il tab N (hidden, generati in loop)
 ===============================================================================================
 --]]

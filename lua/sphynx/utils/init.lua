@@ -198,13 +198,21 @@ function utils.tabuflinePrev()
 end
 
 -- closes tab + all of its buffers
--- action: "closeTab" → tabclose finale, "enew" → enew finale, nil → nessuna azione finale
+-- action: "closeTab" → chiude solo buffer del tab corrente + tabclose
+--         "enew"     → chiude tutti i buffer globali + enew
+--         nil        → chiude tutti i buffer globali, nessuna azione finale
 function utils.closeAllBufs(action)
+    local source_bufs = (action == "closeTab")
+        and vim.api.nvim_tabpage_list_bufs(0)  -- solo buffer visibili nel tab corrente
+        or vim.api.nvim_list_bufs()            -- tutti i buffer globali
+
     local bufs = vim.tbl_filter(function(b)
+        if not api.nvim_buf_is_valid(b) then
+            return false
+        end
         if not fn.buflisted(b) then
             return false
         end
-        -- salta buffer speciali non-file
         local bt = vim.bo[b].buftype
         if bt ~= "" then
             return false
@@ -214,7 +222,7 @@ function utils.closeAllBufs(action)
             return false
         end
         return true
-    end, vim.api.nvim_list_bufs())
+    end, source_bufs)
 
     for _, buf in ipairs(bufs) do
         utils.close_buffer(buf)
