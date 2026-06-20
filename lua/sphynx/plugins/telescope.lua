@@ -13,7 +13,7 @@ Notes:
  - Dipendenze: plenary, nvim-web-devicons, trouble.nvim e telescope-fzf-native (build "make")
    come sorter nativo per performance; se manca, fallback con notify di avviso.
  - Tuning anteprima: filesize_limit = 10 MB e timeout = 1500 ms per evitare blocchi su file
-   grandi/lenti; file_ignore_patterns esclude immagini, node_modules e "doc".
+   grandi/lenti; file_ignore_patterns esclude immagini, node_modules e doc/ sotto nvim-data.
  - Mappings <C-j>/<C-k> per muoversi, <C-v>/<C-s>/<C-t> per split/tab, <C-n> apre in Trouble,
    <C-q> manda alla quickfix, <Tab> multi-selezione.
  - no_preview(): tema dropdown con entry_maker stile LeaderF per il picker buffers (bb).
@@ -274,8 +274,7 @@ M.configs = {
                     "%.webp",
                     "node_modules",
                     "node_modules_custom",
-                    "[/\\]doc[/\\]", -- cartella doc/ in qualsiasi sottocartella (help dei plugin)
-                    "^doc[/\\]", -- cartella doc/ alla radice del progetto
+                    "[/\\]nvim%-data[/\\].-[/\\]doc[/\\]", -- doc/ sotto nvim-data (help dei plugin)
                 },
                 scroll_strategy = "cycle",
                 selection_strategy = "reset",
