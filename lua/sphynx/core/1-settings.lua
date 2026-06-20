@@ -551,7 +551,7 @@ end
 --}}} Other Gui
 
 --{{{ Linux
-if vim.fn.has("unix") == 1 then
+if vim.fn.has("unix") == 1 or vim.fn.has("win32") == 1 then
     require("sphynx.utils.dragopen").setup()
 end
 --}}} Linux
