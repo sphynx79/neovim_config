@@ -203,7 +203,7 @@ end
 --         nil        → chiude tutti i buffer globali, nessuna azione finale
 function utils.closeAllBufs(action)
     local source_bufs = (action == "closeTab")
-        and vim.api.nvim_tabpage_list_bufs(0)  -- solo buffer visibili nel tab corrente
+        and vim.fn.tabpagebuflist(0)  -- solo buffer visibili nel tab corrente
         or vim.api.nvim_list_bufs()            -- tutti i buffer globali
 
     local bufs = vim.tbl_filter(function(b)
