@@ -288,9 +288,26 @@ M.configs = {
 
         -- Chiudi buffer senza chiudere finestra
         vim.api.nvim_create_user_command("Bd", function()
-            local current = vim.fn.bufnr("%")
-            vim.cmd("bnext")
-            vim.cmd("bdelete " .. current)
+            local current = vim.api.nvim_get_current_buf()
+
+            -- Trova un buffer valido a cui passare prima di cancellare
+            local next_buf = nil
+            for _, b in ipairs(vim.api.nvim_list_bufs()) do
+                if b ~= current
+                    and vim.api.nvim_buf_is_valid(b)
+                    and vim.bo[b].buftype == ""
+                    and vim.fn.buflisted(b)
+                    and not vim.api.nvim_buf_get_name(b):match("^NvimTree_%d+$") then
+                    next_buf = b
+                    break
+                end
+            end
+
+            if next_buf then
+                pcall(vim.api.nvim_set_current_buf, next_buf)
+            end
+
+            pcall(vim.api.nvim_buf_delete, current, { force = false })
         end, {})
     end,
 }
