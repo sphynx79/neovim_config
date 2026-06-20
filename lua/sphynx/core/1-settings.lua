@@ -408,37 +408,14 @@ vim.g.loaded_python_provider = 0
 --{{{ Python3
 -- vim.g.loaded_python3_provider = 0
 if not vim.g.loaded_python3_provider then
-    local python_executable = "python"
-    local which_command
-    local python3_host_prog
-    local msg = "Devi installare python3!"
+    -- exepath() restituisce il path raw dell'eseguibile (no shell spawn, no fnameescape)
+    local python3_host_prog = vim.fn.exepath("python3") ~= "" and vim.fn.exepath("python3") or vim.fn.exepath("python")
 
-    if is_windows() then
-        which_command = "where"
+    if python3_host_prog ~= "" and vim.fn.filereadable(python3_host_prog) == 1 then
+        vim.g.python3_host_prog = python3_host_prog
+        vim.opt.pyxversion = 3
     else
-        which_command = "which"
-    end
-
-    -- Esegui il comando which/where per trovare il percorso completo di Python
-    local handle = io.popen(which_command .. " " .. python_executable)
-
-    if handle then
-        local result = handle:read("*l")
-        handle:close()
-
-        -- Verifica che il risultato sia valido
-        if result and result ~= "" and vim.fn.filereadable(vim.fn.fnameescape(result)) == 1 then
-            python3_host_prog = result
-        end
-
-        if python3_host_prog then
-            vim.g.python3_host_prog = vim.fn.fnameescape(python3_host_prog)
-            vim.opt.pyxversion = 3
-        else
-            vim.notify(msg, vim.log.levels.WARN, { title = "Python3 Provider" })
-        end
-    else
-        vim.notify(msg, vim.log.levels.WARN, { title = "Python3 Provider" })
+        vim.notify("Python3 non trovato. Installa python3 e pynvim.", vim.log.levels.WARN, { title = "Python3 Provider" })
     end
 end
 --}}} Python3
