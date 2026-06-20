@@ -143,6 +143,11 @@ M.configs = {
                 end,
                 -- { "lazydev", "lsp", "path", "buffer" },
                 providers = {
+                    cmdline = {
+                        enabled = function()
+                            return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+                        end,
+                    },
                     lazydev = {
                         name = "LazyDev",
                         module = "lazydev.integrations.blink",
