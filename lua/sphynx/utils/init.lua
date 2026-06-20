@@ -180,7 +180,19 @@ end
 -- closes tab + all of its buffers
 function utils.closeAllBufs(action)
     local bufs = vim.tbl_filter(function(b)
-        return 1 == fn.buflisted(b)
+        if not fn.buflisted(b) then
+            return false
+        end
+        -- salta buffer speciali non-file
+        local bt = vim.bo[b].buftype
+        if bt ~= "" then
+            return false
+        end
+        local name = api.nvim_buf_get_name(b)
+        if name:match("^NvimTree_%d+$") then
+            return false
+        end
+        return true
     end, vim.api.nvim_list_bufs())
 
     for _, buf in ipairs(bufs) do
@@ -188,8 +200,6 @@ function utils.closeAllBufs(action)
     end
 
     vim.cmd(action == "closeTab" and "tabclose" or "enew")
-    --vim.cmd("enew")
-    --vim.cmd("NvimTreeOpen")
 end
 
 function utils.log(msg, hl, name)

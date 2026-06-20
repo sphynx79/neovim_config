@@ -261,9 +261,29 @@ M.configs = {
         -- Settings
         vim.opt.sessionoptions:append({ "tabpages", "globals" })
 
-        -- Chiudi tutti i buffer tranne il corrente
+        -- Chiudi tutti i buffer tranne il corrente (solo file, non NvimTree)
         vim.api.nvim_create_user_command("BufOnly", function()
-            vim.cmd("%bdelete|edit#|bdelete#")
+            local current = vim.api.nvim_get_current_buf()
+            local to_close = vim.tbl_filter(function(b)
+                if b == current then
+                    return false
+                end
+                if not vim.fn.buflisted(b) then
+                    return false
+                end
+                local bt = vim.bo[b].buftype
+                if bt ~= "" then
+                    return false
+                end
+                local name = vim.api.nvim_buf_get_name(b)
+                if name:match("^NvimTree_%d+$") then
+                    return false
+                end
+                return true
+            end, vim.api.nvim_list_bufs())
+            for _, buf in ipairs(to_close) do
+                pcall(vim.api.nvim_buf_delete, buf, { force = false })
+            end
         end, {})
 
         -- Chiudi buffer senza chiudere finestra
