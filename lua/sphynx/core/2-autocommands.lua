@@ -21,7 +21,7 @@ utils.define_augroups({
             },
         },
         {
-            event = { "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" },
+            event = { "BufEnter", "ShellCmdPost", "FocusGained" },
             opts = {
                 pattern = "*",
                 callback = utils.check_time,

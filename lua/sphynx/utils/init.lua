@@ -101,9 +101,21 @@ function utils.set_shell_title()
 end
 
 function utils.check_time()
-    if api.nvim_get_mode().mode == "n" and fn.getcmdwintype() == "" then
-        vim.cmd([[checktime]])
+    if api.nvim_get_mode().mode ~= "n" or fn.getcmdwintype() ~= "" then
+        return
     end
+
+    -- Solo buffer che rappresentano un file reale su disco
+    if vim.bo.buftype ~= "" then
+        return
+    end
+
+    local bufname = vim.fn.expand("%")
+    if bufname == "" or bufname:match("^NvimTree_%d+$") then
+        return
+    end
+
+    pcall(vim.cmd, "checktime")
 end
 
 function utils.close_buffer(bufnr)
