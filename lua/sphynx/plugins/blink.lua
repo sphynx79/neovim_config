@@ -143,6 +143,8 @@ M.configs = {
                 end,
                 -- { "lazydev", "lsp", "path", "buffer" },
                 providers = {
+                    -- Disabilita la completion cmdline per comandi shell (:!, :%!, range!)
+                    -- per evitare lag/hang su Windows Git Bash, come da doc blink-cmp.txt.
                     cmdline = {
                         enabled = function()
                             return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
@@ -335,7 +337,6 @@ M.configs = {
             },
 
             cmdline = {
-                -- ignores cmdline completions when executing shell commands
                 enabled = true,
                 completion = {
                     menu = { auto_show = false },
