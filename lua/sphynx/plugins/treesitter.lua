@@ -89,13 +89,13 @@ local function get_missing_parsers()
     return missing
 end
 
-local function install_missing_parsers()
+local function install_missing_parsers(ts_module)
     local missing = get_missing_parsers()
     if #missing == 0 then
         return
     end
 
-    require("nvim-treesitter").install(missing)
+    pcall(ts_module.install, ts_module, missing)
 end
 
 local function register_filetype_mappings()
@@ -146,12 +146,18 @@ M.setup = {}
 
 M.configs = {
     ["nvim-treesitter"] = function()
-        require("nvim-treesitter").setup({
+        local ok, ts = pcall(require, "nvim-treesitter")
+        if not ok or not ts then
+            vim.notify("nvim-treesitter non disponibile. Esegui :Lazy sync.", vim.log.levels.WARN, { title = "Treesitter" })
+            return
+        end
+
+        ts.setup({
             install_dir = vim.fn.stdpath("data") .. "/site",
         })
 
         register_filetype_mappings()
-        install_missing_parsers()
+        install_missing_parsers(ts)
         setup_autocmds()
 
         -- Avvia treesitter sui buffer gia' aperti (es. file passati da riga di comando):
