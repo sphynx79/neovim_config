@@ -22,20 +22,16 @@ Notes:
  - Highlighting **asincrono** e incrementale (solo righe visibili/modificate): pensato per
    non introdurre lag, tra i più rapidi nel benchmark della doc upstream.
  - Comando `:ColorPickOklch` equivalente a `pick_under_cursor()`.
- - Caricamento: `event = "VeryLazy"` (dopo l'avvio della UI).
+ - Caricamento: on-demand (nessun evento). lazy = true (default globale) e' sufficiente:
+   al primo require("oklch-color-picker") lazy intercetta la chiamata e carica il plugin.
+   Le keymap sono definite in init (M.setup) e chiamano require(...) → il plugin parte
+   solo quando premi <leader>ce/ct/cd/cp o esegui :ColorPickOklch.
 
 Keymaps (Prefisso principale: <leader>c " Colors"):
  - <leader>ce → Abilita l'highlighting dei colori (highlight.enable)
  - <leader>ct → Toggle dell'highlighting (highlight.toggle)
  - <leader>cd → Disabilita l'highlighting (highlight.disable)
  - <leader>cp → Apre il color picker sul colore sotto il cursore (pick_under_cursor)
-
-TODO:
- - [ ] Valutare un lazy-loading on-demand (`keys`/`cmd`) al posto di `event = "VeryLazy"`:
-       con `highlight.enabled = false` il plugin (e il download del binario Rust) si
-       inizializza all'avvio anche senza usarlo. Attenzione: le keymap sono definite via
-       which-key in `M.setup`/`init`, quindi il passaggio a `keys` va verificato per non
-       rompere i mapping (le keymap chiamano `require("oklch-color-picker")...`).
 ===============================================================================================
 --]]
 
@@ -44,7 +40,8 @@ local M = {}
 M.plugins = {
     ["color"] = {
         "eero-lehtinen/oklch-color-picker.nvim",
-        event = "VeryLazy",
+        -- Nessun evento: il plugin si carica on-demand quando una keymap
+        -- chiama require("oklch-color-picker") (lazy = true e' il default).
     },
 }
 
