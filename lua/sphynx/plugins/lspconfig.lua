@@ -97,7 +97,6 @@ M.configs = {
             capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
             capabilities.textDocument.completion.completionItem.snippetSupport = true
             -- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-            capabilities.textDocument.completion.completionItem.snippetSupport = true
             capabilities.textDocument.signatureHelp.signatureInformation = vim.tbl_deep_extend(
                 "force",
                 capabilities.textDocument.signatureHelp.signatureInformation or {},
@@ -465,7 +464,7 @@ M.keybindings = function()
 
     wk.add({
         { prefix, group = "󰁨 LSP" },
-        { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go definiton" },
+        { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go definition" },
         { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "Hover doc" },
         { prefix .. "e", "<Cmd>lua vim.diagnostic.open_float()<CR>", desc = "Apri diagnostica flottante" },
         { prefix .. "f", "<Cmd>lua vim.lsp.buf.format({ async = true })<CR>", desc = "Format file" },
