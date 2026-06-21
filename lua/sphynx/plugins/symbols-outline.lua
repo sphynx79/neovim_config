@@ -83,13 +83,7 @@ M.keybindings = function()
     require("which-key").register({
         p = {
             name = "󰏗 Plugin",
-            s = {
-                function()
-                    require("lazy").load({ plugins = { "symbols-outline.nvim" } })
-                    vim.cmd([[SymbolsOutline]])
-                end,
-                "Symbols_outline",
-            },
+            s = { [[<Cmd>SymbolsOutline<CR>]], "Symbols_outline" },
         },
     }, mapping.opt_plugin)
 end
