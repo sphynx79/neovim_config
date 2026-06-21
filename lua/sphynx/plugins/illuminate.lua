@@ -38,14 +38,10 @@ M.plugins = {
     ["illuminate"] = {
         "RRethy/vim-illuminate",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
     },
 }
 
-M.setup = {
-    ["illuminate"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("vim-illuminate")
-    end,
-}
 
 M.configs = {
     ["illuminate"] = function()

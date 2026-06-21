@@ -37,14 +37,10 @@ M.plugins = {
     ["scrollview"] = {
         "dstein64/nvim-scrollview",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
     },
 }
 
-M.setup = {
-    ["scrollview"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("nvim-scrollview")
-    end,
-}
 
 M.configs = {
     ["scrollview"] = function()

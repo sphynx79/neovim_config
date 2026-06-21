@@ -49,18 +49,14 @@ M.plugins = {
     ["heirline"] = {
         "rebelot/heirline.nvim",
         lazy = true,
-        -- event = "UiEnter",
+        event = "UIEnter",
+        dependencies = { "kyazdani42/nvim-web-devicons" },
         cond = function()
             return not vim.g.gonvim_running
         end,
     },
 }
 
-M.setup = {
-    ["heirline"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("heirline.nvim")
-    end,
-}
 
 M.configs = {
     ["heirline"] = function()

@@ -4,14 +4,10 @@ M.plugins = {
     ["satellite"] = {
         "lewis6991/satellite.nvim",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
     },
 }
 
-M.setup = {
-    ["satellite"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("satellite.nvim")
-    end,
-}
 
 M.configs = {
     ["satellite"] = function()

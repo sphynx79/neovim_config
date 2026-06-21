@@ -9,7 +9,7 @@ Status: Active
 Author: lewis6991
 Repository: https://github.com/lewis6991/gitsigns.nvim
 Notes:
- - Caricamento lazy all'apertura di un file (on_file_open), come gli altri plugin
+ - Caricamento lazy tramite eventi nativi lazy.nvim all'apertura di un file
  - Configurazione MINIMALE: solo signs nel gutter + navigazione/preview/blame
  - Un "hunk" e' un blocco contiguo di righe modificate rispetto all'ultimo commit
  - add e change sono distinti sia dal glifo che dal colore (verde / giallo); delete in rosso
@@ -34,12 +34,13 @@ M.plugins = {
     ["gitsigns"] = {
         "lewis6991/gitsigns.nvim",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
+        cmd = "Gitsigns",
     },
 }
 
 M.setup = {
     ["gitsigns"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("gitsigns.nvim")
         M.keybindings()
     end,
 }
