@@ -43,6 +43,7 @@ M.plugins = {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         lazy = true,
+        dependencies = { "HiPhish/rainbow-delimiters.nvim" },
         -- event = "BufRead",
         -- after = "nvim-treesitter"
     },
