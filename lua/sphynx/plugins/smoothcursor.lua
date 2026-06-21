@@ -48,7 +48,7 @@ Comandi:
  - :SmoothCursorDeleteSigns → Rimuove tutti i segni del cursore
 
 Strategia di Caricamento:
- - Caricato in modo lazy usando on_file_open per ottimizzare il tempo di avvio
+ - Caricato in modo lazy tramite eventi nativi lazy.nvim su apertura file
 
 TODO:
  - [ ] Testare il tipo "matrix" per un effetto visivo alternativo
@@ -63,14 +63,10 @@ M.plugins = {
     ["smoothcursor"] = {
         "gen740/SmoothCursor.nvim",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
     },
 }
 
-M.setup = {
-    ["smoothcursor"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("SmoothCursor.nvim")
-    end,
-}
 
 M.configs = {
     ["smoothcursor"] = function()

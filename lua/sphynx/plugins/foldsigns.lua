@@ -10,7 +10,7 @@ Author: lewis6991
 Repository: https://github.com/lewis6991/foldsigns.nvim
 
 Notes:
- - Caricamento lazy tramite evento "file open"
+ - Caricamento lazy tramite eventi nativi lazy.nvim su apertura file
  - Integrazione automatica con il sistema di folding di Neovim
  - Utile per mantenere pulita l'interfaccia quando si usano molti segni
 
@@ -28,15 +28,11 @@ M.plugins = {
     ["foldsigns"] = {
         "lewis6991/foldsigns.nvim",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
         name = "foldsigns",
     },
 }
 
-M.setup = {
-    ["foldsigns"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("foldsigns")
-    end,
-}
 
 M.configs = {
     ["foldsigns"] = function()

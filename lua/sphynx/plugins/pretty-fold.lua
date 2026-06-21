@@ -11,7 +11,7 @@ Repository: https://github.com/anuvyklack/pretty-fold.nvim
 
 Notes:
  - Plugin pinnato a versione specifica per stabilità (archived)
- - Caricamento lazy: attivato solo all'apertura del file via on_file_open
+ - Caricamento lazy tramite eventi nativi lazy.nvim su apertura file
  - Ignora i file neorg
  - Configurazione minimalista:
    * A sinistra: contenuto della prima linea
@@ -55,14 +55,10 @@ M.plugins = {
         "anuvyklack/pretty-fold.nvim",
         pin = true,
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
     },
 }
 
-M.setup = {
-    ["pretty_fold"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("pretty-fold.nvim")
-    end,
-}
 
 M.configs = {
     ["pretty_fold"] = function()

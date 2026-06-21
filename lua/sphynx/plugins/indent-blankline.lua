@@ -43,17 +43,12 @@ M.plugins = {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         lazy = true,
+        event = { "BufReadPost", "BufNewFile" },
         dependencies = { "HiPhish/rainbow-delimiters.nvim" },
-        -- event = "BufRead",
         -- after = "nvim-treesitter"
     },
 }
 
-M.setup = {
-    ["indent_blankline"] = function()
-        require("sphynx.utils.lazy_load").on_file_open("indent-blankline.nvim")
-    end,
-}
 
 M.configs = {
     ["indent_blankline"] = function()
