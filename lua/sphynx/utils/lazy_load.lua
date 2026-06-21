@@ -24,7 +24,6 @@ M.lsp_cmds = {
     "LspInstall",
     "LspUnInstall",
     "LspUnInstallAll",
-    "LspInstall",
     "LspInstallInfo",
     "LspInstallLog",
     "LspLog",

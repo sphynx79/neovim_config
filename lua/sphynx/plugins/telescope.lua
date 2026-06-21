@@ -417,7 +417,7 @@ M.keybindings = function()
         {
             "<leader>" .. prefix .. "q",
             [[<Cmd>lua require('telescope.builtin').treesitter()<CR>]],
-            desc = "find treesiter node",
+            desc = "find treesitter node",
         },
         { "<leader>" .. prefix .. "t", [[<Cmd>lua require('telescope.builtin').tags()<CR>]], desc = "find tags" },
         { "<leader>" .. prefix .. "S", [[<Cmd>lua require('telescope.builtin').tagstack()<CR>]], desc = "tags stack" },
