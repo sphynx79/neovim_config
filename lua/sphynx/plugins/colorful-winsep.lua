@@ -53,6 +53,29 @@ M.configs = {
                 position = false, -- false | "center" | "start" | "end" | "both"
             },
         })
+
+        -- Fix crash con maximize.nvim: il restore di sessione (mksession/source)
+        -- distrugge i buffer scratch dei separatori e silenzia gli eventi, quindi
+        -- il guard SessionLoadPost del plugin non scatta. vertical_init/horizontal_init
+        -- sono gli unici metodi che toccano il buffer senza controllarne la validita':
+        -- li avvolgo per ricrearlo al volo se morto.
+        local Separator = require("colorful-winsep.separator")
+        local function ensure_buf(sep)
+            if not vim.api.nvim_buf_is_valid(sep.buffer) then
+                sep.buffer = vim.api.nvim_create_buf(false, true)
+                vim.api.nvim_set_option_value("buftype", "nofile", { buf = sep.buffer })
+            end
+        end
+        local orig_vertical = Separator.vertical_init
+        function Separator:vertical_init(height)
+            ensure_buf(self)
+            return orig_vertical(self, height)
+        end
+        local orig_horizontal = Separator.horizontal_init
+        function Separator:horizontal_init(width)
+            ensure_buf(self)
+            return orig_horizontal(self, width)
+        end
     end,
 }
 
