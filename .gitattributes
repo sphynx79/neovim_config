@@ -1,0 +1,17 @@
+# Normalizzazione dei fine-riga (EOL) per uso cross-platform Windows/Linux.
+# Vive nel repo: vale su qualunque macchina, indipendentemente dalle config
+# locali di git (core.autocrlf / core.eol). Niente piu' churn nei diff.
+
+# Tutti i file di testo: git li rileva da solo (text=auto), normalizza a LF
+# nel repo E fa checkout con LF nel working tree su tutte le piattaforme.
+* text=auto eol=lf
+
+# Binari espliciti: nessuna conversione di EOL.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.ttf  binary
+*.otf  binary
+*.spl  binary
