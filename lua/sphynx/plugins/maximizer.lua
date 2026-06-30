@@ -46,7 +46,6 @@ M.configs = {
 
 M.keybindings = function()
     require("which-key").add({
-        { "w", group = "󰆏 Window" },
         { "wM", [[<CMD>lua require('maximize').toggle()<CR>]], desc = "Maximize [maximize.nvim]" },
     })
 end

@@ -398,7 +398,6 @@ M.keybindings = function()
     }, mapping.opt_mappping)
 
     wk.add({
-        { "t", group = " Tags" },
         { "tS", [[<CMD>Telescope tagstack<CR>]], desc = "Tags stack [Telescope]" },
     })
 

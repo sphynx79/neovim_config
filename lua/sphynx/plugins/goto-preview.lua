@@ -84,7 +84,6 @@ M.configs = {
 
 M.keybindings = function()
     require("which-key").add({
-        { "t", group = " Tags" },
         {
             "td",
             [[<Cmd>lua require('goto-preview').goto_preview_definition()<CR>]],

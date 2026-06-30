@@ -52,7 +52,6 @@ M.keybindings = function()
     local prefix = "<leader>d"
 
     wk.add({
-        { prefix, group = "󰠭 Debug" },
         { prefix .. "e", '<Cmd>lua require"telescope".extensions.dap.commands{}<CR>', desc = "Commands" },
         { prefix .. "f", '<Cmd>lua require"telescope".extensions.dap.configurations{}<CR>', desc = "Configurations" },
         {

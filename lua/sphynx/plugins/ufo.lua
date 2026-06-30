@@ -74,7 +74,6 @@ M.keybindings = function()
     local wk = require("which-key")
 
     wk.add({
-        { "t", group = "󰊈 Folding" },
         { "zp", [[<Cmd>lua require('ufo').peekFoldedLinesUnderCursor()<CR>]], desc = "Peek fold [Ufo]" },
         { "zz", group = "+ Fold-Unfold all" },
         { "zz<Down>", [[<Cmd>lua require('ufo').openAllFolds()<CR>]], desc = "Open all folds [Ufo]" },
