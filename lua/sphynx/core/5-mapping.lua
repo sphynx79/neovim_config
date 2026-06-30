@@ -429,4 +429,13 @@ require("which-key").add({
 })
 --}}} Neovim Configuration
 
+--{{{ Git
+-- Gruppo Git condiviso da gitsigns (hunk) e diffview (viste diff): dichiarato qui
+-- una sola volta per evitare il duplicato segnalato dal checkhealth di which-key.
+-- Le keymap effettive restano nei rispettivi file di plugin.
+require("which-key").add({
+    { "<leader>g", group = " Git" },
+})
+--}}} Git
+
 return mapping
