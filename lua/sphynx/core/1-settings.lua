@@ -290,6 +290,10 @@ vim.opt.redrawtime = 1500
 --}}} Increase Perfomance
 
 --{{{ Files, backups and undo, Save
+-- Fine-riga: preferisci LF (unix) anche su Windows, per coerenza cross-platform
+-- e per non reintrodurre CRLF nei file nuovi. I file esistenti mantengono il
+-- formato gia' rilevato; i file nuovi nascono con LF.
+vim.opt.fileformats = { "unix", "dos" }
 -- Turn backup off
 vim.opt.writebackup = false
 vim.opt.swapfile = false
