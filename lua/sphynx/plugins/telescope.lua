@@ -389,7 +389,6 @@ M.keybindings = function()
     -- }, mapping.opt_mappping)
 
     wk.add({
-        { "b", group = " Buffers" },
         {
             "bb",
             [[<Cmd>lua require('telescope.builtin').buffers(require('sphynx.plugins.telescope').no_preview())<CR>]],
