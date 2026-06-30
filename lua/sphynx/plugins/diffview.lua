@@ -68,8 +68,7 @@ M.keybindings = function()
     local prefix = "<leader>g"
 
     wk.add({
-        -- Gruppo Git condiviso con gitsigns
-        { prefix, group = " Git" },
+        -- Gruppo Git (" Git") dichiarato in core/5-mapping.lua, condiviso con gitsigns
         { prefix .. "d", [[<Cmd>DiffviewOpen<CR>]], desc = "diffview: modifiche correnti" },
         { prefix .. "f", [[<Cmd>DiffviewFileHistory %<CR>]], desc = "diffview: storia file" },
         { prefix .. "F", [[<Cmd>DiffviewFileHistory<CR>]], desc = "diffview: storia repo" },

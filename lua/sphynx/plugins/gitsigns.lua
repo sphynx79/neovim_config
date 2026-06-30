@@ -71,8 +71,7 @@ M.keybindings = function()
     local prefix = "<leader>g"
 
     wk.add({
-        -- Gruppo Git condiviso con diffview
-        { prefix, group = " Git" },
+        -- Gruppo Git (" Git") dichiarato in core/5-mapping.lua, condiviso con diffview
         { prefix .. "<Down>", [[<Cmd>Gitsigns next_hunk<CR>]], desc = "hunk successivo" },
         { prefix .. "<Up>", [[<Cmd>Gitsigns prev_hunk<CR>]], desc = "hunk precedente" },
         { prefix .. "p", [[<Cmd>Gitsigns preview_hunk<CR>]], desc = "preview hunk" },
