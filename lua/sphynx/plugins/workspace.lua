@@ -73,11 +73,9 @@ M.keybindings = function()
     -- sono gestiti da tabby.lua per evitare conflitti sul prefisso <leader>w.
     -- Qui restano solo le funzioni proprie di workspace.vim (WS / WSbmv / back-forth).
     wk.add({
-        { "<leader>" .. prefix, group = "  Workspace" },
         { "<leader>" .. prefix .. "s", [[<Cmd>call WS_Backforth()<CR>]], desc = "Switch from two tab [Workspace]" },
         { "<leader>" .. prefix .. "p", [[<Cmd>echo WS_Line()<CR>]], desc = "Print the tab status [Workspace]" },
         { "<leader>" .. prefix .. "#", desc = "New tab or move exist tab .N [Workspace]" },
-        { "<leader>" .. prefix .. "m", group = "󰆾 Move" },
         { "<leader>" .. prefix .. "m" .. "#", desc = "Move buffer to tab .N [Workspace]" },
     }, mapping.opt_mappping)
 

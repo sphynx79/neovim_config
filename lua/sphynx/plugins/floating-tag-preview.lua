@@ -75,7 +75,6 @@ M.configs = {
 
 M.keybindings = function()
     require("which-key").add({
-        { "t", group = " Tags" },
         { "tp", [[<Esc>:exe "Ptjump " . expand("<cword>")<CR>]], desc = "Tag Preview [float-tag-preview]" },
     })
 end
