@@ -51,7 +51,7 @@ M.configs = {
                 "treesitter", -- usa TreeSitter per l'analisi sintattica
                 "regex", -- usa espressioni regolari come fallback
             },
-            delay = 2000, -- ritardo in millisecondi prima dell'evidenziazione
+            delay = 3000, -- ritardo in millisecondi prima dell'evidenziazione
             filetypes_denylist = sphynx.config.excluded_filetypes, -- lista di tipi di file da escludere dall'evidenziazione
             filetypes_allowlist = {}, -- lista di tipi di file da includere nell'evidenziazione (vuota = tutti)
             modes_denylist = {}, -- modalità di Vim da escludere dall'evidenziazione
