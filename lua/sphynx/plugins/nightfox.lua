@@ -99,9 +99,9 @@ M.configs = {
                 BlinkCmpSignatureHelp = { fg = palette.grey3, bg = palette.bg1 },
                 BlinkCmpSignatureHelpBorder = { fg = palette.cyan, bg = palette.bg1 },
                 -- Illuminate: evidenzia le occorrenze della parola sotto il cursore in azzurrino
-                IlluminatedWordText = { fg = palette.cyan, style = "underline", sp = palette.cyan },
-                IlluminatedWordRead = { fg = palette.cyan, style = "underline", sp = palette.cyan },
-                IlluminatedWordWrite = { fg = palette.cyan, style = "underline", sp = palette.cyan },
+                IlluminatedWordText = { fg = palette.grey4, bg = palette.grey10 },
+                IlluminatedWordRead = { fg = palette.grey4, bg = palette.grey10 },
+                IlluminatedWordWrite = { fg = palette.grey4, bg = palette.grey10 },
             },
             nordfox = {
                 -- Normal                      = { fg = palette.fg, bg = palette.bg1 },
