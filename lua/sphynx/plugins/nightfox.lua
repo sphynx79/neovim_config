@@ -18,8 +18,13 @@ M.configs = {
         end
 
         local options = {
-            -- Compiled file's destination location
-            compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+            -- Percorso della cache compilata del tema. Usiamo stdpath("data")
+            -- (nvim-data) e NON stdpath("cache"): su Windows la cache deriva da
+            -- TEMP/TMP e cambia in base a come si avvia nvim (cmd ->
+            -- AppData\Local\Temp\nvim, msys -> D:\msys64\tmp\nvim). Due percorsi
+            -- diversi = due cache disallineate, e le modifiche al tema sembrano
+            -- non applicarsi. stdpath("data") e' stabile tra i due ambienti.
+            compile_path = vim.fn.stdpath("data") .. "/nightfox",
             compile_file_suffix = "_compiled", -- Compiled file suffix
             transparent = false, -- Disable setting background
             terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
