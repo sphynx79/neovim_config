@@ -93,6 +93,10 @@ M.configs = {
                 BlinkCmpDocBorder = { fg = palette.cyan, bg = palette.bg1 },
                 BlinkCmpSignatureHelp = { fg = palette.grey3, bg = palette.bg1 },
                 BlinkCmpSignatureHelpBorder = { fg = palette.cyan, bg = palette.bg1 },
+                -- Illuminate: evidenzia le occorrenze della parola sotto il cursore in azzurrino
+                IlluminatedWordText = { fg = palette.cyan, style = "underline", sp = palette.cyan },
+                IlluminatedWordRead = { fg = palette.cyan, style = "underline", sp = palette.cyan },
+                IlluminatedWordWrite = { fg = palette.cyan, style = "underline", sp = palette.cyan },
             },
             nordfox = {
                 -- Normal                      = { fg = palette.fg, bg = palette.bg1 },
@@ -133,11 +137,6 @@ M.configs = {
 
                 -- LspFloatWinNormal           = { fg = palette.fg, bg = palette.grey14 },
                 -- LspFloatWinBorder           = { fg = palette.grey14 },
-                -- Illuminate
-                -- IlluminatedWordText         = { bg = palette.grey11, style = "underline", sp=palette.grey5 },
-                -- IlluminatedWordRead         = { bg = palette.grey11, style = "underline", sp=palette.grey5 },
-                -- IlluminatedWordWrite        = { bg = palette.grey11, style = "underline", sp=palette.grey5 },
-                -- IlluminatedCurWord          = { bg = palette.grey16, style = "underline" },
                 -- SmoothCursor
                 SmoothCursor = { fg = "#719CD6" },
                 SmoothCursorBlue1 = { fg = "#5E82B3" },
