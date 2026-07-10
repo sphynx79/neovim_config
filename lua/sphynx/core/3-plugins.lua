@@ -95,6 +95,10 @@ local modules = {
     "diffview",                 -- OK - Vista diff a schermo intero: modifiche, commit/branch e file history
     --}}} GIT
 
+    --{{{ AI
+    "claudecode",               -- OK - Integrazione IDE con Claude Code CLI (WebSocket, invio selezione al terminale)
+    --}}} AI
+
     --{{{ EDITING
     "comment",                  -- OK - Commenta e decommenta righe singole e selezioni visuali
     "treehopper",               -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
