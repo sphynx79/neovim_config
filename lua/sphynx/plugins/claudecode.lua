@@ -16,7 +16,7 @@ Notes:
    terminale esterno; i comandi :ClaudeCode/Open/Close non aprono nulla, ma server e tool
    (invio selezione, diff, diagnostics) restano attivi
  - Flusso d'uso: (1) apri Neovim sul progetto  (2) nel terminale dove Claude e' gia' avviato
-   digiti /ide e selezioni "Neovim"  (3) selezioni il codice in Neovim e premi <leader>ais
+   digiti /ide e selezioni "Neovim"  (3) selezioni il codice in Neovim e premi <leader>as
    per mandarlo come @-mention, poi scrivi la domanda nel terminale
  - Dipendenza folke/snacks.nvim NON inclusa: serve solo al provider "snacks" (terminale dentro
    Neovim); con provider "none" non e' richiesta. Se :checkhealth claudecode la reclama,
@@ -28,14 +28,18 @@ Notes:
  - :checkhealth claudecode per verificare CLI, server, lockfile e stato della connessione
 Keymaps:
  - <leader>as (visuale) → Manda la selezione a Claude (@-mention)
+ - <leader>af (normale) → Aggiungi il file di nvim-tree al contesto (ClaudeCodeTreeAdd)
  - <leader>ac (normale) → Stato della connessione IDE
  - <leader>ay (normale) → Accetta la diff proposta (ClaudeCodeDiffAccept)
  - <leader>an (normale) → Rifiuta la diff proposta (ClaudeCodeDiffDeny)
+ - <leader>am (normale) → Seleziona il modello di Claude (ClaudeCodeSelectModel)
  Comandi:
  - :ClaudeCodeSend           → Manda la selezione visuale a Claude
  - :ClaudeCodeStatus         → Stato di server e connessione
  - :ClaudeCodeStart / Stop   → Avvia/ferma il server WebSocket
+ - :ClaudeCodeSelectModel    → Seleziona il modello (apre il terminale, no-op con provider none)
  - :ClaudeCodeAdd <file>     → Aggiunge un file al contesto di Claude
+ - :ClaudeCodeTreeAdd        → Aggiunge al contesto il file selezionato in nvim-tree
  - :ClaudeCodeDiffAccept / :ClaudeCodeDiffDeny → Accetta/rifiuta una diff proposta
  - :ClaudeCodeCloseAllDiffs  → Chiude tutte le diff pendenti
 TODO:
@@ -99,6 +103,13 @@ M.keybindings = function()
         },
         {
             mode = { "n" },
+            lhs = "<leader>af",
+            rhs = [[<Cmd>ClaudeCodeTreeAdd<CR>]],
+            options = { silent = true },
+            description = "Aggiungi il file da nvim-tree al contesto",
+        },
+        {
+            mode = { "n" },
             lhs = "<leader>ac",
             rhs = [[<Cmd>ClaudeCodeStatus<CR>]],
             options = { silent = true },
@@ -117,6 +128,13 @@ M.keybindings = function()
             rhs = [[<Cmd>ClaudeCodeDiffDeny<CR>]],
             options = { silent = true },
             description = "Rifiuta la diff proposta",
+        },
+        {
+            mode = { "n" },
+            lhs = "<leader>am",
+            rhs = [[<Cmd>ClaudeCodeSelectModel<CR>]],
+            options = { silent = true },
+            description = "Seleziona il modello di Claude",
         },
     })
 end
