@@ -30,7 +30,11 @@ M.plugins = {
 
 M.configs = {
     ["dap_virtual_text"] = function()
-        require("nvim-dap-virtual-text").setup({})
+        require("nvim-dap-virtual-text").setup({
+             show_stop_reason = false,
+             virt_text_win_col = 80,
+             highlight_changed_variables = true
+        })
     end,
 }
 
