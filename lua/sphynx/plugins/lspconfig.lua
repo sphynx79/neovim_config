@@ -15,10 +15,13 @@ Notes:
  - Supporto per Code Lens con aggiornamento automatico
  - Mappature personalizzate con integrazione which-key
 Server LSP attivi:
- - solargraph: per Ruby, configurato con supporto Bundler
+ - solargraph: per Ruby, avvio ibrido: bundle exec se solargraph è nel Gemfile.lock
+   del progetto, altrimenti installazione globale (mise)
  - vimls: per VimL, con indicizzazione e completamento avanzati
  - nimls: per Nim, con configurazione base
  - html: per HTML e ERB, con server da VS Code
+ - jsonls: per JSON/JSONC, validazione, hover e formatter (server da VS Code)
+ - cssls: per CSS/SCSS/LESS, completamento e diagnostica (server da VS Code)
  - ts_ls: per TypeScript, con formattazione integrata disabilitata
  - lua_ls: per Lua, con configurazione specifica per Neovim
  - ahk2: per AutoHotkey v2, con percorso interprete personalizzato
@@ -198,12 +201,44 @@ M.configs = {
             return nil
         end
 
-        local solargraph_ls_cmd = function()
-            if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-                return { "bundle.bat", "exec", "solargraph", "stdio" }
+        -- Risale le directory da dir fino al Gemfile.lock più vicino: se contiene
+        -- solargraph ritorna la sua cartella (root del bundle), altrimenti nil.
+        -- La risalita gestisce anche i file di gem vendorizzate che spediscono un
+        -- proprio Gemfile senza lock (es. selenium-webdriver): il root marker cade
+        -- sulla gem, ma il bundle giusto resta quello del progetto sopra.
+        local solargraph_bundle_root = function(dir)
+            local lockfile = vim.fs.find("Gemfile.lock", { upward = true, path = dir or vim.fn.getcwd() })[1]
+            if not lockfile then
+                return nil
             end
-
+            local f = io.open(lockfile, "r")
+            if not f then
+                return nil
+            end
+            local content = f:read("*a")
+            f:close()
+            if content:find("solargraph", 1, true) then
+                return vim.fs.dirname(lockfile)
+            end
             return nil
+        end
+
+        -- Avvio ibrido: se solargraph è nel bundle del progetto si passa da Bundler
+        -- (stessa versione e gem del Gemfile.lock, cwd sulla root del bundle),
+        -- altrimenti installazione globale (script sciolti senza Gemfile).
+        -- Valutato a ogni avvio del server, per-root.
+        local solargraph_ls_cmd = function(dispatchers, config)
+            local is_win = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+            local bundle_root = solargraph_bundle_root(config.root_dir)
+            local cmd, cwd
+            if bundle_root then
+                cmd = { is_win and "bundle.bat" or "bundle", "exec", "solargraph", "stdio" }
+                cwd = bundle_root
+            else
+                cmd = { is_win and "solargraph.exe" or "solargraph", "stdio" }
+                cwd = config.root_dir
+            end
+            return vim.lsp.rpc.start(cmd, dispatchers, { cwd = cwd })
         end
 
         local shared_settings = {
@@ -241,10 +276,10 @@ M.configs = {
         local servers = {
 
             solargraph = {
-                -- Configurazione specifica per solargraph
-                cmd = solargraph_ls_cmd(),
+                -- Configurazione specifica per solargraph: cmd è una funzione,
+                -- risolta a ogni avvio in base alla root del progetto (vedi sopra)
+                cmd = solargraph_ls_cmd,
                 autostart = true,
-                -- cmd = { "solargraph.bat", "stdio" },
                 flags = { debounce_did_change_notify = 150, allow_incremental_sync = true },
                 root_markers = { "Gemfile", ".git" },
                 single_file_support = false,
@@ -306,6 +341,28 @@ M.configs = {
                 flags = { debounce_did_change_notify = 150 },
                 cmd = { "vscode-html-language-server.cmd", "--stdio" },
                 filetypes = { "eruby", "html" },
+            },
+
+            cssls = {
+                detached = false,
+                cmd = { "vscode-css-language-server.cmd", "--stdio" },
+                filetypes = { "css", "scss", "less" },
+            },
+
+            jsonls = {
+                detached = false,
+                cmd = { "vscode-json-language-server.cmd", "--stdio" },
+                filetypes = { "json", "jsonc" },
+                -- Il formatter va richiesto esplicitamente all'init
+                init_options = { provideFormatter = true },
+                settings = {
+                    json = {
+                        -- Catalogo SchemaStore: associa gli schemi ai file di config
+                        -- noti dal nome (package.json, tsconfig.json, ...)
+                        schemas = require("schemastore").json.schemas(),
+                        validate = { enable = true },
+                    },
+                },
             },
 
             ts_ls = {
