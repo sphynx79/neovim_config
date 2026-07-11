@@ -15,8 +15,11 @@ Dependencies:
 Notes:
  - Caricamento lazy: il plugin si carica al primo require('dap') scatenato da una keymap
  - Adapter Ruby custom: lancia rdbg (rdbg.bat su Windows) e si connette in TCP come server
- - Tre configurazioni Ruby: "debug current file" (ruby), "run current spec file" e
-   "run rspec" (rspec via bundle exec), tutte su 127.0.0.1:38698
+ - Config Ruby di lancio: "debug current file" (ruby), rspec su file corrente / riga
+   corrente / intera suite, minitest su file corrente, rails server (via bundle exec),
+   tutte su porta random effimera (49152-65535)
+ - Config Ruby di attach: a processo già avviato con rdbg --open, su porta fissa 38698
+   oppure chiesta al volo (vim.ui.input); non lanciano nessun processo
  - Adapter nlua per il debug di Neovim Lua: RICHIEDE il plugin one-small-step-for-vimkind
    (sezione DISABLED DEBUG in 3-plugins.lua), che fornisce il server osv su :8086
  - dap-ui: layout sinistro (scopes/breakpoints/stacks/watches) + inferiore (repl/console),
@@ -29,6 +32,10 @@ Keymaps (function keys):
  - <F9>      → continue            - <S-F9>  → reload & continue (dap_utils)
  - <F10>     → toggle breakpoint   - <F11>   → step over
  - <F12>     → step into           - <S-F12> → step out
+Keymaps (solo durante la sessione di debug):
+ - K → valuta la variabile sotto il cursore (o la selezione visual) in un popup
+   (dapui.eval); premere K una seconda volta per entrare nel popup ed espandere
+   le strutture con <CR>. Ripristinato all'hover LSP a fine sessione/disconnect
 Keymaps (<leader>d = Debug):
  - <leader>dC → reload & continue  - <leader>dc → continue
  - <leader>di → step into          - <leader>do → step out
@@ -70,11 +77,20 @@ M.configs = {
             )
             vim.fn.sign_define("DapLogPoint", { text = " ", texthl = "DapBreakpoint", linehl = "", numhl = "" })
             vim.fn.sign_define("DapStopped", { text = " ", texthl = "DapStopped", linehl = "", numhl = "" })
+            -- Simbolo della riga corrente in arancione, preso dalla palette del tema attivo
+            local palette = require("sphynx.colors").get_color()
+            vim.api.nvim_set_hl(0, "DapStopped", { fg = palette.orange })
 
             dap.defaults.fallback.external_terminal = {
                 command = "pwsh",
                 args = { "-command" },
             }
+
+            -- Override del solo debugger: lo switchbuf globale "usetab" (fix drag&drop
+            -- Neovide) impedirebbe il salto nei file non ancora aperti in una finestra.
+            -- "uselast" apre sempre nell'ultima finestra usata (quella dello step),
+            -- senza mai cambiare tab
+            dap.defaults.fallback.switchbuf = "uselast"
 
             dap_ui.setup({
                 icons = { expanded = "▾", collapsed = "▸" },
@@ -148,18 +164,29 @@ M.configs = {
                 api.nvim_set_keymap("n", "K", '<Cmd>lua require("dapui").eval()<CR>', { silent = true })
             end
 
-            dap.listeners.after["event_terminated"]["ruby"] = function()
+            local function restore_keymaps()
+                -- Rimuove la K globale puntata su dapui.eval (pcall: potrebbe non esserci)
+                pcall(api.nvim_del_keymap, "n", "K")
                 for _, keymap in pairs(keymap_restore) do
-                    api.nvim_buf_set_keymap(
-                        keymap.buffer,
-                        keymap.mode,
-                        keymap.lhs,
-                        keymap.rhs,
-                        { silent = keymap.silent == 1 }
-                    )
+                    -- Le keymap Lua (es. K dell'hover LSP) non hanno rhs ma una callback:
+                    -- rhs deve essere stringa, quindi si passa "" e si ripristina la callback
+                    api.nvim_buf_set_keymap(keymap.buffer, keymap.mode, keymap.lhs, keymap.rhs or "", {
+                        silent = keymap.silent == 1,
+                        noremap = keymap.noremap == 1,
+                        expr = keymap.expr == 1,
+                        nowait = keymap.nowait == 1,
+                        callback = keymap.callback,
+                        desc = keymap.desc,
+                    })
                 end
                 keymap_restore = {}
             end
+
+            -- Ripristino in ogni modo in cui una sessione può finire: terminazione del
+            -- processo, uscita, o disconnessione manuale (attach + <leader>dx)
+            dap.listeners.after["event_terminated"]["ruby"] = restore_keymaps
+            dap.listeners.after["event_exited"]["ruby"] = restore_keymaps
+            dap.listeners.after["disconnect"]["ruby"] = restore_keymaps
 
             dap.listeners.after.event_initialized["dapui_config"] = function()
                 dap_ui.open()
@@ -172,85 +199,162 @@ M.configs = {
             vim.cmd([[set shellquote= shellxquote=]])
         end
 
-        local function load_module(module_name)
-            local ok, module = pcall(require, module_name)
-            assert(ok, string.format("dap-ruby dependency error: %s not installed", module_name))
-            return module
+        -- Chiede all'utente la porta a cui connettersi (config "attach existing (pick port)")
+        local function pick_port()
+            local port
+            vim.ui.input({ prompt = "Port to connect to: " }, function(input)
+                port = tonumber(input)
+            end)
+            return port
         end
 
         local function setup_ruby_adapter(dap)
             dap.adapters.ruby = function(callback, config)
-                local handle
-                local stdout = vim.loop.new_pipe(false)
-                local pid_or_err
                 local waiting = config.waiting or 500
-                local args
-                local script
-                local rdbg
+                local server = config.server or "127.0.0.1"
+                -- Porta: fissa dalla config, altrimenti random effimera, altrimenti chiesta all'utente
+                local port = config.port or (config.random_port and math.random(49152, 65535)) or pick_port()
 
-                if config.current_line then
-                    script = config.script .. ":" .. vim.fn.line(".")
-                else
-                    script = config.script
-                end
-
-                if config.bundle == "bundle" then
-                    args =
-                        { "-n", "--open", "--port", config.port, "-c", "--", "bundle", "exec", config.command, script }
-                else
-                    args = { "--open", "--port", config.port, "-c", "--", config.command, script }
-                end
-
-                if config.args then
-                    for _, v in ipairs(config.args) do
-                        table.insert(args, v)
+                -- La connessione parte una volta sola: appena rdbg annuncia di essere in
+                -- ascolto, oppure allo scadere del fallback `waiting`
+                local session_started = false
+                local function start_session()
+                    if session_started then
+                        return
                     end
+                    session_started = true
+                    callback({ type = "server", host = server, port = port })
                 end
 
-                local opts = {
-                    stdio = { nil, stdout },
-                    args = args,
-                    detached = true,
-                }
+                -- Senza command la config è un puro attach: nessun processo da lanciare
+                if config.command then
+                    local handle
+                    local stdout = vim.loop.new_pipe(false)
+                    local stderr = vim.loop.new_pipe(false)
+                    local pid_or_err
+                    local args
+                    local script
+                    local rdbg
 
-                if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
-                    rdbg = "rdbg.bat"
-                else
-                    rdbg = "rdbg"
+                    -- Lo script è opzionale: "run rails server" lancia solo il comando
+                    if config.script then
+                        if config.current_line then
+                            script = config.script .. ":" .. vim.fn.line(".")
+                        else
+                            script = config.script
+                        end
+                    end
+
+                    if config.bundle == "bundle" then
+                        args = {
+                            "-n",
+                            "--open",
+                            "--port",
+                            tostring(port),
+                            "-c",
+                            "--",
+                            "bundle",
+                            "exec",
+                            config.command,
+                        }
+                    else
+                        args = { "--open", "--port", tostring(port), "-c", "--", config.command }
+                    end
+
+                    -- Opzioni del comando che precedono lo script (es. -Itest per minitest)
+                    if config.command_args then
+                        for _, v in ipairs(config.command_args) do
+                            table.insert(args, v)
+                        end
+                    end
+
+                    if script then
+                        table.insert(args, script)
+                    end
+
+                    if config.args then
+                        for _, v in ipairs(config.args) do
+                            table.insert(args, v)
+                        end
+                    end
+
+                    local opts = {
+                        stdio = { nil, stdout, stderr },
+                        args = args,
+                        detached = true,
+                    }
+
+                    if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+                        rdbg = "rdbg.bat"
+                    else
+                        rdbg = "rdbg"
+                    end
+
+                    handle, pid_or_err = vim.loop.spawn(rdbg, opts, function(code)
+                        handle:close()
+                        if code ~= 0 then
+                            local full_cmd = rdbg .. " " .. table.concat(args, " ")
+                            vim.schedule(function()
+                                vim.notify(
+                                    "rdbg uscito con codice " .. code .. "\ncomando: " .. full_cmd,
+                                    vim.log.levels.ERROR
+                                )
+                            end)
+                        end
+                    end)
+
+                    assert(handle, "Error running rdbg: " .. tostring(pid_or_err))
+
+                    -- rdbg scrive i messaggi "DEBUGGER:" su stderr: appena annuncia di
+                    -- essere in ascolto ci si connette, senza aspettare il timeout pieno
+                    local function on_output(err, chunk)
+                        assert(not err, err)
+                        if chunk then
+                            if
+                                chunk:find("wait for debugger connection", 1, true)
+                                or chunk:find("Debugger can attach", 1, true)
+                            then
+                                vim.schedule(start_session)
+                            end
+                            vim.schedule(function()
+                                require("dap.repl").append(chunk)
+                            end)
+                        end
+                    end
+                    stdout:read_start(on_output)
+                    stderr:read_start(on_output)
                 end
 
-                handle, pid_or_err = vim.loop.spawn(rdbg, opts, function(code)
-                    handle:close()
-                    if code ~= 0 then
-                        print("rdbg exited with code", code)
-                    end
-                end)
-
-                assert(handle, "Error running rdbg: " .. tostring(pid_or_err))
-
-                stdout:read_start(function(err, chunk)
-                    assert(not err, err)
-                    if chunk then
-                        vim.schedule(function()
-                            require("dap.repl").append(chunk)
-                        end)
-                    end
-                end)
-
-                -- Wait for rdbg to start
-                vim.defer_fn(function()
-                    callback({ type = "server", host = config.server, port = config.port })
-                end, waiting)
+                -- Fallback: se il marker non viene intercettato entro `waiting` ms si
+                -- tenta comunque la connessione (comportamento precedente)
+                vim.defer_fn(start_session, waiting)
             end
         end
 
         local function setup_ruby_configuration(dap)
+            -- Base comune a tutte le config; le config di lancio aggiungono porta random e attesa
+            local base_config = {
+                type = "ruby",
+                request = "attach",
+                server = "127.0.0.1",
+                options = {
+                    source_filetype = "ruby",
+                },
+                localfs = true,
+            }
+            -- waiting è solo il fallback massimo: di norma ci si connette appena rdbg è pronto
+            local run_config = vim.tbl_extend("force", base_config, { waiting = 15000, random_port = true })
+            local function extend_base_config(config)
+                return vim.tbl_extend("force", base_config, config)
+            end
+            local function extend_run_config(config)
+                return vim.tbl_extend("force", run_config, config)
+            end
+
             dap.configurations.ruby = {
-                {
-                    type = "ruby",
+                extend_run_config({
                     name = "debug current file",
                     bundle = "",
-                    request = "attach",
                     command = "ruby",
                     script = "${file}",
                     args = function()
@@ -260,44 +364,56 @@ M.configs = {
                         end
                         return vim.fn.split(argument_string, " ", true)
                     end,
-                    port = 38698,
-                    server = "127.0.0.1",
-                    options = {
-                        source_filetype = "ruby",
-                    },
-                    localfs = true,
-                    waiting = 15000,
-                },
-                {
-                    type = "ruby",
+                }),
+                -- Come sopra ma dentro Bundler: per i progetti con Gemfile le gem vengono
+                -- risolte dal Gemfile.lock (evita i WARN di specs ambigue di RubyGems)
+                extend_run_config({
+                    name = "debug current file (bundle)",
+                    bundle = "bundle",
+                    command = "ruby",
+                    script = "${file}",
+                    args = function()
+                        local argument_string = vim.fn.input("Program arguments: ")
+                        if argument_string == "" then
+                            return nil
+                        end
+                        return vim.fn.split(argument_string, " ", true)
+                    end,
+                }),
+                extend_run_config({
                     name = "run current spec file",
                     bundle = "bundle",
-                    request = "attach",
                     command = "rspec",
                     script = "${file}",
-                    port = 38698,
-                    server = "127.0.0.1",
-                    options = {
-                        source_filetype = "ruby",
-                    },
-                    localfs = true,
-                    waiting = 1000,
-                },
-                {
-                    type = "ruby",
+                }),
+                extend_run_config({
+                    name = "run current spec file:current line",
+                    bundle = "bundle",
+                    command = "rspec",
+                    script = "${file}",
+                    current_line = true,
+                }),
+                extend_run_config({
                     name = "run rspec",
                     bundle = "bundle",
-                    request = "attach",
                     command = "rspec",
                     script = "./spec",
-                    port = 38698,
-                    server = "127.0.0.1",
-                    options = {
-                        source_filetype = "ruby",
-                    },
-                    localfs = true,
-                    waiting = 1000,
-                },
+                }),
+                extend_run_config({
+                    name = "run minitest current file",
+                    bundle = "bundle",
+                    command = "ruby",
+                    command_args = { "-Itest" },
+                    script = "${file}",
+                }),
+                extend_run_config({
+                    name = "run rails server",
+                    bundle = "bundle",
+                    command = "rails",
+                    args = { "s" },
+                }),
+                extend_base_config({ name = "attach existing (port 38698)", port = 38698, waiting = 0 }),
+                extend_base_config({ name = "attach existing (pick port)", waiting = 0 }),
             }
         end
 
