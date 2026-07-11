@@ -52,6 +52,7 @@ local modules = {
     "floating-tag-preview",     -- OK - Visualizza i tag in una floating window vicino al cursore
     "dd",                       -- OK - Si occupa di rimandare (defer) tutti i diagnostici
     "goto-preview",             -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
+    "schemastore",              -- OK - Catalogo JSON Schema (SchemaStore.org) usato da jsonls per i file di config noti
     "glance",                   -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
     --}}} LSP
 
