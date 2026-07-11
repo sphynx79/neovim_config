@@ -50,7 +50,6 @@ local modules = {
     "lspconfig",                -- OK - Configurazione del Language Server Protocol (LSP)
     "lazydev",                  -- OK - Migliore esperienza di sviluppo Lua in Neovim
     "floating-tag-preview",     -- OK - Visualizza i tag in una floating window vicino al cursore
-    "lsp-smag",                 -- OK - Sostituisce l'uso dei tag file (ctags) con un sistema smart basato su LSP
     "dd",                       -- OK - Si occupa di rimandare (defer) tutti i diagnostici
     "goto-preview",             -- OK - Visualizza in finestre flottanti le anteprime dei risultati delle funzioni LSP
     "glance",                   -- OK - Finestra di preview stile VSCode per esplorare definizioni, riferimenti, implementazioni e type definitions via LSP
@@ -135,6 +134,7 @@ local modules = {
     --{{{ DISABLED LSP
     -- "lspsaga",
     -- "lsp_signature",
+    -- "lsp-smag",              -- sostituito dal tagfunc nativo (vim.lsp.tagfunc, automatico su LspAttach)
     --}}} DISABLED LSP
 
     --{{{ DISABLED COMPLETION

@@ -330,9 +330,12 @@ mapping.register({
 require("which-key").add({
     { "t", group = " Tags" },
     { "t<Left>", "<C-T>", desc = "Go back from definition" },
-    { "t<Right>", [[:tjump /<C-r>=expand("<cword>")<CR><CR>]], desc = "Jump to the definition" },
-    { "tv", [[<CMD>vsp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition vsplit" },
-    { "ts", [[<CMD>sp <CR>:exec("tjump ".expand("<cword>"))<CR>]], desc = "Jump to the definition split" },
+    -- g<C-]> = tjump del simbolo sotto il cursore CON contesto posizione: il tagfunc
+    -- nativo LSP fa una vera "go to definition" invece della ricerca fuzzy
+    -- workspace/symbol che scatta quando riceve solo il nome da un comando ex
+    { "t<Right>", "g<C-]>", desc = "Jump to the definition" },
+    { "tv", [[<CMD>vsp<CR>g<C-]>]], desc = "Jump to the definition vsplit" },
+    { "ts", [[<CMD>sp<CR>g<C-]>]], desc = "Jump to the definition split" },
 })
 --}}} Ctags
 
