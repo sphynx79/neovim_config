@@ -102,6 +102,7 @@ local modules = {
     --{{{ EDITING
     "comment",                  -- OK - Commenta e decommenta righe singole e selezioni visuali
     "treehopper",               -- OK - mi permette con "~" di selezionare attraverso hop i nodi di treesitter
+    "smart-paste",              -- OK - Paste intelligente: reindenta il contenuto incollato (p/P/gp/gP)
     --}}} EDITING
 
     -- {{{ MISC
@@ -117,7 +118,7 @@ local modules = {
     "todo-comments",            -- OK - Evidenzia/cerca i commenti TODO/FIX/HACK; jump con <leader>x frecce
     "trouble",                  -- OK - Lista navigabile di diagnostics, riferimenti LSP, symbols e quickfix/loclist; <leader>k
     "aerial",                   -- OK - Mostra una finestra con la struttura (outline) del codice
-    "nvim-pasta",               -- OK - Potenzia yank/paste con cronologia (cicla i candidati dopo il paste); rimappa p/P
+    -- "nvim-pasta",               -- Disabilitato: sostituito da smart-paste (conflitto su p/P)
     "sayonara",                 -- OK - Chiusura intelligente di buffer/finestra; bc mantiene la finestra, bC la chiude
     "virtcolumn",               -- OK - Disegna una colonna verticale per mostrami quando riga troppo lunga
     "tabby",                    -- OK - Line buffer e tab
