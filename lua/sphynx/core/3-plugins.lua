@@ -112,6 +112,7 @@ local modules = {
     "color",                    -- OK - Color picker grafico (Oklch) + highlight async dei colori nel buffer
     "neoformat",                -- OK - Formattatore multi-linguaggio (tsfmt per TS, shfmt per sh/bash), <F8>
     "neoterm",                  -- OK - Terminale integrato per debug Ruby con PRY (:T, invio a REPL, breakpoint)
+    "kitty-scrollback",         -- OK - Scrollback di Kitty dentro Neovim (solo Linux); lancio via kitten Ctrl+Shift+H
     "neoscroll",                -- OK - Scrolling fluido animato (smooth scroll) su <localleader>+frecce
     "neoclip",                  -- OK - Clipboard manager: cronologia degli yank via Telescope (<leader>ty)
     "surround",                 -- OK - Surround di coppie (virgolette/parentesi/tag); in Visual seleziona e premi il delimitatore
