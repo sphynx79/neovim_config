@@ -73,7 +73,11 @@ M.configs = {
         -- dove il CLI lo cerca. Se invece nvim parte da MSYS la variabile c'e' gia' e non
         -- tocchiamo nulla.
         if not vim.env.CLAUDE_CONFIG_DIR or vim.env.CLAUDE_CONFIG_DIR == "" then
-            vim.env.CLAUDE_CONFIG_DIR = "E:/msys64/home/Sphynx/.claude"
+            if vim.fn.has("win32") == 1 then
+                vim.env.CLAUDE_CONFIG_DIR = "E:/msys64/home/Sphynx/.claude"
+            else
+                vim.env.CLAUDE_CONFIG_DIR = vim.fn.expand("~/.claude")
+            end
         end
 
         require("claudecode").setup({
