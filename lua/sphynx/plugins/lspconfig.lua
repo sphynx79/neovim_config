@@ -223,22 +223,14 @@ M.configs = {
             return nil
         end
 
-        -- Avvio ibrido: se solargraph è nel bundle del progetto si passa da Bundler
-        -- (stessa versione e gem del Gemfile.lock, cwd sulla root del bundle),
-        -- altrimenti installazione globale (script sciolti senza Gemfile).
-        -- Valutato a ogni avvio del server, per-root.
+        -- Avvio SOLO via Bundler: solargraph con la versione/gem del Gemfile.lock
+        -- del progetto, cwd sulla root del bundle. Se il progetto non ha solargraph
+        -- nel bundle il server non parte affatto (vedi root_dir sotto): niente più
+        -- shim mise globale, che era la causa dei processi orfani accumulati.
         local solargraph_ls_cmd = function(dispatchers, config)
             local is_win = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
-            local bundle_root = solargraph_bundle_root(config.root_dir)
-            local cmd, cwd
-            if bundle_root then
-                cmd = { is_win and "bundle.bat" or "bundle", "exec", "solargraph", "stdio" }
-                cwd = bundle_root
-            else
-                cmd = { is_win and "solargraph.exe" or "solargraph", "stdio" }
-                cwd = config.root_dir
-            end
-            return vim.lsp.rpc.start(cmd, dispatchers, { cwd = cwd })
+            local cmd = { is_win and "bundle.bat" or "bundle", "exec", "solargraph", "stdio" }
+            return vim.lsp.rpc.start(cmd, dispatchers, { cwd = config.root_dir })
         end
 
         local shared_settings = {
@@ -281,8 +273,14 @@ M.configs = {
                 cmd = solargraph_ls_cmd,
                 autostart = true,
                 flags = { debounce_did_change_notify = 150, allow_incremental_sync = true },
-                root_markers = { "Gemfile", ".git" },
-                single_file_support = false,
+                -- Aggancia SOLO se il progetto ha solargraph nel Gemfile.lock:
+                -- on_dir viene chiamato solo in quel caso, altrimenti niente server.
+                root_dir = function(bufnr, on_dir)
+                    local root = solargraph_bundle_root(vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+                    if root then
+                        on_dir(root)
+                    end
+                end,
                 filetypes = { "ruby", "rakefile", "rb", "erb" },
                 settings = {
                     solargraph = {
