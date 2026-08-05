@@ -36,6 +36,9 @@ Caratteristiche personalizzabili:
  - Inlay hints (attivabili/disattivabili)
 Da sapere:
  - Usa la nuova API nativa vim.lsp.config() invece di require('lspconfig').setup()
+ - Da Neovim 0.12 i comandi sono quelli nativi :lsp enable/disable/restart/stop
+   (nvim-lspconfig non definisce piu' :LspStart/:LspStop/:LspRestart/:LspInfo):
+   qui :LspStart/:LspStop/:LspRestart sono ridefiniti come alias dei nativi
  - Percorsi hardcoded per alcuni server (es. AutoHotkey)
  - Supporto per più backend di completamento (cmp o blink)
 Keymaps disponibili:
@@ -45,6 +48,9 @@ Keymaps disponibili:
  - <leader>lv → Attiva/disattiva testo virtuale diagnostica
  - <leader>ls → Attiva/disattiva segni diagnostica
  - <leader>li → Attiva/disattiva inlay hints
+ - <leader>lS → Avvia i server LSP per il filetype corrente (:LspStart)
+ - <leader>lX → Ferma i server LSP attivi (:LspStop)
+ - <leader>lR → Riavvia i server LSP attivi (:LspRestart)
 TODO:
  - [ ] Aggiungere keybinding per code actions (<leader>la)
  - [ ] Aggiungere keybinding per riferimenti (<leader>lr)
@@ -258,7 +264,7 @@ M.configs = {
 
                 -- code lens
                 if client:supports_method("textDocument/codeLens", { bufnr = bufnr }) then
-                    vim.lsp.codelens.enable(false, { bufnr = bufnr })
+                    vim.lsp.codelens.enable(true, { bufnr = bufnr })
                 end
 
                 -- print(string.format("LSP '%s' attivo", client.name))
@@ -477,6 +483,20 @@ M.configs = {
             -- Abilita il server per i suoi filetypes
             vim.lsp.enable(server_name)
         end
+
+        -- Su Neovim 0.12 nvim-lspconfig non definisce piu' i comandi :Lsp*
+        -- (plugin/lspconfig.lua esce subito se esiste il comando nativo :lsp):
+        -- li ridefiniamo come alias dei sottocomandi nativi, cosi' restano
+        -- validi sia digitati sia come trigger lazy (vedi lazy_load.lsp_cmds)
+        vim.api.nvim_create_user_command("LspStart", function(info)
+            vim.cmd("lsp enable " .. info.args)
+        end, { nargs = "*", desc = "Avvia i server LSP (alias di :lsp enable)" })
+        vim.api.nvim_create_user_command("LspStop", function(info)
+            vim.cmd("lsp stop " .. info.args)
+        end, { nargs = "*", desc = "Ferma i server LSP (alias di :lsp stop)" })
+        vim.api.nvim_create_user_command("LspRestart", function(info)
+            vim.cmd("lsp restart " .. info.args)
+        end, { nargs = "*", desc = "Riavvia i server LSP (alias di :lsp restart)" })
     end,
 }
 
@@ -521,11 +541,17 @@ M.keybindings = function()
         { prefix, group = "󰁨 LSP" },
         { prefix .. "d", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go definition" },
         { prefix .. "k", "<Cmd>lua vim.lsp.buf.hover()<CR>", desc = "Hover doc" },
+        { prefix .. "a", "<Cmd>lua vim.lsp.buf.code_action()<CR>", desc = "Code action" },
         { prefix .. "e", "<Cmd>lua vim.diagnostic.open_float()<CR>", desc = "Apri diagnostica flottante" },
         { prefix .. "f", "<Cmd>lua vim.lsp.buf.format({ async = true })<CR>", desc = "Format file" },
         { prefix .. "v", toggle_virtual_text, desc = "Toggle diagnostic virtual text" },
         { prefix .. "s", toggle_signs, desc = "Toggle diagnostic signs" },
         { prefix .. "i", toggle_hints, desc = "Toggle Inlay Hints" },
+        -- Gestione server: comandi forniti da nvim-lspconfig (sono anche i
+        -- trigger di lazy loading, vedi lazy_load.lsp_cmds)
+        { prefix .. "S", "<Cmd>LspStart<CR>", desc = "Start server LSP" },
+        { prefix .. "X", "<Cmd>LspStop<CR>", desc = "Stop server LSP" },
+        { prefix .. "R", "<Cmd>LspRestart<CR>", desc = "Restart server LSP" },
     }, mapping.opt_mappping)
 end
 
